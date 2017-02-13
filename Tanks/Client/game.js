@@ -9,6 +9,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, "tanks", {
 
 function preload()
 {
+	game.stage.disableVisibilityChange = true;
 
 	game.stage.backgroundColor = '#85b5e1';
 
@@ -29,7 +30,6 @@ var eventHub;
 
 function create()
 {
-
 	player = game.add.sprite(100, 200, 'player');
 
 	game.physics.arcade.enable(player);
@@ -54,12 +54,13 @@ function create()
 	eventHub.client.left = function()
 	{
 		player.body.velocity.x = -250;
+		console.log("left");
 	}
 
 	// Server sends right event.
 	eventHub.client.right = function()
 {
-		player.body.velocity.x = -250;
+		player.body.velocity.x = 250;
 	}
 
 	// Start the connection.

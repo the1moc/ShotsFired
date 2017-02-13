@@ -11,7 +11,14 @@ namespace Tanks.Hubs
 		// Called upon a left movement.
 		public void Left()
 		{
-			Clients.AllExcept(Clients.Caller).left();
+			try
+			{
+				Clients.All.left();
+			}
+			catch (Exception e)
+			{
+				Clients.All.notEnoughClients();
+			}
 		}
 
 		// Called upon a right movement.
@@ -19,7 +26,7 @@ namespace Tanks.Hubs
 		{
 			try
 			{
-				Clients.AllExcept(Clients.Caller).right();
+				Clients.All.right();
 			}
 			catch (Exception e)
 			{
