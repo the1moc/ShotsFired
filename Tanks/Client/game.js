@@ -59,8 +59,14 @@ function create()
 
 	// Server sends right event.
 	eventHub.client.right = function()
-{
+	{
 		player.body.velocity.x = 250;
+	}
+
+	// Server sends right event.
+	eventHub.client.jump = function()
+	{
+		player.body.velocity.y = -400;
 	}
 
 	// Start the connection.
@@ -87,5 +93,6 @@ function update()
 	if (jumpButton.isDown && (player.body.onFloor() || player.body.touching.down))
 	{
 		player.body.velocity.y = -400;
+		eventHub.server.jump();
 	}
 }
