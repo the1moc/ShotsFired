@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Tanks
+namespace ShotsFired
 {
 	public static class RouteConfig
 	{

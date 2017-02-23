@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 using System.Web.SessionState;
-using Tanks.Models;
+using ShotsFired.Models;
 
-namespace Tanks.Controllers
+namespace ShotsFired.Controllers
 {
 	public class GameController : Controller
 	{

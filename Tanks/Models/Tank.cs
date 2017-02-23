@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Tanks.Models
+namespace ShotsFired.Models
 {
 	/// <summary>
 	/// Holding information relating to one player.

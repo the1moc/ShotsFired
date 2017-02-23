@@ -1,6 +1,6 @@
 ﻿using Owin;
 
-namespace Tanks
+namespace ShotsFired
 {
 	public partial class Startup
 	{

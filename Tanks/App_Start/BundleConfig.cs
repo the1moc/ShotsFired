@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Tanks
+namespace ShotsFired
 {
 	static public class BundleConfig
 	{
