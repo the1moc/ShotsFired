@@ -5,20 +5,25 @@ namespace Tanks
 {
 	static public class BundleConfig
 	{
-		// For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
 		public static void RegisterBundles(BundleCollection bundles)
 		{
+			// jQuery bundle.
 			bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-						"~/Scripts/jquery-{version}.js"));
+						"~/Client/lib/jquery-{version}.mins.js"));
 
+			// signalR bundle.
 			bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
-					"~/Scripts/jquery.signalR-{version}.js"));
+					"~/Client/lib/jquery.signalR-{version}.min.js"));
 
+			// Phaser file bundle.
 			bundles.Add(new ScriptBundle("~/bundles/phaser").Include(
-					"~/Scripts/phaser.min.js"));
+					"~/Client/lib/phaser.min.js"));
 
-			bundles.Add(new ScriptBundle("~/bundles/game").Include(
-					"~/Client/game.js"));
+			// Bundle all the client game scripts.
+			ScriptBundle gameFiles = new ScriptBundle("~/bundles/game");
+			gameFiles.IncludeDirectory("~/Client/entities/", "*.js");
+			gameFiles.IncludeDirectory("~/Client/states/", "*.js");
+			bundles.Add(gameFiles);
 		}
 	}
 }

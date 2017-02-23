@@ -214,13 +214,29 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Client\assets\images\sprites\bullet.png" />
+    <Content Include="Client\assets\images\sprites\tank_body.png" />
+    <Content Include="Client\assets\images\sprites\tank_turret.png" />
+    <Content Include="Client\assets\images\sprites\temp_background.png" />
+    <Content Include="Client\entities\AI.js" />
+    <Content Include="Client\entities\Projectile.js" />
+    <Content Include="Client\entities\Tank.js" />
+    <Content Include="Client\entities\Turret.js" />
+    <Content Include="Client\lib\jquery-3.1.1.min.js" />
+    <Content Include="Client\lib\jquery.signalR-2.2.1.min.js" />
+    <Content Include="Client\lib\phaser.min.js" />
+    <Content Include="Client\Main.js" />
+    <Content Include="Client\States\Boot.js" />
+    <Content Include="Client\States\Game.js" />
+    <Content Include="Client\States\Lobby.js" />
+    <Content Include="Client\States\Menu.js" />
+    <Content Include="Client\States\Preload.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
-    <Content Include="Client\game.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
