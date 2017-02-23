@@ -1,10 +1,10 @@
-var ShotsFired = ShotsFired || {};
+var Tanks = Tanks || {};
 
-ShotsFired.AI = function (state, x, y, data) {
+Tanks.AI = function (state, x, y, data) {
     Phaser.Sprite.call(this, state.game, x, y, data.tankAsset);
 
 
 };
 
-ShotsFired.AI.prototype = Object.create(Phaser.Sprite.prototype);
-ShotsFired.AI.prototype.constructor = ShotsFired.AI;
+Tanks.AI.prototype = Object.create(Phaser.Sprite.prototype);
+Tanks.AI.prototype.constructor = Tanks.AI;

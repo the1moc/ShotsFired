@@ -1,14 +1,14 @@
-var ShotsFired = ShotsFired || {};
+var Tanks = Tanks || {};
 
 // Create the game.
-ShotsFired.game = new Phaser.Game(800, 600, Phaser.AUTO);
+Tanks.game = new Phaser.Game(800, 600, Phaser.AUTO);
 
 // State creation.
-ShotsFired.game.state.add('Boot', ShotsFired.Boot);
-ShotsFired.game.state.add('Preload', ShotsFired.Preload);
-ShotsFired.game.state.add('Menu', ShotsFired.Menu);
-ShotsFired.game.state.add('Lobby', ShotsFired.Lobby);
-ShotsFired.game.state.add('Game', ShotsFired.Game);
+Tanks.game.state.add('Boot', Tanks.Boot);
+Tanks.game.state.add('Preload', Tanks.Preload);
+Tanks.game.state.add('Menu', Tanks.Menu);
+Tanks.game.state.add('Lobby', Tanks.Lobby);
+Tanks.game.state.add('Game', Tanks.Game);
 
 // Start.
-ShotsFired.game.state.start('Boot');
+Tanks.game.state.start('Boot');

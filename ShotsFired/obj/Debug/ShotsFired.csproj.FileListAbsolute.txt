@@ -11,9 +11,6 @@ C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\roslyn\System.Reflec
 C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\roslyn\vbc.exe
 C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\roslyn\VBCSCompiler.exe
 C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\roslyn\VBCSCompiler.exe.config
-C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\ShotsFired.dll.config
-C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\ShotsFired.dll
-C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\ShotsFired.pdb
 C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\Antlr3.Runtime.dll
 C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\EntityFramework.dll
 C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\EntityFramework.SqlServer.dll
@@ -81,9 +78,9 @@ C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\Microsoft.Owin.Secur
 C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\obj\Debug\ShotsFired.csprojResolveAssemblyReference.cache
+C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\ShotsFired.dll.config
+C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\ShotsFired.dll
+C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\bin\ShotsFired.pdb
 C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\obj\Debug\ShotsFired.dll
 C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\obj\Debug\ShotsFired.pdb
-C:\Users\malcolm-campbell\Source\Repos\ShotsFired\ShotsFired\obj\Debug\ShotsFired.csprojResolveAssemblyReference.cache
-C:\Users\malcolm-campbell\Source\Repos\ShotsFired\ShotsFired\obj\Debug\ShotsFired.dll
-C:\Users\malcolm-campbell\Source\Repos\ShotsFired\ShotsFired\obj\Debug\ShotsFired.pdb
+C:\Users\malcolm-campbell\Source\Repos\ShotsFired\Tanks\obj\Debug\ShotsFired.csprojResolveAssemblyReference.cache
