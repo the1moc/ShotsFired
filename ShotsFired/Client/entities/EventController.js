@@ -1,0 +1,4 @@
+﻿Tank.EventController = function()
+{
+
+}

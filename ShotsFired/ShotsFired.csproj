@@ -219,6 +219,7 @@
     <Content Include="Client\assets\images\sprites\tank_turret.png" />
     <Content Include="Client\assets\images\sprites\temp_background.png" />
     <Content Include="Client\entities\AI.js" />
+    <Content Include="Client\entities\EventController.js" />
     <Content Include="Client\entities\Projectile.js" />
     <Content Include="Client\entities\Tank.js" />
     <Content Include="Client\entities\Turret.js" />

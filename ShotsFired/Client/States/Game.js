@@ -153,7 +153,7 @@ Tanks.Game = {
                 console.log('angle left');
                 this.angleText.text = 'Angle: ' + (this.testTank.tankTurret.angle).toFixed();
             }
-            else if(this.angleRight.isDown && this.testTank.tankTurret.angle < 0){
+            else if(this.angleRight.isDown && this.testTank.tankTurret.angle < 180){
                 this.testTank.rotateTurret(+1);
                 console.log('angle right');
                 this.angleText.text = 'Angle: ' + (this.testTank.tankTurret.angle).toFixed();
