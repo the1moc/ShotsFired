@@ -16,4 +16,4 @@ Game inspired by Tanks
 - [ ] Add menu + lobby functionality
 - [ ] Add tank sprite on new connection
 - [ ] Look into world generation
-= [ ] 
+- [ ] Make the server side more sexy
