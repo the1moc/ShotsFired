@@ -21,7 +21,10 @@ Tanks.Preload = {
 		this.load.image('turret', SPT_DIR + 'tank_turret.png');
 		this.load.image('tank', SPT_DIR + 'tank_body.png');
 		this.load.image('game_background', SPT_DIR + 'temp_background.png');
+		this.load.image('menu_background', SPT_DIR + 'menu_background.png');
 		this.load.image('bullet', SPT_DIR + 'bullet.png');
+		this.load.image('title', SPT_DIR + 'menu_title.png');
+		this.load.image('play_button', SPT_DIR + 'play_button.png');
 
 		// Buttons
 
@@ -31,6 +34,6 @@ Tanks.Preload = {
 	},
 
 	create: function() {
-		this.state.start('Game', true, false);
+		this.state.start('Menu', true, false);
 	}
 };
