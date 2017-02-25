@@ -11,6 +11,7 @@ Game inspired by Tanks
 # Malcolm Tasks
 - [x] Fix angle not rounding
 - [x] Fix turret rotation
+- [x] Remember to commit each task as a seperate set of changes
 - [x] Fix comments
 - [ ] Tabify everything
 - [ ] Add menu + lobby functionality
