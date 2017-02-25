@@ -15,6 +15,8 @@ Game inspired by Tanks
 - [x] Fix comments
 - [x] Put Client and Server side information (models etc) into their own "Game" folder
 - [x] Tabify everything
+- [x] Link menu to game (initial)
+- [ ] Integrate lobby between the menu and game with concurrent connections
 - [ ] Add menu + lobby functionality
 - [ ] Add tank sprite on new connection
 - [ ] Look into world generation
