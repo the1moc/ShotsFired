@@ -1,36 +1,37 @@
 var Tanks = Tanks || {};
 
 Tanks.Boot = {
-    init: function () {
-        //background colour
-        this.game.stage.backgroundColor = '#FFF';
-        //scaling options
-        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+	init: function () {
+		// Background colour.
+		this.game.stage.backgroundColor = '#FFFFFF';
 
-        //center the game horizontally
-        this.scale.pageAlignHorizontally=true;
-        this.scale.pageAlignVertically = true;
+		// Scaling options.
+		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
-        //physics p2 and ARCADE??
-        this.game.physics.startSystem(Phaser.Physics.p2);
+		// Center the game horizontally.
+		this.scale.pageAlignHorizontally=true;
+		this.scale.pageAlignVertically = true;
 
-        //game pause
-        this.stage.disableVisibilityChange = false;
+		// Physics - P2 and Arcade
+		this.game.physics.startSystem(Phaser.Physics.p2);
 
-        //minimum h/w -- NOT SURE IF WORKS
-        this.scale.minWidth = 270;
-        this.scale.minHeight= 480;
+		// Stop the game from pausing.
+		this.stage.disableVisibilityChange = false;
 
-        //force landscape?
-        //this.stage.forceLandscape = true;
-    },
+		// Setting minimum width and height.
+		this.scale.minWidth = 270;
+		this.scale.minHeight= 480;
 
-    preload: function () {
-        //preload loading bar in here
-    },
+		// Force landscape?
+		//this.stage.forceLandscape = true;
+	},
 
-    create: function () {
-        //start preload state
-        this.state.start('Preload');
-    }
+	preload: function () {
+		// Loading bar to be added.
+	},
+
+	create: function () {
+		// Start the preload state.
+		this.state.start('Preload');
+	}
 };

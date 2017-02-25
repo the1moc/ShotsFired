@@ -8,7 +8,7 @@ Tanks.Projectile = function(state,x,y, data){
     this.game = state.game;
     this.projectiles = state.projectiles;
 
-    //physics body
+    // Physics body.
     this.game.physics.arcade.enable(this);
 
     this.projectiles.add(this);

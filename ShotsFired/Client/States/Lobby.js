@@ -1,12 +1,12 @@
 var Tanks = Tanks || {};
 
 Tanks.Lobby = {
-    preload: function () {
+	preload: function () {
 
-    },
-    create: function () {
+	},
+	create: function () {
 
-    }
+	}
 };
 /**
  * Created by JOnathan on 08/02/2017.

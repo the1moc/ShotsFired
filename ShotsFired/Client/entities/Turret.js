@@ -7,8 +7,7 @@ Tanks.Turret = function (state,x,y,data) {
     this.game = state.game;
     this.anchor.setTo(0,0.5);
 
-    //physics
-    // this.game.physics.arcade.enable(this);
+    // Physics
     this.reset(x,y);
 
 };
