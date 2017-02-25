@@ -13,6 +13,7 @@ Game inspired by Tanks
 - [x] Fix turret rotation
 - [x] Remember to commit each task as a seperate set of changes
 - [x] Fix comments
+- [ ] Put Client and Server side information (models etc) into their own "Game" folder
 - [ ] Tabify everything
 - [ ] Add menu + lobby functionality
 - [ ] Add tank sprite on new connection
