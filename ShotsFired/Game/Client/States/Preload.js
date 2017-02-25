@@ -3,7 +3,8 @@ var Tanks = Tanks || {};
 Tanks.Preload = {
 	preload: function () {
 		// Display loading bar here, centre screen and fairly visible
-		var IMG_DIR = "Client/assets/images/";
+		var SPT_DIR = "Game/Client/assets/sprites/";
+		var IMG_DIR = "Game/Client/assets/images/";
 		var BTN_DIR = IMG_DIR + "buttons/";
 		var AUD_DIR = "Client/assets/audio/";
 		var DAT_DIR = "Client/assets/data/";
@@ -17,10 +18,10 @@ Tanks.Preload = {
 		Bullet
 		*/
 
-		this.load.image('turret', IMG_DIR + 'sprites/tank_turret.png');
-		this.load.image('tank', IMG_DIR + 'sprites/tank_body.png');
-		this.load.image('game_background', IMG_DIR + 'sprites/temp_background.png');
-		this.load.image('bullet', IMG_DIR + 'sprites/bullet.png');
+		this.load.image('turret', SPT_DIR + 'tank_turret.png');
+		this.load.image('tank', SPT_DIR + 'tank_body.png');
+		this.load.image('game_background', SPT_DIR + 'temp_background.png');
+		this.load.image('bullet', SPT_DIR + 'bullet.png');
 
 		// Buttons
 
@@ -30,6 +31,6 @@ Tanks.Preload = {
 	},
 
 	create: function() {
-		this.state.start('Menu', true, false);
+		this.state.start('Game', true, false);
 	}
 };

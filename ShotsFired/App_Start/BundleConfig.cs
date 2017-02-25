@@ -9,20 +9,20 @@ namespace ShotsFired
 		{
 			// jQuery bundle.
 			bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-						"~/Client/lib/jquery-{version}.mins.js"));
+						"~/Game/Client/lib/jquery-{version}.mins.js"));
 
 			// signalR bundle.
 			bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
-					"~/Client/lib/jquery.signalR-{version}.min.js"));
+					"~/Game/Client/lib/jquery.signalR-{version}.min.js"));
 
 			// Phaser file bundle.
 			bundles.Add(new ScriptBundle("~/bundles/phaser").Include(
-					"~/Client/lib/phaser.min.js"));
+					"~/Game/Client/lib/phaser.min.js"));
 
 			// Bundle all the client game scripts.
 			ScriptBundle gameFiles = new ScriptBundle("~/bundles/game");
-			gameFiles.IncludeDirectory("~/Client/entities/", "*.js");
-			gameFiles.IncludeDirectory("~/Client/states/", "*.js");
+			gameFiles.IncludeDirectory("~/Game/Client/entities/", "*.js");
+			gameFiles.IncludeDirectory("~/Game/Client/states/", "*.js");
 			bundles.Add(gameFiles);
 		}
 	}

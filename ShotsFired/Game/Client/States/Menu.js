@@ -18,6 +18,6 @@ Tanks.Menu = {
 
 
 		// Buttons.
-		this.button1 = this.add.button(40,40, 'Set up game', 'function name goes here', this,2,1,0);
+		this.button1 = this.add.button(40,40, 'Set up game', null, this,2,1,0);
 	}
 };
