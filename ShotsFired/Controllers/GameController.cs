@@ -10,17 +10,7 @@ namespace ShotsFired.Controllers
 		[HttpGet]
 		public ActionResult Game()
 		{
-			HttpContext.Session["Game"] = new World();
-
 			return View();
-		}
-
-		// Generate the game object and return it to the clients.
-		public ActionResult Play()
-		{
-			// Create the game object (from the host player).
-
-			return null;
 		}
 	}
 }

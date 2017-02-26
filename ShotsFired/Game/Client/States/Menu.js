@@ -1,6 +1,5 @@
-var Tanks = Tanks || {};
 
-Tanks.Menu = {
+var Menu = {
 
 	preload: function () {
 		//?
@@ -16,13 +15,12 @@ Tanks.Menu = {
 
 		//TODO: Music.
 
-
 		// Buttons.
 		this.button1 = this.add.button(this.game.width / 2 - 50, this.game.height / 1.7, 'play_button', this.play, this, 2, 1, 0);
 	},
 
 	play: function()
 	{
-		this.state.start("Game");
+		this.state.start("Lobby");
 	}
 };

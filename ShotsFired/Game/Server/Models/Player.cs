@@ -9,6 +9,13 @@ namespace ShotsFired.Models
 	public class Player
 	{
 		/// <summary>
+		/// Gets or sets the player identifier.
+		/// </summary>
+		/// <value>
+		/// The player identifier.
+		/// </value>
+		public int PlayerId { get; set; }
+		/// <summary>
 		/// Gets or sets the username.
 		/// </summary>
 		/// <value>

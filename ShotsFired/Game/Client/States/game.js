@@ -1,4 +1,3 @@
-var Tanks = Tanks || {};
 /*
 Arcade Physics: Ship trail
 follow for singleplayer
@@ -7,8 +6,10 @@ menu: single player - vs ai or targets
 	  multiplayer - host or join
 
  */
-Tanks.Game = {
-	init:function () {
+var Game = {
+	init: function()
+	{
+
 		// Difficulty.
 
 		// Level.
@@ -31,8 +32,7 @@ Tanks.Game = {
 		this.background = this.add.sprite(0, 0, 'game_background');
 
 		// Groups.
-		this.players = this.add.group();
-		this.tankComposite = this.add.group();
+		this.players     = this.add.group();
 		this.projectiles = this.add.group();
 
 		// Variables.
@@ -45,19 +45,25 @@ Tanks.Game = {
 
 		// Test tank.
 		var testTankData = {
-			tankAsset: 'tank',
+			tankAsset:   'tank',
 			turretAsset: 'turret',
-			health: 100,
-			armour: 100,
-			fuel: 300
+			health:      100,
+			armour:      100,
+			fuel:        300
 		};
 
 		// First test tank.
-		this.testTank = new Tanks.Tank(this, 400, 600, testTankData);
+		tankCreator = new TankCreator(this);
+		this.testTank = tankCreator.createTank(400, 600, testTankData);
+		tankTurret = new Turret(this, 400, 600 - 30, testTankData);
+		this.testTank.tankTurret = tankTurret;
+
 		this.players.add(this.testTank);
 
 		// Second test tank.
-		this.testTank2 = new Tanks.Tank(this, 300, 600, testTankData);
+		this.testTank2 = tankCreator.createTank(300, 600, testTankData);
+		tankTurret2 = new Turret(this, 300, 600 - 30, testTankData);
+		this.testTank2.tankTurret = tankTurret2;
 		this.players.add(this.testTank2);
 
 		// Buttons
@@ -83,9 +89,8 @@ Tanks.Game = {
 
 		// Create the GUI.
 		this.createGUI();
-
-
 	},
+
 	//TODO: Create text controller.
 	createGUI: function () {
 		var font_style = {
@@ -96,9 +101,9 @@ Tanks.Game = {
 		this.turnTimerText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
 		this.powerText = this.add.text(8, 8, 'Power: ' + this.testTank.power, font_style);
 		this.powerText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
-		this.angleText = this.add.text(8,32, 'Angle: ' + this.testTank.tankTurret.angle,font_style);
+		this.angleText = this.add.text(8,32, 'Angle: ' + this.testTank.tankTurret.angle, font_style);
 		this.angleText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
-		this.fuelText = this.add.text(8,56, 'Fuel:' + this.testTank.fuel,font_style);
+		this.fuelText = this.add.text(8,56, 'Fuel:' + this.testTank.fuel, font_style);
 		this.fuelText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
 		this.readyText = this.add.text(200, 16, 'Ready?: ' + this.shotsFired, font_style);
 		this.readyText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
@@ -138,7 +143,7 @@ Tanks.Game = {
 				this.angleText.text = 'Angle: ' + (this.testTank.tankTurret.angle).toFixed();
 			}
 			else if(this.angleRight.isDown && this.testTank.tankTurret.angle < 180){
-				this.testTank.rotateTurret(+1);
+				this.testTank.rotateTurret(1);
 				console.log('Angle right');
 				this.angleText.text = 'Angle: ' + (this.testTank.tankTurret.angle).toFixed();
 			}
@@ -160,7 +165,7 @@ Tanks.Game = {
 				else if (this.moveRight.isDown && this.testTank.x < this.game.width-40)
 				{
 					// Move the tank to the right.
-					this.testTank.movement(+1);
+					this.testTank.movement(1);
 					console.log('Move right');
 
 					// Take a unit from the fuel.

@@ -11,6 +11,24 @@ namespace ShotsFired.Models
 	public class World
 	{
 		/// <summary>
+		/// Initializes a new instance of the <see cref="World"/> class.
+		/// </summary>
+		/// <param name="worldId">The world identifier.</param>
+		public World()
+		{
+			// Change this later.
+			WorldId = 0;
+		}
+
+		/// <summary>
+		/// Gets or sets the world identifier.
+		/// </summary>
+		/// <value>
+		/// The world identifier.
+		/// </value>
+		public int WorldId { get; set; }
+
+		/// <summary>
 		/// Gets or sets the gravity of the world.
 		/// </summary>
 		/// <value>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 
-namespace Tanks.Hubs
+namespace ShotsFired.Hubs
 {
 	public class EventHub : Hub
 	{

@@ -1,24 +1,19 @@
-var Tanks = Tanks || {};
+Projectile = function(game, x, y, data){
 
-Tanks.Projectile = function(state,x,y, data){
+	Phaser.Sprite.call(this, game, x, y, data.asset);
 
-    Phaser.Sprite.call(this,state.game, x, y, data.asset);
+	// Physics body.
+	this.game.physics.arcade.enable(this);
 
-    this.state = state;
-    this.game = state.game;
-    this.projectiles = state.projectiles;
-
-    // Physics body.
-    this.game.physics.arcade.enable(this);
-
-    this.projectiles.add(this);
+	// Add to the game.
+	game.projectiles.add(this);
 };
 
-Tanks.Projectile.prototype = Object.create(Phaser.Sprite.prototype);
-Tanks.Projectile.prototype.constructor = Tanks.Projectile;
+Projectile.prototype = Object.create(Phaser.Sprite.prototype);
+Projectile.prototype.constructor = Projectile;
 
-Tanks.Projectile.prototype.update = function () {
-    if(this.x > 800 || this.x < 0){
-        this.kill();
-    }
+Projectile.prototype.update = function () {
+	if(this.x > 800 || this.x < 0){
+		this.kill();
+	}
 };

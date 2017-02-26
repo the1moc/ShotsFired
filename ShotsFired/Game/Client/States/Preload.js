@@ -1,6 +1,4 @@
-var Tanks = Tanks || {};
-
-Tanks.Preload = {
+var Preload = {
 	preload: function () {
 		// Display loading bar here, centre screen and fairly visible
 		var SPT_DIR = "Game/Client/assets/sprites/";
@@ -25,6 +23,8 @@ Tanks.Preload = {
 		this.load.image('bullet', SPT_DIR + 'bullet.png');
 		this.load.image('title', SPT_DIR + 'menu_title.png');
 		this.load.image('play_button', SPT_DIR + 'play_button.png');
+		this.load.image('host', SPT_DIR + 'host.png');
+		this.load.image('join', SPT_DIR + 'join.png');
 
 		// Buttons
 

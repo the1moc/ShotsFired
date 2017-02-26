@@ -1,6 +1,4 @@
-var Tanks = Tanks || {};
-
-Tanks.Boot = {
+var Boot = {
 	init: function () {
 		// Background colour.
 		this.game.stage.backgroundColor = '#FFFFFF';
