@@ -6,7 +6,7 @@ using System.Web;
 namespace ShotsFired.Models
 {
 	/// <summary>
-	/// The instance that contains a seperate game.
+	/// A game containing players and the world they are playing in.
 	/// </summary>
 	public class Game
 	{
@@ -14,11 +14,11 @@ namespace ShotsFired.Models
 		/// Initializes a new instance of the <see cref="Instance"/> class.
 		/// </summary>
 		/// <param name="worldId">The instance identifier.</param>
-		public Game(int instanceId)
+		public Game(int instanceId, string hostPlayerId)
 		{
 			InstanceId   = instanceId;
-			HostPlayerId = -1;
-			PlayerIds    = new List<int>();
+			HostPlayerId = hostPlayerId;
+			Players      = new List<Player>();
 			World        = null;
 		}
 
@@ -36,15 +36,15 @@ namespace ShotsFired.Models
 		/// <value>
 		/// The host player identifier.
 		/// </value>
-		public int HostPlayerId { get; set; }
+		public string HostPlayerId { get; set; }
 
 		/// <summary>
-		/// Gets or sets the list of player identifiers.
+		/// Gets or sets the list of players.
 		/// </summary>
 		/// <value>
-		/// The player identifiers.
+		/// The players.
 		/// </value>
-		public List<int> PlayerIds { get; set; }
+		public List<Player> Players { get; set; }
 
 		/// <summary>
 		/// Gets or sets the world.

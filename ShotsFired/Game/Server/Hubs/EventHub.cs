@@ -33,18 +33,5 @@ namespace ShotsFired.Hubs
 				Clients.All.notEnoughClients();
 			}
 		}
-
-		// Called upon a jump movement.
-		public void Jump()
-		{
-			try
-			{
-				Clients.All.jump();
-			}
-			catch (Exception e)
-			{
-				Clients.All.notEnoughClients();
-			}
-		}
 	}
 }

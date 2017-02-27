@@ -9,12 +9,29 @@ namespace ShotsFired.Models
 	public class Player
 	{
 		/// <summary>
+		/// Initializes a new instance of the <see cref="Player"/> class without a passed username.
+		/// </summary>
+		public Player() : this(Guid.NewGuid().ToString().Substring(0, 8))
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Player"/> class.
+		/// </summary>
+		/// <param name="username">The username.</param>
+		public Player(string username)
+		{
+			Username = username;
+			PlayerId = Guid.NewGuid().ToString().Substring(0, 4);
+		}
+		/// <summary>
 		/// Gets or sets the player identifier.
 		/// </summary>
 		/// <value>
 		/// The player identifier.
 		/// </value>
-		public int PlayerId { get; set; }
+		public string PlayerId { get; set; }
+
 		/// <summary>
 		/// Gets or sets the username.
 		/// </summary>
