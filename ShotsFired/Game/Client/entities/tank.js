@@ -18,7 +18,6 @@ function TankCreator(game)
 		tank.armour = data.armour;
 		tank.fuel   = data.fuel;
 		tank.power  = 250;
-		tank.angle  = 0;
 
 		tank.loadTexture('tank');
 
@@ -41,8 +40,17 @@ Tank.prototype.damage = function (amount, data) {
 
 Tank.prototype.rotateTurret = function(value)
 {
-	if (this.angle <= 0 || this.angle >= -180) {
-		this.tankTurret.angle += value;
+	if (value == 1)
+	{
+		if (this.tankTurret.angle <= 0) {
+			this.tankTurret.angle = Math.round(value + this.tankTurret.angle);
+		}
+	}
+	else
+	{
+		if (this.tankTurret.angle >= -90) {
+			this.tankTurret.angle = Math.round(value + this.tankTurret.angle);
+		}
 	}
 };
 

@@ -20,7 +20,7 @@ namespace ShotsFired.Hubs
 		private static List<Player> _players = new List<Player>();
 
 		/// <summary>
-		/// Connects to server.
+		/// Connects player to server.
 		/// </summary>
 		/// <param name="username">The username.</param>
 		public void ConnectToServer(string username) {
@@ -70,7 +70,7 @@ namespace ShotsFired.Hubs
 
 			if (desiredGame == null)
 			{
-				Clients.Caller.onFailure("The game was not found on the server");
+				Clients.Caller.onFailure("The game was not found on the server.");
 				return;
 			}
 
