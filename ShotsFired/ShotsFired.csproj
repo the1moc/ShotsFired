@@ -231,6 +231,7 @@
     <Content Include="Game\Client\Entities\eventAdapter.js" />
     <Content Include="Game\Client\Entities\projectile.js" />
     <Content Include="Game\Client\Entities\tank.js" />
+    <Content Include="Game\Client\Entities\tankGUI.js" />
     <Content Include="Game\Client\Entities\turret.js" />
     <Content Include="Game\Client\Lib\jquery-3.1.1.min.js" />
     <Content Include="Game\Client\Lib\jquery.signalR-2.2.1.min.js" />

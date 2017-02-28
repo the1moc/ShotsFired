@@ -81,5 +81,3 @@ Tank.prototype.launchProjectile = function(projectileData)
 	// Set the bullet velocity.
 	this.game.physics.arcade.velocityFromAngle(this.tankTurret.angle, this.power, this.projectile.body.velocity);
 };
-
-

@@ -57,7 +57,10 @@ var Game = {
 		this.testTank = tankCreator.createTank(400, 600, testTankData);
 		tankTurret = new Turret(this, 400, 600 - 30, testTankData);
 		this.testTank.tankTurret = tankTurret;
-		this.tankGUI();
+		tankGUI = new TankGUI(this, testTank.x, testTank.y, 'playerName', this.testTank.tankTurret.angle, this.testTank.power, testTankData);
+		this.testTank.tankGUI = tankGUI;
+		
+		//this.tankGUI();
 
 		this.players.add(this.testTank);
 
@@ -112,20 +115,21 @@ var Game = {
 		this.readyText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
 	},
 
-	tankGUI: function () {
-	    var font_style = {
-	        font: "12px Arial",
-	        fill: "#ffffff"
-	    };
-	    this.playerNameText = this.add.text(this.testTank.x, this.testTank.y - 46, 'player name', font_style);
-	    this.playerNameText.anchor.setTo(0.5);
-	    this.tankVarText = this.add.text(this.testTank.x, this.testTank.y - 62, this.testTank.tankTurret.angle + ', ' + this.testTank.power, font_style);
-	    this.tankVarText.anchor.setTo(0.5);
-	},
+    //not sure but this could be added to the tank composite?
+	//createTankGUI: function () {
+	//    var font_style = {
+	//        font: "12px Arial",
+	//        fill: "#ffffff"
+	//    };
+	//    this.playerNameText = this.add.text(this.testTank.x, this.testTank.y - 46, 'player name', font_style);
+	//    this.playerNameText.anchor.setTo(0.5);
+	//    this.tankVarText = this.add.text(this.testTank.x, this.testTank.y - 62, this.testTank.tankTurret.angle + ', ' + this.testTank.power, font_style);
+	//    this.tankVarText.anchor.setTo(0.5);
+	//},
 
-	updateTankGUI: function (power, angle) {
-	    this.tankVarText.text = angle + ", " + power;
-	},
+	//updateTankGUI: function (power, angle) {
+	//    this.tankVarText.text = angle + ", " + power;
+	//},
 
 	update: function () {
 		if(this.fireButton.isDown && this.shotsFired == false){//need a timer for each turn -- 30 seconds should do
@@ -193,7 +197,7 @@ var Game = {
 					this.fuelText.text = 'Fuel: ' + this.testTank.fuel;
 				}
 			}
-			this.updateTankGUI(this.testTank.power, this.testTank.tankTurret.angle);
+			//this.updateTankGUI(this.testTank.power, this.testTank.tankTurret.angle);
 		}
 
 		// Collision detection?
