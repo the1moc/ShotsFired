@@ -2,25 +2,30 @@
 function TankCreator(game)
 {
 	// Create a tank.
-	this.createTank = function(x, y, data)
-	{
-		tank = new Tank(game, x, y);
+    this.createTank = function(x, y, data)
+    {
+        tank = new Tank(game, x, y);
 
-		tank.anchor.setTo(0.5);
+        tank.anchor.setTo(0.5);
 
-		// Physics.
-		game.physics.arcade.enable(tank);
-		tank.body.collideWorldBounds = true;
+        // Physics.
+        game.physics.arcade.enable(tank);
+        tank.body.collideWorldBounds = true;
 
-		// Tank properties.
-		tank.power  = 250;
-		tank.health = data.health;
-		tank.armour = data.armour;
-		tank.fuel   = data.fuel;
-		tank.power  = 250;
-		tank.angle  = 0;
+        // Tank properties.
+        tank.power  = 250;
+        tank.health = data.health;
+        tank.armour = data.armour;
+        tank.fuel   = data.fuel;
+        tank.power  = 250;
+        tank.angle  = 0;
 
-		tank.loadTexture('tank');
+        tank.loadTexture('tank');
+
+        //tank.name = playerName;
+        //tank.anglePowerText = game.add.text(0, -20, tank.power + "," + tank.angle, { font: "12px Arial", fill: "#ffffff" });
+
+        //text = new variableText(-20, -20, tank.angle, tank.power);
 
 		return tank;
 	};
@@ -39,11 +44,20 @@ Tank.prototype.damage = function (amount, data) {
 	Phaser.Sprite.prototype.damage.call(this.amount);
 };
 
+//want to check that the if statement is 
 Tank.prototype.rotateTurret = function(value)
 {
-	if (this.angle <= 0 || this.angle >= -180) {
+	if (this.tankTurret.angle <= 0 || this.tankTurret.angle >= -180) {
 		this.tankTurret.angle += value;
 	}
+};
+
+Tank.prototype.variableText = function (x, y, angle, power) {
+    var font_style = {
+        font: "12px Arial",
+        fill: "#ffffff"
+    };
+    text = game.add.text(x, y, 'player name\n' + this.angle + ', ' + this.power, font_style);
 };
 
 //TODO: Constants for max and min power.

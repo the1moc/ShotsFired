@@ -57,6 +57,7 @@ var Game = {
 		this.testTank = tankCreator.createTank(400, 600, testTankData);
 		tankTurret = new Turret(this, 400, 600 - 30, testTankData);
 		this.testTank.tankTurret = tankTurret;
+		this.tankGUI();
 
 		this.players.add(this.testTank);
 
@@ -97,6 +98,8 @@ var Game = {
 			font: "12px Arial",
 			fill: "#ffffff"
 		};
+		
+
 		this.turnTimerText = this.add.text(400, 32, this.turnTimer, font_style);
 		this.turnTimerText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
 		this.powerText = this.add.text(8, 8, 'Power: ' + this.testTank.power, font_style);
@@ -107,6 +110,21 @@ var Game = {
 		this.fuelText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
 		this.readyText = this.add.text(200, 16, 'Ready?: ' + this.shotsFired, font_style);
 		this.readyText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+	},
+
+	tankGUI: function () {
+	    var font_style = {
+	        font: "12px Arial",
+	        fill: "#ffffff"
+	    };
+	    this.playerNameText = this.add.text(this.testTank.x, this.testTank.y - 46, 'player name', font_style);
+	    this.playerNameText.anchor.setTo(0.5);
+	    this.tankVarText = this.add.text(this.testTank.x, this.testTank.y - 62, this.testTank.tankTurret.angle + ', ' + this.testTank.power, font_style);
+	    this.tankVarText.anchor.setTo(0.5);
+	},
+
+	updateTankGUI: function (power, angle) {
+	    this.tankVarText.text = angle + ", " + power;
 	},
 
 	update: function () {
@@ -130,6 +148,7 @@ var Game = {
 				this.testTank.adjustPower(1);
 				console.log('increase power');
 				this.powerText.text = 'Power: ' + this.testTank.power;
+				//this.updateTankGUI(this.testTank.power, null);
 			}
 			else if(this.powerDown.isDown && this.testTank.power > 100){
 				this.testTank.adjustPower(-1);
@@ -174,6 +193,7 @@ var Game = {
 					this.fuelText.text = 'Fuel: ' + this.testTank.fuel;
 				}
 			}
+			this.updateTankGUI(this.testTank.power, this.testTank.tankTurret.angle);
 		}
 
 		// Collision detection?

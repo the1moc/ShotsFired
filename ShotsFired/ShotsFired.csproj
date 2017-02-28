@@ -216,13 +216,17 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Game\Client\Assets\Sprites\bullet.png" />
-    <Content Include="Game\Client\Assets\Sprites\menu_background.png" />
-    <Content Include="Game\Client\Assets\Sprites\menu_title.png" />
-    <Content Include="Game\Client\Assets\Sprites\play_button.png" />
-    <Content Include="Game\Client\Assets\Sprites\tank_body.png" />
-    <Content Include="Game\Client\Assets\Sprites\tank_turret.png" />
-    <Content Include="Game\Client\Assets\Sprites\temp_background.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\armourTile.png" />
+    <Content Include="Game\Client\Assets\Images\Sprites\bullet.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\healthTile.png" />
+    <Content Include="Game\Client\Assets\Images\Sprites\menu_background.png" />
+    <Content Include="Game\Client\Assets\Images\Sprites\menu_title.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\play_button.png" />
+    <Content Include="Game\Client\Assets\Images\Sprites\Smoke &amp;amp%3b Fire.png" />
+    <Content Include="Game\Client\Assets\Images\Sprites\tank_body.png" />
+    <Content Include="Game\Client\Assets\Images\Sprites\tank_turret.png" />
+    <Content Include="Game\Client\Assets\Images\Sprites\temp_background.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\weaponsTile.png" />
     <Content Include="Game\Client\Entities\ai.js" />
     <Content Include="Game\Client\Entities\eventAdapter.js" />
     <Content Include="Game\Client\Entities\projectile.js" />
@@ -255,7 +259,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\" />
-    <Folder Include="Game\Client\Assets\Images\" />
+    <Folder Include="Game\Client\Assets\Audio\" />
+    <Folder Include="Game\Client\Assets\Data\" />
+    <Folder Include="Game\Client\Assets\Fonts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
