@@ -27,7 +27,13 @@ function TankCreator(game)
 
 // Tank constructor.
 Tank = function(game, x, y) {
-	Phaser.Sprite.call(this, game, x, y, "tank");
+    Phaser.Sprite.call(this, game, x, y, "tank");
+
+    this.move = function() {
+        //console.log("penis");
+
+        
+    }
 }
 
 Tank.prototype = Object.create(Phaser.Sprite.prototype);
@@ -64,6 +70,7 @@ Tank.prototype.movement = function(value)
 {
 	this.body.x += value;
 	this.tankTurret.x += value;
+	this.tankGUI.moveGUI(value);
 };
 
 // Takes server projectile data and launches.
