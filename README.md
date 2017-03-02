@@ -22,3 +22,10 @@ Game inspired by Tanks
 - [ ] Look into world generation
 - [ ] Make the server side more sexy
 - [ ] Revert Rotations
+
+
+fun tings to add to the game
+- [ ] Spawn tanks in the sky (parachute)
+- [ ] Set maps
+- [ ] Map selection button
+- [ ] 
