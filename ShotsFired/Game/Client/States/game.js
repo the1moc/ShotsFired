@@ -57,7 +57,7 @@ var Game = {
 		this.testTank = tankCreator.createTank(400, 600, testTankData);
 		tankTurret = new Turret(this, 400, 600 - 30, testTankData);
 		this.testTank.tankTurret = tankTurret;
-		tankGUI = new TankGUI(this, testTank.x, testTank.y, 'playerName', this.testTank.tankTurret.angle, this.testTank.power, testTankData);
+		tankGUI = new TankGUI(this, this.testTank.x, this.testTank.y, 'playerName', this.testTank.tankTurret.angle, this.testTank.power, testTankData);
 		this.testTank.tankGUI = tankGUI;
 		
 		//this.tankGUI();

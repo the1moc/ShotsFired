@@ -5,21 +5,21 @@
     this.maxArmour = data.armour;
     this.BARWIDTH = 40;
     this.BARHEIGHT = 2;
-
+    
     var font_style = {
         font: "12px Arial",
         fill: "#ffffff"
     };
 
     //power and angle variables
-    this.vText = this.add.text(x, y - 66, power + ", " + angle, font_style);
+    this.vText = game.add.text(x, y - 66, power + ", " + angle, font_style);
 
     //player name
-    this.playerName = this.add.text(x,y-52,'Player Name',font_style);
+    this.playerName = game.add.text(x,y-52,'Player Name',font_style);
     this.playerName.anchor.setTo(0.5);
 
     //armour bar
-    var aBMD = this.add.bitMapData(this.BARWIDTH, this.BARHEIGHT);
+    var aBMD = game.add.bitmapData(this.BARWIDTH, this.BARHEIGHT);
     aBMD.ctx.beginPath();
     aBMD.ctx.rect(0, 0, 180, 30);
     aBMD.ctx.fillStyle = '#00685e';
@@ -29,7 +29,7 @@
     this.armourBar.anchor.setTo(0.5);
 
     //health bar
-    var hBMD = this.add.bitMapData(this.BARWIDTH,this.BARHEIGHT);
+    var hBMD = game.add.bitmapData(this.BARWIDTH,this.BARHEIGHT);
     hBMD.ctx.beginPath();
     hBMD.ctx.rect(0,0,180,30);
     hBMD.ctx.fillStyle = '#00685e';
