@@ -1,15 +1,11 @@
-﻿@{
-	ViewBag.Title = "Shots Fired!";
-}
-
-<!doctype html>
+﻿<!doctype html>
 
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>Shots Fired!</title>
 	<meta name="description" content="Shots Fired!">
-	@Scripts.Render("~/bundles/jquery", "~/bundles/signalr", "~/bundles/phaser", "~/bundles/game");
+	@Scripts.Render("~/bundles/jquery", "~/bundles/signalr", "~/bundles/phaser", "~/bundles/game")
 	<script type="text/javascript" src="~/Game/Client/Main.js"></script>
 	<script type="text/javascript" src="~/signalr/hubs"></script>
 </head>
