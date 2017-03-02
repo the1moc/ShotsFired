@@ -15,6 +15,7 @@ TankGUI = function (game, x, y, playerName, angle, power, data) {
 	};
 	// Power and angle variables
 	this.vText = game.add.text(x, y - 66, power + ", " + angle, font_style);
+	this.vText.anchor.setTo(0.5);
 
 	// Player name
 	this.playerName = game.add.text(x,y-52,'Player Name',font_style);
