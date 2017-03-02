@@ -14,7 +14,7 @@ namespace ShotsFired.Models
 		/// Initializes a new instance of the <see cref="Instance"/> class.
 		/// </summary>
 		/// <param name="worldId">The instance identifier.</param>
-		public Game(int instanceId, string hostPlayerId)
+		public Game(string instanceId, string hostPlayerId)
 		{
 			InstanceId   = instanceId;
 			HostPlayerId = hostPlayerId;
@@ -28,7 +28,7 @@ namespace ShotsFired.Models
 		/// <value>
 		/// The instance identifier.
 		/// </value>
-		public int InstanceId { get; set; }
+		public string InstanceId { get; set; }
 
 		/// <summary>
 		/// Gets or sets the host player identifier.

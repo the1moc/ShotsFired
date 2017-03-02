@@ -26,7 +26,7 @@ var Lobby = {
 	// Join a pre-existing game.
 	join: function()
 	{
-		this.gameHub.server.joinGame(this.playerId, 2);
+		this.gameHub.server.joinGame(2, this.playerId);
 	},
 
 	// Temporary play button to go to the game.

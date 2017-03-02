@@ -47,7 +47,7 @@ namespace ShotsFired.Hubs
 
 			// Create a new game instance.
 			//TODO: FIX THIS PLS
-			Game newGame = new Game(_games.Count + 1, callingPlayer.PlayerId);
+			Game newGame = new Game((_games.Count + 1).ToString(), callingPlayer.PlayerId);
 
 			// Add the host player ID and add him to players.
 			newGame.HostPlayerId = callingPlayer.PlayerId;
@@ -65,21 +65,24 @@ namespace ShotsFired.Hubs
 		/// </summary>
 		/// <param name="gameId">The game identifier.</param>
 		/// <param name="playerId">The player identifier.</param>
-		public void JoinGame(int gameId, string playerId) {
-			Game desiredGame = _games.First(game => game.InstanceId == gameId);
+		public void JoinGame(string gameId, string playerId) {
+			try
+			{
+				Player callingPlayer = GetCallingPlayer(playerId);
 
-			if (desiredGame == null)
+				Game desiredGame = _games.First(game => game.InstanceId == gameId);
+
+				// If the player is not already in the lobby, add them.
+				if (!desiredGame.Players.Contains(callingPlayer))
+				{
+					desiredGame.Players.Add(callingPlayer);
+					Clients.Caller.gameJoinSuccess(desiredGame.InstanceId, desiredGame.Players.Select(player => player.PlayerId).ToList(), desiredGame.HostPlayerId);
+				}
+			}
+			catch (Exception e)
 			{
 				Clients.Caller.onFailure("The game was not found on the server.");
 				return;
-			}
-
-			Player callingPlayer = GetCallingPlayer(playerId);
-
-			// If the player is not already in the lobby, add them.
-			if (!desiredGame.Players.Contains(callingPlayer)) {
-				desiredGame.Players.Add(callingPlayer);
-				Clients.Caller.gameJoinSuccess(desiredGame.InstanceId, desiredGame.Players.Select(player => player.PlayerId).ToList(), desiredGame.HostPlayerId);
 			}
 		}
 
@@ -88,7 +91,7 @@ namespace ShotsFired.Hubs
 		/// </summary>
 		/// <param name="gameId">The game instance identifier.</param>
 		/// <returns></returns>
-		public Game GetGame(int gameId) {
+		public Game GetGame(string gameId) {
 			try
 			{
 				return _games.Find(game => game.InstanceId == gameId);
