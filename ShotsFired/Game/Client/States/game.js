@@ -115,7 +115,7 @@ var Game = {
 		this.readyText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
 	},
 
-    //not sure but this could be added to the tank composite?
+	//not sure but this could be added to the tank composite?
 	//createTankGUI: function () {
 	//    var font_style = {
 	//        font: "12px Arial",

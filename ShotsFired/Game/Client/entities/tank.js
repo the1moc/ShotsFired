@@ -42,14 +42,14 @@ Tank.prototype.rotateTurret = function(value)
 {
 	if (value == 1)
 	{
-		if (this.tankTurret.angle <= 0) {
-			this.tankTurret.angle = Math.round(value + this.tankTurret.angle);
+		if (this.tankTurret.angle < 0) {
+			this.tankTurret.angle = Math.floor(value + this.tankTurret.angle);
 		}
 	}
 	else
 	{
-		if (this.tankTurret.angle >= -90) {
-			this.tankTurret.angle = Math.round(value + this.tankTurret.angle);
+		if (this.tankTurret.angle > -90) {
+			this.tankTurret.angle = Math.floor(value + this.tankTurret.angle);
 		}
 	}
 };
