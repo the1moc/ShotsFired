@@ -57,7 +57,7 @@ var Game = {
 		this.testTank = tankCreator.createTank(400, 600, testTankData);
 		tankTurret = new Turret(this, 400, 600 - 30, testTankData);
 		this.testTank.tankTurret = tankTurret;
-		tankGUI = new TankGUI(this, testTank.x, testTank.y, 'playerName', this.testTank.tankTurret.angle, this.testTank.power, testTankData);
+		tankGUI = new TankGUI(this, this.testTank.x, this.testTank.y, 'playerName', this.testTank.tankTurret.angle, this.testTank.power, testTankData);
 		this.testTank.tankGUI = tankGUI;
 		
 		//this.tankGUI();
@@ -115,7 +115,7 @@ var Game = {
 		this.readyText.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
 	},
 
-    //not sure but this could be added to the tank composite?
+	//not sure but this could be added to the tank composite?
 	//createTankGUI: function () {
 	//    var font_style = {
 	//        font: "12px Arial",
