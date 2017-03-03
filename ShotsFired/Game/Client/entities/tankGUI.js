@@ -9,23 +9,20 @@ TankGUI = function (game, x, y, playerName, angle, power, data) {
 	this.BARWIDTH = 40;
 	this.BARHEIGHT = 2;
 
-	var font_style = {
-		font: "12px Arial",
-		fill: "#ffffff"
-	};
+	
 	// Power and angle variables
-	this.vText = game.add.text(x, y - 66, power + ", " + angle, font_style);
+	this.vText = game.add.text(x, y - 66, power + ", " + angle, game.font_style);
 	this.vText.anchor.setTo(0.5);
 
 	// Player name
-	this.playerName = game.add.text(x,y-52,'Player Name',font_style);
+	this.playerName = game.add.text(x,y-52,'Player Name',game.font_style);
 	this.playerName.anchor.setTo(0.5);
 
 	//armour bar
 	var aBMD = game.add.bitmapData(this.BARWIDTH, this.BARHEIGHT);
 	aBMD.ctx.beginPath();
 	aBMD.ctx.rect(0, 0, 180, 30);
-	aBMD.ctx.fillStyle = '#00685e';
+	aBMD.ctx.fillStyle = '#3415B0';
 	aBMD.ctx.fill();
 
 	this.armourBar = game.add.sprite(x, y - 38, aBMD);
@@ -35,7 +32,7 @@ TankGUI = function (game, x, y, playerName, angle, power, data) {
 	var hBMD = game.add.bitmapData(this.BARWIDTH,this.BARHEIGHT);
 	hBMD.ctx.beginPath();
 	hBMD.ctx.rect(0,0,180,30);
-	hBMD.ctx.fillStyle = '#00685e';
+	hBMD.ctx.fillStyle = '#A61000';
 	hBMD.ctx.fill();
 
 	this.healthBar = game.add.sprite(x,y-34,hBMD);
@@ -67,4 +64,11 @@ TankGUI.prototype.damageHealthBar = function (value) {
 
 TankGUI.prototype.updateAngleText = function (power, angle) {
 	this.vText.text = power + ", " + angle;
+};
+
+TankGUI.prototype.moveGUI = function (value) {
+    this.vText.x += value;
+    this.healthBar.x += value;
+    this.armourBar.x += value;
+    this.playerName.x += value;
 };
