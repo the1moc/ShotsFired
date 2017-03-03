@@ -2,8 +2,7 @@
 function TankCreator(game)
 {
 	// Create a tank.
-	this.createTank = function(x, y, data)
-	{
+	this.createTank = function(x, y, data) {
 		tank = new Tank(game, x, y);
 
 		tank.anchor.setTo(0.5);
@@ -43,13 +42,13 @@ Tank.prototype.rotateTurret = function(value)
 	if (value == 1)
 	{
 		if (this.tankTurret.angle < 0) {
-			this.tankTurret.angle = Math.floor(value + this.tankTurret.angle);
+			this.tankTurret.angle = Math.round(value + this.tankTurret.angle);
 		}
 	}
 	else
 	{
-		if (this.tankTurret.angle > -90) {
-			this.tankTurret.angle = Math.floor(value + this.tankTurret.angle);
+		if (this.tankTurret.angle > -180) {
+			this.tankTurret.angle = Math.round(value + this.tankTurret.angle);
 		}
 	}
 };

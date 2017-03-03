@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using Microsoft.AspNet.SignalR;
 using ShotsFired.Models;
 
@@ -28,8 +29,12 @@ namespace ShotsFired.Hubs
 			Player newPlayer;
 
 			if (username == null)
-				newPlayer = new Player();
-			else 
+			{
+				string names            = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/names.txt"));
+				string[] seperatedNames = names.Split(',');
+				newPlayer               = new Player(seperatedNames.ElementAt(new Random().Next(0, 20)));
+			}
+			else
 				newPlayer = new Player(username);
 
 			_players.Add(newPlayer);
@@ -57,7 +62,7 @@ namespace ShotsFired.Hubs
 			_games.Add(newGame);
 
 			// Tell the client that is hosting the game the game instance id (and generic information).
-			Clients.Caller.gameHostSuccess(newGame.InstanceId, newGame.Players.Select(player => player.PlayerId).ToList() , hostPlayerId);
+			Clients.Caller.gameHostSuccess(newGame.InstanceId, newGame.Players.Select(player => player.PlayerId).ToList(), newGame.Players.Select(player => player.Username).ToList(), hostPlayerId);
 		}
 
 		/// <summary>
@@ -76,13 +81,76 @@ namespace ShotsFired.Hubs
 				if (!desiredGame.Players.Contains(callingPlayer))
 				{
 					desiredGame.Players.Add(callingPlayer);
-					Clients.Caller.gameJoinSuccess(desiredGame.InstanceId, desiredGame.Players.Select(player => player.PlayerId).ToList(), desiredGame.HostPlayerId);
+					Clients.All.gameJoinSuccess(desiredGame.InstanceId, desiredGame.Players.Select(player => player.PlayerId).ToList(), desiredGame.Players.Select(player => player.Username).ToList(), desiredGame.HostPlayerId);
 				}
 			}
 			catch (Exception e)
 			{
 				Clients.Caller.onFailure("The game was not found on the server.");
 				return;
+			}
+		}
+
+		/// <summary>
+		/// Set the status of a player being ready to true or false.
+		/// </summary>
+		/// <param name="playerId">The player identifier.</param>
+		public void PlayerReady(string playerId, bool status)
+		{
+
+			Player player = GetCallingPlayer(playerId);
+		}
+
+		/// <summary>
+		/// Starts the game.
+		/// </summary>
+		/// <param name="gameId">The game identifier.</param>
+		/// <param name="playerId">The player identifier.</param>
+		public void StartGame(string gameId, string playerId)
+		{
+			// For now, just check the host player presses play.
+			// Ideally all players have a ready check.
+			Player callingPlayer = GetCallingPlayer(playerId);
+			Game desiredGame     = GetGame(gameId);
+
+			if (desiredGame == null)
+			{
+				Clients.Caller.onFailure("The game was not found on the server.");
+				return;
+			}
+
+			if (callingPlayer == null)
+			{
+				Clients.Caller.onFailure("The player was not found on the server.");
+				return;
+			}
+
+			// If the player is not already in the lobby, add them.
+			if (!desiredGame.Players.Contains(callingPlayer))
+			{
+				desiredGame.Players.Add(callingPlayer);
+				Clients.All.gameJoinSuccess(desiredGame.InstanceId, desiredGame.Players.Select(player => player.PlayerId).ToList(), desiredGame.HostPlayerId);
+			}
+			
+		}
+
+		/// <summary>
+		/// Readies the specified player identifier.
+		/// </summary>
+		/// <param name="playerId">The player identifier.</param>
+		public void Ready(string playerId)
+		{
+			Player readyPlayer = GetCallingPlayer(playerId);
+
+			if (readyPlayer != null) {
+				readyPlayer.Ready = true;
+			}
+
+			Clients.All.setReady(playerId);
+
+			// Check to see if all other players are ready.
+			if (_players.All(player => player.Ready == true)) {
+				//GenerateWorld();
 			}
 		}
 
@@ -109,7 +177,14 @@ namespace ShotsFired.Hubs
 		/// <returns></returns>
 		public Player GetCallingPlayer(string playerId)
 		{
-			return _players.Find(player => player.PlayerId == playerId);
+			try
+			{
+				return _players.Find(player => player.PlayerId == playerId);
+			}
+			catch (ArgumentException nullException)
+			{
+				return null;
+			}
 		}
 	}
 }

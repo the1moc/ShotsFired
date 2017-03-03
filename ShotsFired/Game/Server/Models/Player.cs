@@ -9,20 +9,13 @@ namespace ShotsFired.Models
 	public class Player
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Player"/> class without a passed username.
-		/// </summary>
-		public Player() : this(Guid.NewGuid().ToString().Substring(0, 8))
-		{
-		}
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="Player"/> class.
 		/// </summary>
 		/// <param name="username">The username.</param>
 		public Player(string username)
 		{
 			Username = username;
-			PlayerId = Guid.NewGuid().ToString().Substring(0, 4);
+			PlayerId = new Random().Next(0, 100000).ToString();
 		}
 		/// <summary>
 		/// Gets or sets the player identifier.
@@ -47,5 +40,14 @@ namespace ShotsFired.Models
 		/// The tank.
 		/// </value>
 		public Tank Tank { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="Player"/> is ready.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if ready; otherwise, <c>false</c>.
+		/// </value>
+		public bool Ready { get; set; }
+
 	}
 }
