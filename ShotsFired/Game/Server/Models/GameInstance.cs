@@ -10,13 +10,13 @@ namespace ShotsFired.Game.Server.Models
 	/// <summary>
 	/// A game containing players and the world they are playing in.
 	/// </summary>
-	public class GaneInstance
+	public class GameInstance
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Instance"/> class.
 		/// </summary>
 		/// <param name="worldId">The instance identifier.</param>
-		public GaneInstance(string instanceId, string hostPlayerId)
+		public GameInstance(string instanceId, string hostPlayerId)
 		{
 			InstanceId    = instanceId;
 			HostPlayerId  = hostPlayerId;
@@ -65,9 +65,12 @@ namespace ShotsFired.Game.Server.Models
 		/// </value>
 		public bool IsGameRunning { get; set; }
 
-		public void CreateWorld()
+		public void BeginGame()
 		{
-			World = WorldGenerator.GenerateWorld();
+			World = new World();
+
+			// Generate a tank for each player.
+			Players.ForEach(player => player.Tank = TankGenerator.GenerateTank());
 		}
 
 	}

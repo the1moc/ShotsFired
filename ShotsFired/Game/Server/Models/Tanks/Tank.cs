@@ -12,6 +12,12 @@ namespace ShotsFired.Game.Server.Models.Tanks
 	/// <seealso cref="ShotsFired.Game.Server.Models.ITank" />
 	public class Tank : ITank
 	{
+		public Tank()
+		{
+			X = 400;
+			Y = 0;
+		}
+
 		public int TankId { get; set; }
 
 		public double X { get; set; }

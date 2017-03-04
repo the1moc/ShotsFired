@@ -1,3 +1,4 @@
+/// <reference path="../Lib/phaser.min.js" />
 var Lobby = {
 	create: function () {
 		// Set menu background (using menu layout for now)
@@ -28,8 +29,7 @@ var Lobby = {
 	{
 		this.lobbySelection = function(char)
 		{
-			if (!isNaN(parseInt(char)))
-			{
+			if (!isNaN(parseInt(char))) {
 				this.gameHub.server.joinGame(char, this.playerId);
 			}
 		};
@@ -49,7 +49,7 @@ var Lobby = {
 	{
 		// Connect with signalR.
 		this.gameHub = $.connection.gameHub;
-		this.lobbyCallbackFunctions();
+		this.setupLobbyCallbackFunctions();
 		var _this = this;
 
 		$.connection.hub.start().done(function()
@@ -60,38 +60,44 @@ var Lobby = {
 	},
 
 	// All callback functions for the hosting, joining and starting of a game instance.
-	lobbyCallbackFunctions: function()
+	setupLobbyCallbackFunctions: function()
 	{
 		// Keep reference to this.
 		var _this = this;
 
 		// On successful connection to the server and adding to the player base.
-		this.gameHub.client.connectPlayerSuccess = function(playerId, username)
+		this.gameHub.client.connectPlayerSuccess = function(player)
 		{
 			// TODO: Make this better.
-			_this.playerId = playerId;
-			_this.username = username;
+			_this.playerId = player.PlayerId;
+			_this.username = player.Username;
 			console.log("You have connected to the server.");
 		}
 
 		// On success when trying to host a game;
-		this.gameHub.client.gameHostSuccess = function(gameInstanceId, playerIds, playerNames, hostPlayerId)
+		this.gameHub.client.gameHostSuccess = function(gameInstance)
 		{
-			_this.displayLobbyInformation(gameInstanceId, playerIds, playerNames, hostPlayerId);
-			console.log("You have just hosted game instance: " + gameInstanceId);
+			_this.displayLobbyInformation(gameInstance);
+			console.log("You have just hosted game instance: " + gameInstance.InstanceId);
 		}
 
 		// On success when trying to join a game.
-		this.gameHub.client.gameJoinSuccess = function(gameInstanceId, playerIds, playerNames, hostPlayerId)
+		this.gameHub.client.gameJoinSuccess = function(gameInstance)
 		{
-			_this.displayLobbyInformation(gameInstanceId, playerIds, playerNames, hostPlayerId);
-			console.log("You have joined game instance: " + gameInstanceId);
+			_this.displayLobbyInformation(gameInstance);
+			console.log("You have joined game instance: " + gameInstance.InstanceId);
 		}
 
 		// On return of setting the player state to ready.
 		this.gameHub.client.setReady = function(playerId)
 		{
 			_this.playerReady(playerId);
+		}
+
+		// On return of setting the player state to ready.
+		this.gameHub.client.startGame = function(game)
+		{
+			
 		}
 		//TODO: Failed host game.
 		//TODO: Failed join game.
@@ -100,12 +106,12 @@ var Lobby = {
 
 	// Show the current lobby information you are in.
 	// ugly function, 
-	displayLobbyInformation: function(gameInstanceId, playerIds, playerNames, hostPlayerId)
+	displayLobbyInformation: function(gameInstance)
 	{
 		// Clear existing lobby information.
 		if (this.lobbyDisplayed) {
 			this.lobbyTitle.destroy();
-			this.playerInformation.forEach(function(text)
+			this.currentLobbyUsers.forEach(function(text)
 			{
 				text.destroy();
 			});
@@ -113,22 +119,23 @@ var Lobby = {
 		}
 
 		// Add the title.
-		this.lobbyTitle = game.add.text(500, 100, "Game Lobby: " + gameInstanceId, { font: "32px Arial", fill: '#000000', backgroundColor: "#FFFFFF" });
-		this.playerInformation = [];
+		this.lobbyTitle = game.add.text(500, 100, "Game Lobby: " + gameInstance.InstanceId, { font: "32px Arial", fill: '#000000', backgroundColor: "#FFFFFF" });
+		this.currentLobbyUsers = [];
 		var titlePosX   = this.lobbyTitle.x;
 		var titlePosY   = this.lobbyTitle.y;
 
 		// Reference for this.
 		_this = this;
-		playerIds.forEach(function(playerId, index) {
+		gameInstance.Players.forEach(function(player, index)
+		{
 			// Create lobby text for each player.
-			var text = game.add.text(titlePosX, titlePosY + 50, "Id: " + playerId + " -" + playerNames[index], { font: "20px Arial", fill: '#000000', backgroundColor: '#FFFFFF' });
-			text.playerId = playerId;
-			_this.playerInformation.push(text);
+			var text = game.add.text(titlePosX, titlePosY + 50, player.PlayerId + ": " + player.Username, { font: "20px Arial", fill: '#000000', backgroundColor: '#FFFFFF' });
+			text.playerId = player.PlayerId;
+			_this.currentLobbyUsers.push(text);
 			titlePosY += 30;
 		});
 
-		this.join = this.add.button(this.lobbyTitle.x, this.game.height / 1.2, 'ready_button', this.ready, _this);
+		this.add.button(this.lobbyTitle.x, this.game.height / 1.2, 'ready_button', this.ready, _this);
 
 		this.lobbyDisplayed = true;
 	},
@@ -143,9 +150,9 @@ var Lobby = {
 	playerReady: function(playerId)
 	{
 		var _this = this;
-		this.playerInformation.find(function(playerText)
+		this.currentLobbyUsers.find(function(player)
 		{
-			return playerText.playerId == playerId;
+			return player.playerId == playerId;
 		}).addColor("#00FF00", 0);
 
 		// Inform the server this player is ready, and check if all others are.

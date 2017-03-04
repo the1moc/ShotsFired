@@ -13,7 +13,7 @@ namespace ShotsFired.Game.Server.Models.Players
 		/// Initializes a new instance of the <see cref="Player"/> class.
 		/// </summary>
 		/// <param name="username">The username.</param>
-		public Player(string username)
+		public Player(string username, string connectionId)
 		{
 			Username              = username;
 			PlayerId              = new Random().Next(0, 100000).ToString();
@@ -23,7 +23,10 @@ namespace ShotsFired.Game.Server.Models.Players
 			IsHost                = false;
 			IsInActiveGame        = false;
 			IsInLobby             = false;
+			ConnectionId          = connectionId;
 		}
+
+		public string ConnectionId { get; set; }
 
 		public string PlayerId { get; set; }
 

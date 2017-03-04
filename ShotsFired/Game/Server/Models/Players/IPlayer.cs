@@ -5,6 +5,14 @@ namespace ShotsFired.Game.Server.Models.Players
 	public interface IPlayer
 	{
 		/// <summary>
+		/// Gets or sets the connection identifier of the client.
+		/// </summary>
+		/// <value>
+		/// The connection identifier.
+		/// </value>
+		string ConnectionId { get; set; }
+
+		/// <summary>
 		/// Gets or sets which game instance id this player is in.
 		/// </summary>
 		/// <value>

@@ -63,12 +63,12 @@ TankGUI.prototype.damageHealthBar = function (value) {
 };
 
 TankGUI.prototype.updateAngleText = function (power, angle) {
-	this.vText.text = power + ", " + angle;
+	this.vText.text = power + ", " + Math.round(angle * -1);
 };
 
 TankGUI.prototype.moveGUI = function (value) {
-    this.vText.x += value;
-    this.healthBar.x += value;
-    this.armourBar.x += value;
-    this.playerName.x += value;
+	this.vText.x += value;
+	this.healthBar.x += value;
+	this.armourBar.x += value;
+	this.playerName.x += value;
 };
