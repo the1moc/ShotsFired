@@ -4,21 +4,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Hosting;
 using Microsoft.AspNet.SignalR;
-using ShotsFired.Models;
+using ShotsFired.Game.Server.Generators;
+using ShotsFired.Game.Server.Models.Projectiles;
+using ShotsFired.Game.Server.Models.Players;
+using ShotsFired.Game.Server.Models.Tanks;
+using ShotsFired.Game.Server.Models;
 
-namespace ShotsFired.Hubs
+namespace ShotsFired.Games.Server.Hubs
 {
 	public class GameHub : Hub
 	{
 		/// <summary>
 		/// The games running on this server.
 		/// </summary>
-		private static List<Game> _games = new List<Game>();
+		private static List<GaneInstance> _games = new List<GaneInstance>();
 
 		/// <summary>
 		/// The players currently on the server.
 		/// </summary>
-		private static List<Player> _players = new List<Player>();
+		private static List<IPlayer> _players = new List<IPlayer>();
 
 		/// <summary>
 		/// Connects player to server.
@@ -40,7 +44,7 @@ namespace ShotsFired.Hubs
 			_players.Add(newPlayer);
 
 			// Return the username and playerid to the client.
-			Clients.Caller.connectPlayerSuccess(newPlayer.PlayerId, newPlayer.Username);
+			Clients.Caller.connectPlayerSuccess(newPlayer);
 		}
 
 		/// <summary>
@@ -48,21 +52,26 @@ namespace ShotsFired.Hubs
 		/// </summary>
 		/// <param name="hostPlayerId">The host player identifier.</param>
 		public void HostGame(string hostPlayerId) {
-			Player callingPlayer = GetCallingPlayer(hostPlayerId);
+			IPlayer callingPlayer = GetCallingPlayer(hostPlayerId);
 
 			// Create a new game instance.
 			//TODO: FIX THIS PLS
-			Game newGame = new Game((_games.Count + 1).ToString(), callingPlayer.PlayerId);
+			GaneInstance newGame = new GaneInstance((_games.Count + 1).ToString(), callingPlayer.PlayerId);
 
 			// Add the host player ID and add him to players.
 			newGame.HostPlayerId = callingPlayer.PlayerId;
 			newGame.Players.Add(callingPlayer);
 
+			// Set properties on the player.
+			callingPlayer.CurrentGameInstanceId = newGame.InstanceId;
+			callingPlayer.IsInLobby             = true;
+			callingPlayer.IsHost                = true;
+
 			// Add that game to the list of games being played.
 			_games.Add(newGame);
 
 			// Tell the client that is hosting the game the game instance id (and generic information).
-			Clients.Caller.gameHostSuccess(newGame.InstanceId, newGame.Players.Select(player => player.PlayerId).ToList(), newGame.Players.Select(player => player.Username).ToList(), hostPlayerId);
+			Clients.Caller.gameHostSuccess(newGame);
 		}
 
 		/// <summary>
@@ -73,15 +82,19 @@ namespace ShotsFired.Hubs
 		public void JoinGame(string gameId, string playerId) {
 			try
 			{
-				Player callingPlayer = GetCallingPlayer(playerId);
+				IPlayer callingPlayer = GetCallingPlayer(playerId);
 
-				Game desiredGame = _games.First(game => game.InstanceId == gameId);
+				GaneInstance selectedGame = _games.First(game => game.InstanceId == gameId);
 
 				// If the player is not already in the lobby, add them.
-				if (!desiredGame.Players.Contains(callingPlayer))
+				if (!selectedGame.Players.Contains(callingPlayer))
 				{
-					desiredGame.Players.Add(callingPlayer);
-					Clients.All.gameJoinSuccess(desiredGame.InstanceId, desiredGame.Players.Select(player => player.PlayerId).ToList(), desiredGame.Players.Select(player => player.Username).ToList(), desiredGame.HostPlayerId);
+					selectedGame.Players.Add(callingPlayer);
+
+					callingPlayer.CurrentGameInstanceId = selectedGame.InstanceId;
+					callingPlayer.IsInLobby             = true;
+
+					Clients.All.gameJoinSuccess(selectedGame);
 				}
 			}
 			catch (Exception e)
@@ -89,16 +102,6 @@ namespace ShotsFired.Hubs
 				Clients.Caller.onFailure("The game was not found on the server.");
 				return;
 			}
-		}
-
-		/// <summary>
-		/// Set the status of a player being ready to true or false.
-		/// </summary>
-		/// <param name="playerId">The player identifier.</param>
-		public void PlayerReady(string playerId, bool status)
-		{
-
-			Player player = GetCallingPlayer(playerId);
 		}
 
 		/// <summary>
@@ -110,8 +113,8 @@ namespace ShotsFired.Hubs
 		{
 			// For now, just check the host player presses play.
 			// Ideally all players have a ready check.
-			Player callingPlayer = GetCallingPlayer(playerId);
-			Game desiredGame     = GetGame(gameId);
+			IPlayer callingPlayer = GetCallingPlayer(playerId);
+			GaneInstance desiredGame     = GetGame(gameId);
 
 			if (desiredGame == null)
 			{
@@ -140,7 +143,7 @@ namespace ShotsFired.Hubs
 		/// <param name="playerId">The player identifier.</param>
 		public void Ready(string playerId)
 		{
-			Player readyPlayer = GetCallingPlayer(playerId);
+			IPlayer readyPlayer = GetCallingPlayer(playerId);
 
 			if (readyPlayer != null) {
 				readyPlayer.Ready = true;
@@ -149,8 +152,8 @@ namespace ShotsFired.Hubs
 			Clients.All.setReady(playerId);
 
 			// Check to see if all other players are ready.
-			if (_players.All(player => player.Ready == true)) {
-				//GenerateWorld();
+			if (_players.All(player => player.Ready)) {
+				GetGame(readyPlayer.CurrentGameInstanceId).CreateWorld();
 			}
 		}
 
@@ -158,8 +161,8 @@ namespace ShotsFired.Hubs
 		/// Gets the desired game instance.
 		/// </summary>
 		/// <param name="gameId">The game instance identifier.</param>
-		/// <returns></returns>
-		public Game GetGame(string gameId) {
+		/// <returns>An instance of the game</returns>
+		public GaneInstance GetGame(string gameId) {
 			try
 			{
 				return _games.Find(game => game.InstanceId == gameId);
@@ -174,8 +177,8 @@ namespace ShotsFired.Hubs
 		/// Gets the calling player.
 		/// </summary>
 		/// <param name="playerId">The player identifier.</param>
-		/// <returns></returns>
-		public Player GetCallingPlayer(string playerId)
+		/// <returns>The player that sent a request to the server.</returns>
+		public IPlayer GetCallingPlayer(string playerId)
 		{
 			try
 			{

@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ShotsFired.Game.Server.Generators;
+using ShotsFired.Game.Server.Models.Players;
 
-namespace ShotsFired.Models
+namespace ShotsFired.Game.Server.Models
 {
 	/// <summary>
 	/// A game containing players and the world they are playing in.
 	/// </summary>
-	public class Game
+	public class GaneInstance
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Instance"/> class.
 		/// </summary>
 		/// <param name="worldId">The instance identifier.</param>
-		public Game(string instanceId, string hostPlayerId)
+		public GaneInstance(string instanceId, string hostPlayerId)
 		{
-			InstanceId   = instanceId;
-			HostPlayerId = hostPlayerId;
-			Players      = new List<Player>();
-			World        = null;
+			InstanceId    = instanceId;
+			HostPlayerId  = hostPlayerId;
+			Players       = new List<IPlayer>();
+			World         = null;
+			IsGameRunning = false;
 		}
 
 		/// <summary>
@@ -44,7 +47,7 @@ namespace ShotsFired.Models
 		/// <value>
 		/// The players.
 		/// </value>
-		public List<Player> Players { get; set; }
+		public List<IPlayer> Players { get; set; }
 
 		/// <summary>
 		/// Gets or sets the world.
@@ -53,6 +56,19 @@ namespace ShotsFired.Models
 		/// The world.
 		/// </value>
 		public World World { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is running.
+		/// </summary>
+		/// <value>
+		/// <c>true</c> if this instance is running; otherwise, <c>false</c>.
+		/// </value>
+		public bool IsGameRunning { get; set; }
+
+		public void CreateWorld()
+		{
+			World = WorldGenerator.GenerateWorld();
+		}
 
 	}
 }

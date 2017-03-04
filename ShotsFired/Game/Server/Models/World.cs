@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ShotsFired.Game.Server.Models.Players;
 
-namespace ShotsFired.Models
+namespace ShotsFired.Game.Server.Models
 {
 	/// <summary>
 	/// The information for the game world.
