@@ -1,5 +1,5 @@
-Turret = function (game, x, y, data) {
-	Phaser.Sprite.call(this, game, x, y, data.turretAsset);
+Turret = function (game, x, y) {
+	Phaser.Sprite.call(this, game, x, y, "turret");
 	this.anchor.setTo(0, 0.5);
 
 	// Set the angle.

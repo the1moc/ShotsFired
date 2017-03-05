@@ -27,16 +27,36 @@ namespace ShotsFired.Games.Server.Hubs
 		/// </returns>
 		public override Task OnDisconnected(bool stopCalled)
 		{
-			RemovePlayer();
+			IPlayer player    = FindPlayerByConnectionId();
+			if (player.IsInLobby || player.IsInActiveGame)
+			{
+				RemovePlayerFromGame(player.PlayerId, player.CurrentGameInstanceId);
+
+				if (!player.IsInActiveGame)
+				{
+					Clients.AllExcept(Clients.Caller).leaveGameSucces(player.PlayerId);
+				}
+
+				else
+				{
+					Clients.AllExcept(Clients.Caller).leaveLobbySuccess(player.PlayerId);
+				}
+			}
+
+			RemovePlayerFromServer();
+
 			return base.OnDisconnected(stopCalled);
 		}
 
 		/// <summary>
-		/// Remove player from list of players on disconnect.
+		/// Removes the player from server.
 		/// </summary>
-		public void RemovePlayer()
+		public void RemovePlayerFromServer()
 		{
-			_players.Remove(FindPlayerByConnectionId());
+			IPlayer playerToRemove = FindPlayerByConnectionId();
+
+			// Remove from currently connected players and players on the current game instance.
+			_players.Remove(playerToRemove);
 		}
 
 		/// <summary>

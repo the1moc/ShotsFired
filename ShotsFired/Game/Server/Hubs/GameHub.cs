@@ -21,43 +21,62 @@ namespace ShotsFired.Games.Server.Hubs
 		private static List<GameInstance> _games = new List<GameInstance>();
 
 		/// <summary>
+		/// The number of server slots.
+		/// </summary>
+		private static Dictionary<int, bool> _serverSlots = new Dictionary<int, bool>()
+		{
+			{ 1, false },
+			{ 2, false },
+			{ 3, false },
+			{ 4, false },
+			{ 5, false },
+			{ 6, false },
+			{ 7, false },
+			{ 8, false },
+			{ 9, false }
+		};
+
+		/// <summary>
 		/// The players currently on the server.
 		/// </summary>
 		private static List<IPlayer> _players = new List<IPlayer>();
 
 		/// <summary>
-		/// Connects player to server.
-		/// </summary>
-		/// <param name="username">The username.</param>
-		public void ConnectToServer(string username) {
-			// New player object.
-			Player newPlayer;
-
-			if (username == null)
-			{
-				string names            = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/names.txt"));
-				string[] seperatedNames = names.Split(',');
-				newPlayer               = new Player(seperatedNames.ElementAt(new Random().Next(0, 20)), Context.ConnectionId);
-			}
-			else
-				newPlayer = new Player(username, Context.ConnectionId);
-
-			_players.Add(newPlayer);
-
-			// Return the username and playerid to the client.
-			Clients.Caller.connectPlayerSuccess(newPlayer);
-		}
-
-		/// <summary>
 		/// Hosts the game.
 		/// </summary>
 		/// <param name="hostPlayerId">The host player identifier.</param>
-		public void HostGame(string hostPlayerId) {
-			IPlayer callingPlayer = FindPlayerByPlayerId(hostPlayerId);
+		public void HostGame(string hostPlayerId)
+		{
+			IPlayer callingPlayer = GetPlayerByPlayerId(hostPlayerId);
 
-			// Create a new game instance.
-			//TODO: FIX THIS PLS
-			GameInstance newGame = new GameInstance((_games.Count + 1).ToString(), callingPlayer.PlayerId);
+			// Clear and close the lobby if this person is already hosting one.
+			if(callingPlayer.IsHost)
+			{
+				CloseGame(callingPlayer.CurrentGameInstanceId);
+				callingPlayer.IsHost = false;
+			}
+			else if(callingPlayer.IsInLobby)
+			{
+				RemovePlayerFromGame(callingPlayer.PlayerId, callingPlayer.CurrentGameInstanceId);
+				callingPlayer.IsInLobby = false;
+			}
+
+			// Check to see if there are any free slots.
+			int freeSlot;
+			try
+			{
+				// Not elegant but does the job for now.
+				KeyValuePair<int, bool> serverSlot = _serverSlots.First(pair => !pair.Value);
+				_serverSlots[serverSlot.Key]       = true;
+				freeSlot                           = serverSlot.Key;
+			}
+			catch (ArgumentNullException e)
+			{
+				Clients.Caller.noFreeSlots();
+				return;
+			}
+
+			GameInstance newGame = new GameInstance(freeSlot.ToString(), callingPlayer.PlayerId);
 
 			// Add the host player ID and add him to players.
 			newGame.HostPlayerId = callingPlayer.PlayerId;
@@ -71,7 +90,7 @@ namespace ShotsFired.Games.Server.Hubs
 			// Add that game to the list of games being played.
 			_games.Add(newGame);
 
-			// Tell the client that is hosting the game the game instance id (and generic information).
+			// Tell the client that is hosting the game the instance id (and generic information).
 			Clients.Caller.gameHostSuccess(newGame);
 		}
 
@@ -80,42 +99,24 @@ namespace ShotsFired.Games.Server.Hubs
 		/// </summary>
 		/// <param name="gameId">The game identifier.</param>
 		/// <param name="playerId">The player identifier.</param>
-		public void JoinGame(string gameId, string playerId) {
+		public void JoinGame(string gameId, string playerId)
+		{
+			IPlayer callingPlayer = GetPlayerByPlayerId(playerId);
+			GameInstance game = GetGameInstanceById(gameId);
 
-			IPlayer callingPlayer = FindPlayerByPlayerId(playerId);
-			GameInstance selectedGame = GetGameInstance(gameId);
+			if (game == null)
+				Clients.Caller.noGameFound();
 
 			// If the player is not already in the lobby, add them.
-			if (!selectedGame.Players.Contains(callingPlayer))
+			if (!game.Players.Contains(callingPlayer))
 			{
-				selectedGame.Players.Add(callingPlayer);
+				game.Players.Add(callingPlayer);
 
-				callingPlayer.CurrentGameInstanceId = selectedGame.InstanceId;
+				callingPlayer.CurrentGameInstanceId = game.InstanceId;
 				callingPlayer.IsInLobby             = true;
 
-				Clients.All.gameJoinSuccess(selectedGame);
+				Clients.Clients(game.Players.Select(player => player.ConnectionId).ToList()).gameJoinSuccess(game);
 			}
-		}
-
-		/// <summary>
-		/// Starts the game.
-		/// </summary>
-		/// <param name="gameId">The game identifier.</param>
-		/// <param name="playerId">The player identifier.</param>
-		public void StartGame(string gameId, string playerId)
-		{
-			// For now, just check the host player presses play.
-			// Ideally all players have a ready check.
-			IPlayer callingPlayer        = FindPlayerByPlayerId(playerId);
-			GameInstance desiredGame     = GetGameInstance(gameId);
-
-			// If the player is not already in the lobby, add them.
-			if (!desiredGame.Players.Contains(callingPlayer))
-			{
-				desiredGame.Players.Add(callingPlayer);
-				Clients.All.gameJoinSuccess(desiredGame.InstanceId, desiredGame.Players.Select(player => player.PlayerId).ToList(), desiredGame.HostPlayerId);
-			}
-			
 		}
 
 		/// <summary>
@@ -124,33 +125,64 @@ namespace ShotsFired.Games.Server.Hubs
 		/// <param name="playerId">The player identifier.</param>
 		public void Ready(string playerId)
 		{
-			IPlayer readyPlayer = FindPlayerByPlayerId(playerId);
+			IPlayer readyPlayer = GetPlayerByPlayerId(playerId);
 			readyPlayer.Ready   = true;
+			GameInstance game = GetGameInstanceById(readyPlayer.CurrentGameInstanceId);
 
-			Clients.All.setReady(playerId);
+			// Tell everyone in that lobby the player is ready.
+			Clients.Clients(game.Players.Select(player => player.ConnectionId).ToList()).setReady(playerId);
 
 			// Check to see if all other players are ready.
-			if (_players.All(player => player.Ready)) {
-				GameInstance gameToStart = GetGameInstance(readyPlayer.CurrentGameInstanceId);
-				gameToStart.BeginGame();
-
-				Clients.All.startGame(gameToStart);
+			if (game.Players.All(player => player.Ready))
+			{
+				game.BeginGame();
+				Clients.All.startGame(game);
 			}
+		}
+
+		/// <summary>
+		/// Removes the player from the game.
+		/// </summary>
+		/// <param name="playerId">The player identifier.</param>
+		/// <param name="gameInstanceId">The game instance identifier.</param>
+		public void RemovePlayerFromGame(string playerId, string gameInstanceId)
+		{
+			GameInstance game = GetGameInstanceById(gameInstanceId);
+			IPlayer player    = GetPlayerByPlayerId(playerId);
+
+			game.Players.Remove(player);
+		}
+
+		/// <summary>
+		/// Closes the game.
+		/// </summary>
+		public void CloseGame(string gameInstanceId)
+		{
+			// Clear the players in the game and remove them all, then delete it.
+			GameInstance game = GetGameInstanceById(gameInstanceId);
+
+			game.Players.ForEach(player => player.CurrentGameInstanceId = null);
+			game.Players.ForEach(player => player.IsInLobby = false);
+			Clients.Clients(game.Players.Select(player => player.ConnectionId).ToList()).Closed();
+
+			// Not nice, temporary.
+			_serverSlots[Int32.Parse(game.InstanceId)] = false;
+			_games.Remove(game);
 		}
 
 		/// <summary>
 		/// Gets the desired game instance.
 		/// </summary>
-		/// <param name="gameId">The game instance identifier.</param>
+		/// <param name="gameInstanceId">The game instance identifier.</param>
 		/// <returns>An instance of the game</returns>
-		public GameInstance GetGameInstance(string gameId) {
+		public GameInstance GetGameInstanceById(string gameInstanceId) {
 			try
 			{
-				return _games.Find(game => game.InstanceId == gameId);
+				return _games.Find(game => game.InstanceId == gameInstanceId);
 			}
 			catch (ArgumentNullException nullException)
 			{
-				throw new HubException("Game not found on the server.");
+				throw new HubException("Game not found on the server.", nullException);
 			}
 		}
 
@@ -159,15 +191,15 @@ namespace ShotsFired.Games.Server.Hubs
 		/// </summary>
 		/// <param name="playerId">The player identifier.</param>
 		/// <returns>The player that sent a request to the server.</returns>
-		public IPlayer FindPlayerByPlayerId(string playerId)
+		public IPlayer GetPlayerByPlayerId(string playerId)
 		{
 			try
 			{
 				return _players.Find(player => player.PlayerId == playerId);
 			}
-			catch (ArgumentException nullException)
+			catch (ArgumentNullException nullException)
 			{
-				throw new HubException("User not found on server.");
+				throw new HubException("User not found on server.", nullException);
 			}
 		}
 	}

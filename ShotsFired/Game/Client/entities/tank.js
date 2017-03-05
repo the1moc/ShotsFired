@@ -2,8 +2,8 @@
 function TankCreator(game)
 {
 	// Create a tank.
-	this.createTank = function(x, y, data) {
-		tank = new Tank(game, x, y);
+	this.createTank = function(data) {
+		tank = new Tank(game, data.X, data.Y);
 
 		tank.anchor.setTo(0.5);
 
@@ -12,11 +12,10 @@ function TankCreator(game)
 		tank.body.collideWorldBounds = true;
 
 		// Tank properties.
-		tank.power  = 250;
-		tank.health = data.health;
-		tank.armour = data.armour;
-		tank.fuel   = data.fuel;
-		tank.power  = 250;
+		tank.power  = data.Power;
+		tank.health = data.Health;
+		tank.armour = data.Armour;
+		tank.fuel   = data.Fuel;
 
 		tank.loadTexture('tank');
 
@@ -27,16 +26,18 @@ function TankCreator(game)
 // Tank constructor.
 Tank = function(game, x, y) {
 	Phaser.Sprite.call(this, game, x, y, "tank");
-
-	this.move = function() {
-		//console.log("penis");
-
-		
-	}
 }
 
 Tank.prototype = Object.create(Phaser.Sprite.prototype);
 Tank.prototype.constructor = Tank;
+
+// I hate this but a quick fix NOTICE ME PLSSSSSSSSSSSSSSSSSSSSSS 
+// Add as a child of the tank etc.
+Tank.prototype.update = function()
+{
+	this.tankTurret.x = this.body.x + (this.body.width / 2);
+	this.tankTurret.y = this.body.y;
+}
 
 Tank.prototype.damage = function (amount, data) {
 	//I may try and DO damage against defense and minus away from the health
@@ -68,7 +69,6 @@ Tank.prototype.adjustPower = function(adjustment)
 Tank.prototype.movement = function(value)
 {
 	this.body.x += value;
-	this.tankTurret.x += value;
 	this.tankGUI.moveGUI(value);
 };
 

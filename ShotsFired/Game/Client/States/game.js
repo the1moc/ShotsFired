@@ -10,6 +10,8 @@ menu: single player - vs ai or targets
 var Game = {
 	init: function()
 	{
+		this.gameInstance = this.state.states.Lobby.gameInstance;
+		this.playerId     = this.state.states.Lobby.playerId;
 
 		// Difficulty.
 
@@ -17,7 +19,7 @@ var Game = {
 
 		// Physics & Gravity.
 		this.physics.startSystem(Phaser.Physics.ARCADE);
-		this.physics.arcade.gravity.y = 100;
+		this.physics.arcade.gravity.y = this.gameInstance.World.Gravity;
 
 		// Constants.
 
@@ -28,14 +30,15 @@ var Game = {
 
 	},
 
-	create: function () {
+	create: function()
+	{
 		// Game assets.
 		this.background = this.add.sprite(0, 0, 'game_background');
 
-        // Master font.
+		// Master font.
 		this.font_style = {
-		    font: "12px Arial",
-		    fill: "#ffffff"
+			font: "12px Arial",
+			fill: "#ffffff"
 		};
 
 		// Groups.
@@ -45,38 +48,26 @@ var Game = {
 		// Variables.
 		this.shotsFired = false;
 
-		//  A single bullet that the tank will fire
-		// this.bullet = this.add.sprite(0, 0, 'bullet');
-		// this.bullet.exists = false;
-		// this.physics.arcade.enable(this.bullet);
-
-		// Test tank.
-		var testTankData = {
-			tankAsset:   'tank',
-			turretAsset: 'turret',
-			health:      100,
-			armour:      100,
-			fuel:        300
-		};
-
-        //move turret and gui into tank
-		// First test tank.
+		// Create the tanks.
 		tankCreator = new TankCreator(this);
-		this.testTank = tankCreator.createTank(400, 600, testTankData);
-		tankTurret = new Turret(this, 400, 600 - 30, testTankData);
-		this.testTank.tankTurret = tankTurret;
-		tankGUI = new TankGUI(this, this.testTank.x, this.testTank.y, 'playerName', this.testTank.tankTurret.angle, this.testTank.power, testTankData);
-		this.testTank.tankGUI = tankGUI;
-		
-		//this.tankGUI();
+		_this = this;
+		this.gameInstance.Players.forEach(function(player)
+		{
+			tank            = tankCreator.createTank(player.Tank);
+			tankTurret      = new Turret(_this, 400, 600 - 30);
+			tank.tankTurret = tankTurret;
 
-		this.players.add(this.testTank);
+			//TODO: This can be done inside the tank class, seeing as it is basically using all the data from it.
+			tankGUI = new TankGUI(_this, tank.x, tank.y, 'playerName', tank.tankTurret.angle, tank.power, tank.health, tank.armour);
+			tank.tankGUI = tankGUI;
 
-		// Second test tank.
-		//this.testTank2 = tankCreator.createTank(300, 600, testTankData);
-		//tankTurret2 = new Turret(this, 300, 600 - 30, testTankData);
-		//this.testTank2.tankTurret = tankTurret2;
-		//this.players.add(this.testTank2);
+			if (player.PlayerId == _this.playerId)
+			{
+				_this.playerTank = tank;
+			}
+
+			_this.players.add(tank);
+		});
 
 		// Buttons
 		// Fire Controls
@@ -105,76 +96,76 @@ var Game = {
 
 	//TODO: Create text controller.
 	createGUI: function () {
-	    //this.turnTimerText = this.textController(400, 32, this.turnTimer);
-	    //this.powerText = this.textController(8, 8, 'Power: ' + this.testTank.power);
-	    //this.angleText = this.textController(8, 32, 'Angle: ' + this.testTank.tankTurret.angle);
-	    //this.fuelText = this.textController(8, 56, 'Fuel:' + this.testTank.fuel);
-	    this.readyText = this.add.text(this.textGenerator(200, 16, 'Ready?: ' + this.shotsFired, 'body'));
+		//this.turnTimerText = this.textController(400, 32, this.turnTimer);
+		//this.powerText = this.textController(8, 8, 'Power: ' + this.playerTank.power);
+		//this.angleText = this.textController(8, 32, 'Angle: ' + this.playerTank.tankTurret.angle);
+		//this.fuelText = this.textController(8, 56, 'Fuel:' + this.playerTank.fuel);
+		this.readyText = this.add.text(this.textGenerator(200, 16, 'Ready?: ' + this.shotsFired, 'body'));
 		
-	    this.armourTile = this.add.sprite(10, 10, 'btnArmour');
+		this.armourTile = this.add.sprite(10, 10, 'btnArmour');
 
-	    var aBMD_bg = game.add.bitmapData(100, 10);
-	    aBMD_bg.ctx.beginPath();
-	    aBMD_bg.ctx.rect(0, 0, 180, 30);
-	    aBMD_bg.ctx.fillStyle = '#1C0772';
-	    aBMD_bg.ctx.fill();
+		var aBMD_bg = game.add.bitmapData(100, 10);
+		aBMD_bg.ctx.beginPath();
+		aBMD_bg.ctx.rect(0, 0, 180, 30);
+		aBMD_bg.ctx.fillStyle = '#1C0772';
+		aBMD_bg.ctx.fill();
 
-	    var aBMD = game.add.bitmapData(30, 10);
-	    aBMD.ctx.beginPath();
-	    aBMD.ctx.rect(0, 0, 180, 30);
-	    aBMD.ctx.fillStyle = '#4188D2';
-	    aBMD.ctx.fill();
+		var aBMD = game.add.bitmapData(30, 10);
+		aBMD.ctx.beginPath();
+		aBMD.ctx.rect(0, 0, 180, 30);
+		aBMD.ctx.fillStyle = '#4188D2';
+		aBMD.ctx.fill();
 
-	    this.healthTile = this.add.sprite(10, 60, 'btnHealth');
+		this.healthTile = this.add.sprite(10, 60, 'btnHealth');
 
-	    var hBMD_bg = game.add.bitmapData(100, 10);
-	    hBMD_bg.ctx.beginPath();
-	    hBMD_bg.ctx.rect(0, 0, 180, 30);
-	    hBMD_bg.ctx.fillStyle = '#A61000';
-	    hBMD_bg.ctx.fill();
+		var hBMD_bg = game.add.bitmapData(100, 10);
+		hBMD_bg.ctx.beginPath();
+		hBMD_bg.ctx.rect(0, 0, 180, 30);
+		hBMD_bg.ctx.fillStyle = '#A61000';
+		hBMD_bg.ctx.fill();
 
-	    var hBMD = game.add.bitmapData(80, 10);
-	    hBMD.ctx.beginPath();
-	    hBMD.ctx.rect(0, 0, 180, 30);
-	    hBMD.ctx.fillStyle = '#FF1300';
-	    hBMD.ctx.fill();
+		var hBMD = game.add.bitmapData(80, 10);
+		hBMD.ctx.beginPath();
+		hBMD.ctx.rect(0, 0, 180, 30);
+		hBMD.ctx.fillStyle = '#FF1300';
+		hBMD.ctx.fill();
 
-	    this.healthBar_bg = game.add.sprite(this.healthTile.x + 50, this.healthTile.y + 15, hBMD_bg);
-	    this.healthBar_val = game.add.sprite(this.healthTile.x + 50, this.healthTile.y + 15, hBMD);
-	    this.armourBar_bg = game.add.sprite(this.armourTile.x + 50, this.armourTile.y + 15, aBMD_bg);
-	    this.armourBar_val = game.add.sprite(this.armourTile.x + 50, this.armourTile.y + 15, aBMD);
+		this.healthBar_bg = game.add.sprite(this.healthTile.x + 50, this.healthTile.y + 15, hBMD_bg);
+		this.healthBar_val = game.add.sprite(this.healthTile.x + 50, this.healthTile.y + 15, hBMD);
+		this.armourBar_bg = game.add.sprite(this.armourTile.x + 50, this.armourTile.y + 15, aBMD_bg);
+		this.armourBar_val = game.add.sprite(this.armourTile.x + 50, this.armourTile.y + 15, aBMD);
 
-	    this.healthTile = this.add.sprite(10, 110, 'btnWeapons');
-         
-	    this.healthBarText = this.add.text(this.textGenerator(this.healthBar_val.x+20, this.healthBar_val.y+1, this.testTank.health + "/" + this.testTank.data.health, 'small'));
-	    this.armourBarText = this.add.text(this.textGenerator(this.armourBar_val.x+20, this.armourBar_val.y+1, this.testTank.armour + "/" + this.testTank.data.armour, 'small'));
+		this.healthTile = this.add.sprite(10, 110, 'btnWeapons');
+		 
+		this.healthBarText = this.add.text(this.textGenerator(this.healthBar_val.x+20, this.healthBar_val.y+1, this.playerTank.health + "/" + this.playerTank.data.health, 'small'));
+		this.armourBarText = this.add.text(this.textGenerator(this.armourBar_val.x+20, this.armourBar_val.y+1, this.playerTank.armour + "/" + this.playerTank.data.armour, 'small'));
 	},
 
 	textGenerator: function (x, y, input, type) {
-	    switch (type) {
-	        case 'small':
-	            this.font_style = {
-	                font: "8px Arial",
-	                fill: "#ffffff"
-	            };
-	            break;
-	        case 'body':
-	            this.font_style = {
-	                font: "12px Arial",
-	                fill: "#ffffff"
-	            };
-	            break;
-	        case 'title':
-	            this.font_style = {
-	                font: "18px Arial",
-	                fill: "#ffffff"
-	            };
-	            break;
-	    }
-	    var text = this.add.text(x, y, input, this.font_style);
-	    text.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
-	    return text;
-	    
+		switch (type) {
+			case 'small':
+				this.font_style = {
+					font: "8px Arial",
+					fill: "#ffffff"
+				};
+				break;
+			case 'body':
+				this.font_style = {
+					font: "12px Arial",
+					fill: "#ffffff"
+				};
+				break;
+			case 'title':
+				this.font_style = {
+					font: "18px Arial",
+					fill: "#ffffff"
+				};
+				break;
+		}
+		var text = this.add.text(x, y, input, this.font_style);
+		text.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
+		return text;
+		
 	},
 
 	//not sure but this could be added to the tank composite?
@@ -183,9 +174,9 @@ var Game = {
 	//        font: "12px Arial",
 	//        fill: "#ffffff"
 	//    };
-	//    this.playerNameText = this.add.text(this.testTank.x, this.testTank.y - 46, 'player name', font_style);
+	//    this.playerNameText = this.add.text(this.playerTank.x, this.playerTank.y - 46, 'player name', font_style);
 	//    this.playerNameText.anchor.setTo(0.5);
-	//    this.tankVarText = this.add.text(this.testTank.x, this.testTank.y - 62, this.testTank.tankTurret.angle + ', ' + this.testTank.power, font_style);
+	//    this.tankVarText = this.add.text(this.playerTank.x, this.playerTank.y - 62, this.playerTank.tankTurret.angle + ', ' + this.playerTank.power, font_style);
 	//    this.tankVarText.anchor.setTo(0.5);
 	//},
 
@@ -201,7 +192,7 @@ var Game = {
 			};
 
 			// Fire a bullet from the tank.
-			this.testTank.launchProjectile(testProjectileData);
+			this.playerTank.launchProjectile(testProjectileData);
 			this.shotsFired = true;
 			console.log('Shots Fired');
 			//TODO: Text controller.
@@ -210,63 +201,80 @@ var Game = {
 		}
 		else if(!this.shotsFired){
 			// Player can only change the angle and power before shooting. Not during and not after
-			if(this.powerUp.isDown && this.testTank.power < 500){
-				this.testTank.adjustPower(1);
+			if(this.powerUp.isDown && this.playerTank.power < 500){
+				this.playerTank.adjustPower(1);
 				console.log('increase power');
-				//this.powerText.text = 'Power: ' + this.testTank.power;
-				//this.updateTankGUI(this.testTank.power, null);
+				//this.powerText.text = 'Power: ' + this.playerTank.power;
+				//this.updateTankGUI(this.playerTank.power, null);
 			}
-			else if(this.powerDown.isDown && this.testTank.power > 100){
-				this.testTank.adjustPower(-1);
+			else if(this.powerDown.isDown && this.playerTank.power > 100){
+				this.playerTank.adjustPower(-1);
 				console.log('decrease power');
-				//this.powerText.text = 'Power: ' + this.testTank.power;
+				//this.powerText.text = 'Power: ' + this.playerTank.power;
 			}
 
-			if(this.angleLeft.isDown && this.testTank.tankTurret.angle > -180){
-				this.testTank.rotateTurret(-1);
+			if(this.angleLeft.isDown && this.playerTank.tankTurret.angle > -180){
+				this.playerTank.rotateTurret(-1);
 				console.log('Angle left');
-				//this.angleText.text = 'Angle: ' + (this.testTank.tankTurret.angle).toFixed();
+				//this.angleText.text = 'Angle: ' + (this.playerTank.tankTurret.angle).toFixed();
 			}
-			else if(this.angleRight.isDown && this.testTank.tankTurret.angle < 180){
-				this.testTank.rotateTurret(1);
+			else if(this.angleRight.isDown && this.playerTank.tankTurret.angle < 180){
+				this.playerTank.rotateTurret(1);
 				console.log('Angle right');
-                
-				//this.angleText.text = 'Angle: ' + (this.testTank.tankTurret.angle).toFixed();
+				
+				//this.angleText.text = 'Angle: ' + (this.playerTank.tankTurret.angle).toFixed();
 			}
 
 			// Fuel logic.
-			if(this.testTank.fuel>0){
+			if(this.playerTank.fuel>0){
 				// Only when projectile isn't active and when you have fuel
-				if (this.moveLeft.isDown && this.testTank.x >20)
+				if (this.moveLeft.isDown && this.playerTank.x >20)
 				{
 					// Move the tank to the left.
-					this.testTank.movement(-1);
+					this.playerTank.movement(-1);
 					console.log('Move left');
 
 					// Take a unit from the fuel.
 					//TODO: Move this duplicated functionality to a generic function.
-					this.testTank.fuel--;
-					//this.fuelText.text = 'Fuel: ' + this.testTank.fuel;
+					this.playerTank.fuel--;
+					//this.fuelText.text = 'Fuel: ' + this.playerTank.fuel;
 				}
-				else if (this.moveRight.isDown && this.testTank.x < this.game.width-40)
+				else if (this.moveRight.isDown && this.playerTank.x < this.game.width-40)
 				{
 					// Move the tank to the right.
-					this.testTank.movement(1);
+					this.playerTank.movement(1);
 					console.log('Move right');
 
 					// Take a unit from the fuel.
 					//TODO: Move this duplicated functionality to a generic function.
-					this.testTank.fuel--;
-					//this.fuelText.text = 'Fuel: ' + this.testTank.fuel;
+					this.playerTank.fuel--;
+					//this.fuelText.text = 'Fuel: ' + this.playerTank.fuel;
 				}
 			}
-			this.testTank.tankGUI.updateAngleText(this.testTank.power, this.testTank.tankTurret.angle);
-		    //this.updateTankGUI(this.testTank.power, this.testTank.tankTurret.angle);
+			this.playerTank.tankGUI.updateAngleText(this.playerTank.power, this.playerTank.tankTurret.angle);
+			//this.updateTankGUI(this.playerTank.power, this.playerTank.tankTurret.angle);
 		}
 
 		// Collision detection?
 
 
+	},
+
+	createGameCallbackFunctions: function(gameHub)
+	{
+		this.gameHub = gameHub;
+		_this = this;
+		// On success of leaving a currently active game
+		this.gameHub.client.leaveGameSuccess = function(playerId)
+		{
+			console.log("Player has left the game! " + playerId);
+			var playerToRemoveIndex = _this.gameInstance.Players.findIndex(function(player)
+			{
+				return player.PlayerId = playerId
+			});
+
+			_this.gameInstance.Players.splice(playerToRemoveIndex, 1);
+		}
 	}
 
 	//turnReset

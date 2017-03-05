@@ -42,15 +42,7 @@ namespace ShotsFired.Game.Server.Models.Tanks
 		/// <value>
 		/// The projectile currently selected.
 		/// </value>
-		Projectile Projectile { get; set; }
-
-		/// <summary>
-		/// Gets or sets the tank identifier.
-		/// </summary>
-		/// <value>
-		/// The tank identifier.
-		/// </value>
-		int TankId { get; set; }
+		IProjectile Projectile { get; set; }
 
 		/// <summary>
 		/// Gets or sets the X co-ordinate.

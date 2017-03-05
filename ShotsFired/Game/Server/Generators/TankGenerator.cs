@@ -6,9 +6,13 @@ namespace ShotsFired.Game.Server.Generators
 {
 	public static class TankGenerator
 	{
+		// Generate random X/Y.
+		private static Random _random = new Random();
+
 		public static Tank GenerateTank()
 		{
-			return new Tank();
+			int xPosition = _random.Next(5, 795);
+			return new Tank(xPosition);
 		}
 	}
 }

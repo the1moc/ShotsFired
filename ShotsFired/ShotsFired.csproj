@@ -203,6 +203,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Game\Server\Generators\TankGenerator.cs" />
+    <Compile Include="Game\Server\Hubs\GameHub.Connect.cs" />
     <Compile Include="Game\Server\Hubs\GameHub.Disconnect.cs" />
     <Compile Include="Game\Server\Hubs\GameHub.cs" />
     <Compile Include="Game\Server\Models\GameInstance.cs" />
@@ -213,7 +214,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Game\Server\Hubs\EventHub.cs" />
-    <Compile Include="Game\Server\Models\Projectiles\Projectile.cs" />
+    <Compile Include="Game\Server\Models\Projectiles\StandardProjectile.cs" />
     <Compile Include="Game\Server\Models\World.cs" />
     <Compile Include="Game\Server\Models\Tanks\Tank.cs" />
     <Compile Include="Game\Server\Models\Players\Player.cs" />

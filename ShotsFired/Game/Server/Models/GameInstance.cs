@@ -67,10 +67,12 @@ namespace ShotsFired.Game.Server.Models
 
 		public void BeginGame()
 		{
-			World = new World();
+			World         = new World();
+			IsGameRunning = true;
 
 			// Generate a tank for each player.
 			Players.ForEach(player => player.Tank = TankGenerator.GenerateTank());
+			Players.ForEach(player => player.IsInActiveGame = true);
 		}
 
 	}

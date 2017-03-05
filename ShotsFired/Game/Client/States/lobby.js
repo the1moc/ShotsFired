@@ -4,6 +4,8 @@ var Lobby = {
 		// Set menu background (using menu layout for now)
 		this.background = this.add.sprite(0, 0, 'menu_background');
 
+		this.stage.disableVisibilityChange = true;
+
 		// Title image.
 		this.title = game.add.text(this.game.width / 5, this.game.height / 5, "Lobby", { font: "50px Arial", fill: "#000000", align: "center" });
 
@@ -27,14 +29,18 @@ var Lobby = {
 	// Join a pre-existing game CHANGE THIS 
 	join: function()
 	{
+		this.gameHub.server.joinGame(2, this.playerId);
+		/*
 		this.lobbySelection = function(char)
 		{
 			if (!isNaN(parseInt(char))) {
 				this.gameHub.server.joinGame(char, this.playerId);
+				game.input.keyboard.stop();
 			}
 		};
 
 		game.input.keyboard.addCallbacks(this, null, null, this.lobbySelection);
+		*/
 		alert("Select a number to join that lobby (TEMPORARY QUICK METHOD)");
 	},
 
@@ -49,7 +55,7 @@ var Lobby = {
 	{
 		// Connect with signalR.
 		this.gameHub = $.connection.gameHub;
-		this.setupLobbyCallbackFunctions();
+		this.setupCallbackFunctions();
 		var _this = this;
 
 		$.connection.hub.start().done(function()
@@ -59,8 +65,8 @@ var Lobby = {
 		});
 	},
 
-	// All callback functions for the hosting, joining and starting of a game instance.
-	setupLobbyCallbackFunctions: function()
+	// All callback functions for the game.
+	setupCallbackFunctions: function()
 	{
 		// Keep reference to this.
 		var _this = this;
@@ -77,15 +83,33 @@ var Lobby = {
 		// On success when trying to host a game;
 		this.gameHub.client.gameHostSuccess = function(gameInstance)
 		{
-			_this.displayLobbyInformation(gameInstance);
+			_this.displayLobbyInformation(gameInstance, false);
 			console.log("You have just hosted game instance: " + gameInstance.InstanceId);
 		}
 
 		// On success when trying to join a game.
 		this.gameHub.client.gameJoinSuccess = function(gameInstance)
 		{
-			_this.displayLobbyInformation(gameInstance);
+			_this.displayLobbyInformation(gameInstance, false);
 			console.log("You have joined game instance: " + gameInstance.InstanceId);
+		}
+
+		// On success when trying to join a game.
+		this.gameHub.client.leaveLobbySuccess = function(gameInstance)
+		{
+			_this.displayLobbyInformation(gameInstance, false);
+		}
+
+		// On return of setting the player state to ready.
+		this.gameHub.client.noGameFound = function()
+		{
+			alert("No game was found in that server slot.");
+		}
+
+		// On return of setting the player state to ready.
+		this.gameHub.client.gameClosed = function()
+		{
+			_this.displayLobbyInformation(null, true);
 		}
 
 		// On return of setting the player state to ready.
@@ -95,10 +119,15 @@ var Lobby = {
 		}
 
 		// On return of setting the player state to ready.
-		this.gameHub.client.startGame = function(game)
+		this.gameHub.client.startGame = function(gameInstance)
 		{
-			
+			_this.gameInstance = gameInstance;
+			_this.state.start("Game");
 		}
+
+		// RODO: Probably a better way to do this.
+
+		this.state.states.Game.createGameCallbackFunctions(this.gameHub);
 		//TODO: Failed host game.
 		//TODO: Failed join game.
 		//TODO: Disconnect from game.
@@ -106,7 +135,7 @@ var Lobby = {
 
 	// Show the current lobby information you are in.
 	// ugly function, 
-	displayLobbyInformation: function(gameInstance)
+	displayLobbyInformation: function(gameInstance, closed)
 	{
 		// Clear existing lobby information.
 		if (this.lobbyDisplayed) {
@@ -116,6 +145,11 @@ var Lobby = {
 				text.destroy();
 			});
 			this.lobbyDisplayed = false;
+		}
+
+		if (closed) {
+			return;
+			alert("Lobby was closed due to host leaving");
 		}
 
 		// Add the title.

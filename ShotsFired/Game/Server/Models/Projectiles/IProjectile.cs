@@ -8,7 +8,7 @@
 		/// <value>
 		/// The base damage.
 		/// </value>
-		int BaseDamage { get; set; }
+		int BaseDamage { get;}
 
 		/// <summary>
 		/// Gets or sets the damage modifier.
@@ -16,7 +16,7 @@
 		/// <value>
 		/// The damage modifier.
 		/// </value>
-		double DamageModifier { get; set; }
+		double DamageModifier { get; }
 
 		/// <summary>
 		/// Gets or sets the projectile Id.
@@ -24,7 +24,7 @@
 		/// <value>
 		/// The projectile Id.
 		/// </value>
-		int ProjectileId { get; set; }
+		int ProjectileId { get; }
 
 		/// <summary>
 		/// Gets or sets the projectile name.
@@ -32,6 +32,6 @@
 		/// <value>
 		/// The projectile name.
 		/// </value>
-		string ProjectileName { get; set; }
+		string ProjectileName { get; }
 	}
 }

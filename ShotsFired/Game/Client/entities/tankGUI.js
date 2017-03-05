@@ -1,11 +1,11 @@
 ﻿/// <reference path="../Lib/jquery-3.1.1.min.js" />
 /// <reference path="../Lib/phaser.min.js" />
 
-TankGUI = function (game, x, y, playerName, angle, power, data) {
+TankGUI = function (game, x, y, playerName, angle, power, health, armour) {
 	//health decreases by 2.5 each time for 100
 	//health decreases by 0.4 each time for 40
-	this.maxHealth = data.health;
-	this.maxArmour = data.armour;
+	this.maxHealth = health;
+	this.maxArmour = armour;
 	this.BARWIDTH = 40;
 	this.BARHEIGHT = 2;
 

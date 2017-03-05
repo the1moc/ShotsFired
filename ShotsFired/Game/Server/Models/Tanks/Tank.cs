@@ -12,13 +12,16 @@ namespace ShotsFired.Game.Server.Models.Tanks
 	/// <seealso cref="ShotsFired.Game.Server.Models.ITank" />
 	public class Tank : ITank
 	{
-		public Tank()
+		public Tank(int xPosition)
 		{
-			X = 400;
-			Y = 0;
+			X          = xPosition;
+			Y          = 0;
+			Armour     = 100;
+			Health     = 100;
+			Power      = 250;
+			Fuel       = 300;
+			Projectile = new StandardProjectile();
 		}
-
-		public int TankId { get; set; }
 
 		public double X { get; set; }
 
@@ -28,7 +31,7 @@ namespace ShotsFired.Game.Server.Models.Tanks
 
 		public int Health { get; set; }
 
-		public Projectile Projectile { get; set; }
+		public IProjectile Projectile { get; set; }
 
 		public int Power { get; set; }
 
