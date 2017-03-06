@@ -1,6 +1,6 @@
 Projectile = function(game, x, y, data){
 
-	Phaser.Sprite.call(this, game, x, y, data.asset);
+	Phaser.Sprite.call(this, game, x, y, data);
 
 	// Physics body.
 	this.game.physics.arcade.enable(this);

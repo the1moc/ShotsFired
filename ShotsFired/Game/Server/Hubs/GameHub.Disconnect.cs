@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Hosting;
-using Microsoft.AspNet.SignalR;
-using ShotsFired.Game.Server.Generators;
-using ShotsFired.Game.Server.Models.Projectiles;
-using ShotsFired.Game.Server.Models.Players;
-using ShotsFired.Game.Server.Models.Tanks;
-using ShotsFired.Game.Server.Models;
 using System.Threading.Tasks;
+using Microsoft.AspNet.SignalR;
+using ShotsFired.Game.Server.Models.Players;
 
 namespace ShotsFired.Games.Server.Hubs
 {
@@ -27,19 +19,33 @@ namespace ShotsFired.Games.Server.Hubs
 		/// </returns>
 		public override Task OnDisconnected(bool stopCalled)
 		{
-			IPlayer player    = FindPlayerByConnectionId();
+			IPlayer player    = FindPlayerByConnectionId(Context.ConnectionId);
+
+			if (player == null)
+			{
+				return base.OnDisconnected(stopCalled);
+			}
+
 			if (player.IsInLobby || player.IsInActiveGame)
 			{
 				RemovePlayerFromGame(player.PlayerId, player.CurrentGameInstanceId);
 
-				if (!player.IsInActiveGame)
+				try
 				{
-					Clients.AllExcept(Clients.Caller).leaveGameSucces(player.PlayerId);
-				}
+					if (!player.IsInActiveGame)
+					{
+						Clients.AllExcept(Clients.Caller).leaveGameSucces(player.PlayerId);
+					}
 
-				else
+					else
+					{
+						Clients.AllExcept(Clients.Caller).leaveLobbySuccess(GetGameInstanceById(player.CurrentGameInstanceId));
+					}
+				}
+				catch (Exception e)
 				{
-					Clients.AllExcept(Clients.Caller).leaveLobbySuccess(player.PlayerId);
+					// FIX THIS.
+					Console.WriteLine("Nobody else is connected to the server");
 				}
 			}
 
@@ -53,27 +59,10 @@ namespace ShotsFired.Games.Server.Hubs
 		/// </summary>
 		public void RemovePlayerFromServer()
 		{
-			IPlayer playerToRemove = FindPlayerByConnectionId();
+			IPlayer playerToRemove = FindPlayerByConnectionId(Context.ConnectionId);
 
 			// Remove from currently connected players and players on the current game instance.
 			_players.Remove(playerToRemove);
-		}
-
-		/// <summary>
-		/// Identify a player on the server by their connection id.
-		/// </summary>
-		/// <param name="playerId">The player identifier.</param>
-		/// <returns>The player that sent a request to the server.</returns>
-		public IPlayer FindPlayerByConnectionId()
-		{
-			try
-			{
-				return _players.Find(player => player.ConnectionId == Context.ConnectionId);
-			}
-			catch (ArgumentException nullException)
-			{
-				throw new HubException("User not found on server.");
-			}
 		}
 	}
 }

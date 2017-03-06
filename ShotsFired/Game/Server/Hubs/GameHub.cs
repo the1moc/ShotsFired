@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Hosting;
 using Microsoft.AspNet.SignalR;
-using ShotsFired.Game.Server.Generators;
-using ShotsFired.Game.Server.Models.Projectiles;
-using ShotsFired.Game.Server.Models.Players;
-using ShotsFired.Game.Server.Models.Tanks;
 using ShotsFired.Game.Server.Models;
-using System.Threading.Tasks;
+using ShotsFired.Game.Server.Models.Players;
 
 namespace ShotsFired.Games.Server.Hubs
 {
@@ -49,17 +43,8 @@ namespace ShotsFired.Games.Server.Hubs
 		{
 			IPlayer callingPlayer = GetPlayerByPlayerId(hostPlayerId);
 
-			// Clear and close the lobby if this person is already hosting one.
-			if(callingPlayer.IsHost)
-			{
-				CloseGame(callingPlayer.CurrentGameInstanceId);
-				callingPlayer.IsHost = false;
-			}
-			else if(callingPlayer.IsInLobby)
-			{
-				RemovePlayerFromGame(callingPlayer.PlayerId, callingPlayer.CurrentGameInstanceId);
-				callingPlayer.IsInLobby = false;
-			}
+			// Check if the player is in a game right now.
+			IsPlayerInGame(callingPlayer);
 
 			// Check to see if there are any free slots.
 			int freeSlot;
@@ -102,10 +87,24 @@ namespace ShotsFired.Games.Server.Hubs
 		public void JoinGame(string gameId, string playerId)
 		{
 			IPlayer callingPlayer = GetPlayerByPlayerId(playerId);
-			GameInstance game = GetGameInstanceById(gameId);
+			GameInstance game     = GetGameInstanceById(gameId);
 
+			// Tried to join a game that has not been setup.
 			if (game == null)
+			{
 				Clients.Caller.noGameFound();
+				return;
+			}
+
+			// Is the game is already running.
+			if(game.IsGameRunning)
+			{
+				Clients.Caller.gameIsAlreadyRunning();
+				return;
+			}
+
+			// Check if the player is in a game right now.
+			IsPlayerInGame(callingPlayer);
 
 			// If the player is not already in the lobby, add them.
 			if (!game.Players.Contains(callingPlayer))
@@ -116,6 +115,24 @@ namespace ShotsFired.Games.Server.Hubs
 				callingPlayer.IsInLobby             = true;
 
 				Clients.Clients(game.Players.Select(player => player.ConnectionId).ToList()).gameJoinSuccess(game);
+			}
+		}
+
+		/// <summary>
+		/// Determines whether the player is in a game.
+		/// </summary>
+		public void IsPlayerInGame(IPlayer callingPlayer)
+		{
+			// Clear and close the lobby if this person is already hosting one.
+			if (callingPlayer.IsHost)
+			{
+				CloseGame(callingPlayer.CurrentGameInstanceId);
+				callingPlayer.IsHost = false;
+			}
+			else if (callingPlayer.IsInLobby)
+			{
+				RemovePlayerFromGame(callingPlayer.PlayerId, callingPlayer.CurrentGameInstanceId);
+				callingPlayer.IsInLobby = false;
 			}
 		}
 
@@ -151,6 +168,12 @@ namespace ShotsFired.Games.Server.Hubs
 			IPlayer player    = GetPlayerByPlayerId(playerId);
 
 			game.Players.Remove(player);
+
+			// Close the game if there are no players left.
+			if (game.Players.Count == 0)
+			{
+				CloseGame(game.InstanceId);
+			}
 		}
 
 		/// <summary>
@@ -191,7 +214,7 @@ namespace ShotsFired.Games.Server.Hubs
 		/// </summary>
 		/// <param name="playerId">The player identifier.</param>
 		/// <returns>The player that sent a request to the server.</returns>
-		public IPlayer GetPlayerByPlayerId(string playerId)
+		public static IPlayer GetPlayerByPlayerId(string playerId)
 		{
 			try
 			{
@@ -200,6 +223,23 @@ namespace ShotsFired.Games.Server.Hubs
 			catch (ArgumentNullException nullException)
 			{
 				throw new HubException("User not found on server.", nullException);
+			}
+		}
+
+		/// <summary>
+		/// Identify a player on the server by their connection id.
+		/// </summary>
+		/// <param name="connectionId">The connection identifier.</param>
+		/// <returns>The player that sent a request to the server.</returns>
+		public static IPlayer FindPlayerByConnectionId(string connectionId)
+		{
+			try
+			{
+				return _players.Find(player => player.ConnectionId == connectionId);
+			}
+			catch (ArgumentException nullException)
+			{
+				throw new HubException("User not found on server.");
 			}
 		}
 	}

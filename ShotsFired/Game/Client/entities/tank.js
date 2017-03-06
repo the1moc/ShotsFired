@@ -2,7 +2,7 @@
 function TankCreator(game)
 {
 	// Create a tank.
-	this.createTank = function(data) {
+	this.createTank = function(data, playerId) {
 		tank = new Tank(game, data.X, data.Y);
 
 		tank.anchor.setTo(0.5);
@@ -12,10 +12,11 @@ function TankCreator(game)
 		tank.body.collideWorldBounds = true;
 
 		// Tank properties.
-		tank.power  = data.Power;
-		tank.health = data.Health;
-		tank.armour = data.Armour;
-		tank.fuel   = data.Fuel;
+		tank.power    = data.Power;
+		tank.health   = data.Health;
+		tank.armour   = data.Armour;
+		tank.fuel     = data.Fuel;
+		tank.playerId = playerId;
 
 		tank.loadTexture('tank');
 
@@ -68,7 +69,7 @@ Tank.prototype.adjustPower = function(adjustment)
 
 Tank.prototype.movement = function(value)
 {
-	this.body.x += value;
+	this.x += value;
 	this.tankGUI.moveGUI(value);
 };
 

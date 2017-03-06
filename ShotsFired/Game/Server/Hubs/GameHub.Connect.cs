@@ -9,10 +9,10 @@ namespace ShotsFired.Games.Server.Hubs
 	public partial class GameHub : Hub
 	{
 		/// <summary>
-		/// Connects player to server.
+		/// Add player to the server player list.
 		/// </summary>
 		/// <param name="username">The username.</param>
-		public void ConnectToServer(string username)
+		public void AddPlayerToServerList(string username)
 		{
 			// New player object.
 			Player newPlayer;

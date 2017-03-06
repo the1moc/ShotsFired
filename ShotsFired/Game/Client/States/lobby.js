@@ -50,18 +50,20 @@ var Lobby = {
 		this.state.start("Game");
 	},
 
-	// Connect to the server.
+	// Connect to the server 
 	connectToServer: function()
 	{
 		// Connect with signalR.
-		this.gameHub = $.connection.gameHub;
+		this.gameHub  = $.connection.gameHub;
+		this.eventHub = $.connection.eventHub;
+
 		this.setupCallbackFunctions();
 		var _this = this;
 
 		$.connection.hub.start().done(function()
 		{
 			//TODO: Add username passing from a selection screen.
-			_this.gameHub.server.connectToServer(null);
+			_this.gameHub.server.addPlayerToServerList(null);
 		});
 	},
 
@@ -95,7 +97,7 @@ var Lobby = {
 		}
 
 		// On success when trying to join a game.
-		this.gameHub.client.leaveLobbySuccess = function(gameInstance)
+		this.gameHub.client.leaveLobbySuccess = function(player)
 		{
 			_this.displayLobbyInformation(gameInstance, false);
 		}
@@ -107,6 +109,12 @@ var Lobby = {
 		}
 
 		// On return of setting the player state to ready.
+		this.gameHub.client.gameIsAlreadyRunning = function()
+		{
+			alert("That game is already running.");
+		}
+
+		// When the game has been closed.
 		this.gameHub.client.gameClosed = function()
 		{
 			_this.displayLobbyInformation(null, true);
@@ -125,12 +133,10 @@ var Lobby = {
 			_this.state.start("Game");
 		}
 
-		// RODO: Probably a better way to do this.
-
+		// TODO: Probably a better way to do this.
+		// Create callbacks for the playing game state.
 		this.state.states.Game.createGameCallbackFunctions(this.gameHub);
-		//TODO: Failed host game.
-		//TODO: Failed join game.
-		//TODO: Disconnect from game.
+		this.state.states.Game.createEventCallbackFunctions();
 	},
 
 	// Show the current lobby information you are in.

@@ -42,7 +42,8 @@ var Game = {
 		};
 
 		// Groups.
-		this.players     = this.add.group();
+		this.players = this.add.group();
+		this.players.enableBody = true;
 		this.projectiles = this.add.group();
 
 		// Variables.
@@ -53,7 +54,7 @@ var Game = {
 		_this = this;
 		this.gameInstance.Players.forEach(function(player)
 		{
-			tank            = tankCreator.createTank(player.Tank);
+			tank            = tankCreator.createTank(player.Tank, player.PlayerId);
 			tankTurret      = new Turret(_this, 400, 600 - 30);
 			tank.tankTurret = tankTurret;
 
@@ -180,20 +181,12 @@ var Game = {
 	//    this.tankVarText.anchor.setTo(0.5);
 	//},
 
-	//updateTankGUI: function (power, angle) {
-	//    this.tankVarText.text = angle + ", " + power;
-	//},
-
 	update: function () {
 		if(this.fireButton.isDown && this.shotsFired == false){//need a timer for each turn -- 30 seconds should do
-			// Test projectile data.
-			var testProjectileData = {
-				asset: 'bullet'
-			};
-
 			// Fire a bullet from the tank.
-			this.playerTank.launchProjectile(testProjectileData);
+			this.playerTank.launchProjectile("bullet");
 			this.shotsFired = true;
+			this.eventHub.server.launchProjectile(this.playerTank.playerId);
 			console.log('Shots Fired');
 			//TODO: Text controller.
 			this.readyText.text = 'Ready?: ' + this.shotsFired;
@@ -203,26 +196,25 @@ var Game = {
 			// Player can only change the angle and power before shooting. Not during and not after
 			if(this.powerUp.isDown && this.playerTank.power < 500){
 				this.playerTank.adjustPower(1);
+				this.eventHub.server.increasePower(this.playerTank.playerId);
 				console.log('increase power');
 				//this.powerText.text = 'Power: ' + this.playerTank.power;
 				//this.updateTankGUI(this.playerTank.power, null);
 			}
 			else if(this.powerDown.isDown && this.playerTank.power > 100){
 				this.playerTank.adjustPower(-1);
+				this.eventHub.server.decreasePower(this.playerTank.playerId);
 				console.log('decrease power');
 				//this.powerText.text = 'Power: ' + this.playerTank.power;
 			}
 
 			if(this.angleLeft.isDown && this.playerTank.tankTurret.angle > -180){
 				this.playerTank.rotateTurret(-1);
-				console.log('Angle left');
-				//this.angleText.text = 'Angle: ' + (this.playerTank.tankTurret.angle).toFixed();
+				this.eventHub.server.rotateLeft(this.playerTank.playerId);
 			}
 			else if(this.angleRight.isDown && this.playerTank.tankTurret.angle < 180){
 				this.playerTank.rotateTurret(1);
-				console.log('Angle right');
-				
-				//this.angleText.text = 'Angle: ' + (this.playerTank.tankTurret.angle).toFixed();
+				this.eventHub.server.rotateRight(this.playerTank.playerId);
 			}
 
 			// Fuel logic.
@@ -232,7 +224,7 @@ var Game = {
 				{
 					// Move the tank to the left.
 					this.playerTank.movement(-1);
-					console.log('Move left');
+					this.eventHub.server.moveLeft(this.playerTank.playerId);
 
 					// Take a unit from the fuel.
 					//TODO: Move this duplicated functionality to a generic function.
@@ -243,7 +235,7 @@ var Game = {
 				{
 					// Move the tank to the right.
 					this.playerTank.movement(1);
-					console.log('Move right');
+					this.eventHub.server.moveRight(this.playerTank.playerId);
 
 					// Take a unit from the fuel.
 					//TODO: Move this duplicated functionality to a generic function.
@@ -260,26 +252,94 @@ var Game = {
 
 	},
 
+	// Callback functions called from the GameHub during the game state..
 	createGameCallbackFunctions: function(gameHub)
 	{
 		this.gameHub = gameHub;
 		_this = this;
+
 		// On success of leaving a currently active game
 		this.gameHub.client.leaveGameSuccess = function(playerId)
 		{
 			console.log("Player has left the game! " + playerId);
 			var playerToRemoveIndex = _this.gameInstance.Players.findIndex(function(player)
 			{
-				return player.PlayerId = playerId
+				return player.playerId == playerId
 			});
 
 			_this.gameInstance.Players.splice(playerToRemoveIndex, 1);
 		}
+	},
+
+	// Callback functions called from the EventHub during the game state.
+	createEventCallbackFunctions: function(eventHub)
+	{
+		this.eventHub = $.connection.eventHub;
+		_this         = this;
+
+		// Player moves left.
+		this.eventHub.client.left = function(playerId)
+		{
+			_this.players.filter(function(tank)
+			{
+				return tank.playerId == playerId
+			}).first.movement(-1);
+		}
+
+		// Players moves right.
+		this.eventHub.client.right = function(playerId)
+		{
+			_this.players.filter(function(tank)
+			{
+				return tank.playerId == playerId
+			}).first.movement(1);
+		}
+
+		// Players turret angles left.
+		this.eventHub.client.rotateLeft = function(playerId)
+		{
+			_this.players.filter(function(tank)
+			{
+				return tank.playerId == playerId
+			}).first.rotateTurret(-1);
+		}
+
+		// Players turrent angles right.
+		this.eventHub.client.rotateRight = function(playerId)
+		{
+			_this.players.filter(function(tank)
+			{
+				return tank.playerId == playerId
+			}).first.rotateTurret(1);
+		}
+
+		// Increase the power of a player tank.
+		this.eventHub.client.increasePower = function(playerId)
+		{
+			_this.players.filter(function(tank)
+			{
+				return tank.playerId == playerId
+			}).first.adjustPower(1);
+		}
+
+		// Decrease the power of a player tank.
+		this.eventHub.client.decreasePower = function(playerId)
+		{
+			_this.players.filter(function(tank)
+			{
+				return tank.playerId == playerId
+			}).first.adjustPower(-1);
+		}
+
+		// Launch a projectile from a tank.
+		this.eventHub.client.launchProjectile = function(playerId)
+		{
+			_this.players.filter(function(tank)
+			{
+				return tank.playerId == playerId
+			}).first.launchProjectile("bullet");
+		}
 	}
-
-	//turnReset
-	//fuel...
-
 };
 
 
