@@ -16,16 +16,17 @@ Game inspired by Tanks
 - [x] Put Client and Server side information (models etc) into their own "Game" folder
 - [x] Tabify everything
 - [x] Link menu to game (initial)
-- [ ] Integrate lobby between the menu and game with concurrent connections
-- [ ] Add menu + lobby functionality
-- [ ] Add tank sprite on new connection
-- [ ] Look into world generation
+- [x] Integrate lobby between the menu and game with concurrent connections
+- [x] Add menu + lobby functionality
+- [x] Add tank sprite on new connection
+- [ ] Enable more lobby selection (keyboard event listener?)
 - [ ] Make the server side more sexy
 - [ ] Revert Rotations
+- [ ] Look into world generation
 
 
 fun tings to add to the game
-- [ ] Spawn tanks in the sky (parachute)
+- [x] Spawn tanks in the sky (parachute)
 - [ ] Set maps
 - [ ] Map selection button
 - [ ] 
