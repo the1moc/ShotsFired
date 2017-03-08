@@ -19,6 +19,7 @@ Game inspired by Tanks
 - [x] Integrate lobby between the menu and game with concurrent connections
 - [x] Add menu + lobby functionality
 - [x] Add tank sprite on new connection
+- [ ] Send the projectile to the server and feed back to all other clients.
 - [ ] Enable more lobby selection (keyboard event listener?)
 - [ ] Make the server side more sexy
 - [ ] Revert Rotations
