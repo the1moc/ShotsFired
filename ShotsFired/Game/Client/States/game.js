@@ -33,7 +33,16 @@ var Game = {
 	create: function()
 	{
 		// Game assets.
-		this.background = this.add.sprite(0, 0, 'game_background');
+		this.background = this.add.sprite(0, 0, 'game_bg1');
+
+	    //constants
+		this.TANK_WIDTH = 29;
+		this.TANK_HEIGHT = 19;
+		this.TANK_MIDDLE = Math.round(this.TANK_WIDTH / 2);
+		this.TURRET_WIDTH = 15;
+		this.TURRET_HEIGHT = 5;
+		this.TURN_TIME = Phaser.Timer.SECOND * 34;
+
 
 		// Master font.
 		this.font_style = {
@@ -45,17 +54,20 @@ var Game = {
 		this.players = this.add.group();
 		this.players.enableBody = true;
 		this.projectiles = this.add.group();
+		this.weaponList = this.add.group();
 
 		// Variables.
 		this.shotsFired = false;
 
+		this.launch_sound = this.game.add.audio('aud_fire');
+        
 		// Create the tanks.
 		tankCreator = new TankCreator(this);
 		_this = this;
 		this.gameInstance.Players.forEach(function(player)
 		{
 			tank            = tankCreator.createTank(player.Tank, player.PlayerId);
-			tankTurret      = new Turret(_this, 400, 600 - 30);
+			tankTurret      = new Turret(_this, 400, 600 - 20);
 			tank.tankTurret = tankTurret;
 
 			//TODO: This can be done inside the tank class, seeing as it is basically using all the data from it.
@@ -70,78 +82,168 @@ var Game = {
 			_this.players.add(tank);
 		});
 
-		// Buttons
-		// Fire Controls
-		this.fireButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-		// this.fireButton.onDown.add(this.fire, this);
+		//this.add.sprite(200, 200, 'pixelTank');
 
-		// Angle controls.
-		this.angleLeft = this.input.keyboard.addKey(Phaser.Keyboard.Q);
-		// this.angleLeft.onDown.add(this.rotateTurret, this,0);
-		this.angleRight = this.input.keyboard.addKey(Phaser.Keyboard.E);
-
-		// Power controls.
-		this.powerUp = this.input.keyboard.addKey(Phaser.Keyboard.W);
-		this.powerDown = this.input.keyboard.addKey(Phaser.Keyboard.S);
-
-		// Movement controls.
-		this.moveLeft = this.input.keyboard.addKey(Phaser.Keyboard.A);
-		this.moveRight = this.input.keyboard.addKey(Phaser.Keyboard.D);
-
-		// Turn timer creation.
-		this.turnTimer = this.game.time.create(false);
+	    //initialise the buttons
+		this.initialiseButtons();
 
 		// Create the GUI.
 		this.createGUI();
+
+	    //need to make a random list of weapons
+		this.generateWeaponsList();
 	},
 
-	//TODO: Create text controller.
+	initialiseButtons: function(){
+	    // Buttons
+	    // Fire Controls
+	    this.fireButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+	    // this.fireButton.onDown.add(this.fire, this);
+
+	    // Angle controls.
+	    this.angleLeft = this.input.keyboard.addKey(Phaser.Keyboard.Q);
+	    // this.angleLeft.onDown.add(this.rotateTurret, this,0);
+	    this.angleRight = this.input.keyboard.addKey(Phaser.Keyboard.E);
+
+	    // Power controls.
+	    this.powerUp = this.input.keyboard.addKey(Phaser.Keyboard.W);
+	    this.powerDown = this.input.keyboard.addKey(Phaser.Keyboard.S);
+
+	    // Movement controls.
+	    this.moveLeft = this.input.keyboard.addKey(Phaser.Keyboard.A);
+	    this.moveRight = this.input.keyboard.addKey(Phaser.Keyboard.D);
+
+	    //test reset button
+	    this.resetShots = this.input.keyboard.addKey(Phaser.Keyboard.R);
+
+	    //weapon button
+	    this.weaponListToggle = this.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
+	},
+
+    //TODO: Create text controller.
 	createGUI: function () {
-		//this.turnTimerText = this.textController(400, 32, this.turnTimer);
-		//this.powerText = this.textController(8, 8, 'Power: ' + this.playerTank.power);
-		//this.angleText = this.textController(8, 32, 'Angle: ' + this.playerTank.tankTurret.angle);
-		//this.fuelText = this.textController(8, 56, 'Fuel:' + this.playerTank.fuel);
-		this.readyText = this.add.text(this.textGenerator(200, 16, 'Ready?: ' + this.shotsFired, 'body'));
-		
-		this.armourTile = this.add.sprite(10, 10, 'btnArmour');
+	    //this.readyText = this.add.text(this.textGenerator(200, 32, 'Ready?: ' + this.shotsFired, 'body'));
 
-		var aBMD_bg = game.add.bitmapData(100, 10);
-		aBMD_bg.ctx.beginPath();
-		aBMD_bg.ctx.rect(0, 0, 180, 30);
-		aBMD_bg.ctx.fillStyle = '#1C0772';
-		aBMD_bg.ctx.fill();
+	    this.armourTile = this.add.sprite(10, 10, 'btn_Armour');
 
-		var aBMD = game.add.bitmapData(30, 10);
-		aBMD.ctx.beginPath();
-		aBMD.ctx.rect(0, 0, 180, 30);
-		aBMD.ctx.fillStyle = '#4188D2';
-		aBMD.ctx.fill();
+	    //the value inside the data are value/100, height of bar
+	    var aBMD_bg = game.add.bitmapData(100, 10);
+	    aBMD_bg.ctx.beginPath();
+	    aBMD_bg.ctx.rect(0, 0, 180, 30);
+	    aBMD_bg.ctx.fillStyle = '#1C0772';
+	    aBMD_bg.ctx.fill();
 
-		this.healthTile = this.add.sprite(10, 60, 'btnHealth');
+	    //the value inside the data are value/100, height of bar
+	    var aBMD = game.add.bitmapData(30, 10);
+	    aBMD.ctx.beginPath();
+	    aBMD.ctx.rect(0, 0, 180, 30);
+	    aBMD.ctx.fillStyle = '#4188D2';
+	    aBMD.ctx.fill();
 
-		var hBMD_bg = game.add.bitmapData(100, 10);
-		hBMD_bg.ctx.beginPath();
-		hBMD_bg.ctx.rect(0, 0, 180, 30);
-		hBMD_bg.ctx.fillStyle = '#A61000';
-		hBMD_bg.ctx.fill();
+	    this.healthTile = this.add.sprite(10, 60, 'btn_Health');
 
-		var hBMD = game.add.bitmapData(80, 10);
-		hBMD.ctx.beginPath();
-		hBMD.ctx.rect(0, 0, 180, 30);
-		hBMD.ctx.fillStyle = '#FF1300';
-		hBMD.ctx.fill();
+	    //the value inside the data are value/100, height of bar
+	    var hBMD_bg = game.add.bitmapData(100, 10);
+	    hBMD_bg.ctx.beginPath();
+	    hBMD_bg.ctx.rect(0, 0, 180, 30);
+	    hBMD_bg.ctx.fillStyle = '#A61000';
+	    hBMD_bg.ctx.fill();
 
-		this.healthBar_bg = game.add.sprite(this.healthTile.x + 50, this.healthTile.y + 15, hBMD_bg);
-		this.healthBar_val = game.add.sprite(this.healthTile.x + 50, this.healthTile.y + 15, hBMD);
-		this.armourBar_bg = game.add.sprite(this.armourTile.x + 50, this.armourTile.y + 15, aBMD_bg);
-		this.armourBar_val = game.add.sprite(this.armourTile.x + 50, this.armourTile.y + 15, aBMD);
+	    //the value inside the data are value/100, height of bar
+	    var hBMD = game.add.bitmapData(80, 10);
+	    hBMD.ctx.beginPath();
+	    hBMD.ctx.rect(0, 0, 180, 30);
+	    hBMD.ctx.fillStyle = '#FF1300';
+	    hBMD.ctx.fill();
 
-		this.healthTile = this.add.sprite(10, 110, 'btnWeapons');
-		 
-		this.healthBarText = this.add.text(this.textGenerator(this.healthBar_val.x+20, this.healthBar_val.y+1, this.playerTank.health + "/" + this.playerTank.data.health, 'small'));
-		this.armourBarText = this.add.text(this.textGenerator(this.armourBar_val.x+20, this.armourBar_val.y+1, this.playerTank.armour + "/" + this.playerTank.data.armour, 'small'));
+	    this.fuelTile = this.add.sprite(10, 110, 'btn_Fuel');
+
+	    //the value inside the data are value/100, height of bar
+	    var fBMD_bg = game.add.bitmapData(100, 10);
+	    fBMD_bg.ctx.beginPath();
+	    fBMD_bg.ctx.rect(0, 0, 180, 30);
+	    fBMD_bg.ctx.fillStyle = '#A68F00';
+	    fBMD_bg.ctx.fill();
+
+	    //the value inside the data are value/100, height of bar
+	    var fBMD = game.add.bitmapData(90, 10);
+	    fBMD.ctx.beginPath();
+	    fBMD.ctx.rect(0, 0, 180, 30);
+	    fBMD.ctx.fillStyle = '#FFDB00';
+	    fBMD.ctx.fill();
+
+	    this.healthBar_bg = game.add.sprite(this.healthTile.x + 50, this.healthTile.y + 15, hBMD_bg);
+	    this.healthBar_val = game.add.sprite(this.healthTile.x + 50, this.healthTile.y + 15, hBMD);
+	    this.armourBar_bg = game.add.sprite(this.armourTile.x + 50, this.armourTile.y + 15, aBMD_bg);
+	    this.armourBar_val = game.add.sprite(this.armourTile.x + 50, this.armourTile.y + 15, aBMD);
+	    this.fuelBar_bg = game.add.sprite(this.fuelTile.x + 50, this.fuelTile.y + 15, fBMD_bg);
+	    this.fuelBar_val = game.add.sprite(this.fuelTile.x + 50, this.fuelTile.y + 15, fBMD);
+
+	    this.weaponTile = this.add.sprite(10, 160, 'btn_weaponList');
+
+	    this.healthBarText = this.add.text(this.textGenerator(this.healthBar_val.x + 20, this.healthBar_val.y + 1, this.playerTank.health + "/" + this.playerTank.data.health, 'small'));
+	    this.armourBarText = this.add.text(this.textGenerator(this.armourBar_val.x + 20, this.armourBar_val.y + 1, this.playerTank.armour + "/" + this.playerTank.data.armour, 'small'));
+	    this.fuelBarText = this.add.text(this.textGenerator(this.fuelBar_val.x + 20, this.fuelBar_val.y + 1, this.playerTank.fuel + "/" + this.playerTank.data.fuel, 'small'));
+
+	    this.turnTimer = this.game.time.create();
+	    this.turnTimerEvent = this.turnTimer.add(this.TURN_TIME, this.endTurn, this);
+	    this.turnTimer.start();
+
 	},
 
+	generateWeaponsList: function(){
+	    this.projectileData = JSON.parse(this.game.cache.getText('dat_projectile'));
+
+	    this.myWeaponsList = this.add.group();
+	    this.myWeaponsList.visible = false;
+
+	    var weapon;
+	    this.projectileData.forEach(function (element, index) {
+	        weapon = new Phaser.Button(this.game, ((index+1) * 10)+(index * 40), this.weaponTile.y + 50, element.btnAsset, this.selectWeapon, this);
+	        this.myWeaponsList.add(weapon);
+
+	        weapon.projectileData = element;
+	    }, this);
+
+	    this.weaponQuantityText = this.add.text();
+	},
+
+	selectWeapon:function(weapon){
+	    //click button function
+	    if(!weapon.selected){//first time clicking the button
+	        this.clearWeaponSelection();
+	        this.weaponQuantityText = "";
+
+	        weapon.selected = true;
+	        weapon.alpha = 0.5;
+
+	        this.currentWeaponSelected = weapon.projectileData;
+	    }
+	    else{
+	        this.clearWeaponSelection();
+	    }
+	},
+
+	clearWeaponSelection: function(){
+	    this.weaponQuantityText.text = "";
+	    this.currentWeaponSelected = null;
+
+	    this.myWeaponsList.forEach(function(weapon){
+	        weapon.alpha = 1;
+	        weapon.selected = false;
+	    },this);
+	},
+
+	
+
+	resetTurn: function(){
+	    //reset turn timer
+	    //reset fuel
+	    //reset shot firing capability
+        //increment turns by 1
+	},
+
+    //need to edit this as shadow isn't needed for everything
 	textGenerator: function (x, y, input, type) {
 		switch (type) {
 			case 'small':
@@ -182,14 +284,16 @@ var Game = {
 	//},
 
 	update: function () {
-		if(this.fireButton.isDown && this.shotsFired == false){//need a timer for each turn -- 30 seconds should do
+	    if(this.fireButton.isDown && this.shotsFired == false && this.currentWeaponSelected){//need a timer for each turn -- 30 seconds should do
+            
 			// Fire a bullet from the tank.
-			this.playerTank.launchProjectile("bullet");
+	        //this.playerTank.launchProjectile("bullet");
+	        this.playerTank.launchProjectile(this.currentWeaponSelected.projectileAsset);
 			this.shotsFired = true;
 			this.eventHub.server.launchProjectile(this.playerTank.playerId);
 			console.log('Shots Fired');
 			//TODO: Text controller.
-			this.readyText.text = 'Ready?: ' + this.shotsFired;
+			//this.readyText.text = 'Ready?: ' + this.shotsFired;
 
 		}
 		else if(!this.shotsFired){
@@ -220,7 +324,7 @@ var Game = {
 			// Fuel logic.
 			if(this.playerTank.fuel>0){
 				// Only when projectile isn't active and when you have fuel
-				if (this.moveLeft.isDown && this.playerTank.x >20)
+				if (this.moveLeft.isDown && this.playerTank.x >this.TANK_MIDDLE)
 				{
 					// Move the tank to the left.
 					this.playerTank.movement(-1);
@@ -231,7 +335,7 @@ var Game = {
 					this.playerTank.fuel--;
 					//this.fuelText.text = 'Fuel: ' + this.playerTank.fuel;
 				}
-				else if (this.moveRight.isDown && this.playerTank.x < this.game.width-40)
+				else if (this.moveRight.isDown && this.playerTank.x < this.game.width-this.TANK_MIDDLE)
 				{
 					// Move the tank to the right.
 					this.playerTank.movement(1);
@@ -246,10 +350,42 @@ var Game = {
 			this.playerTank.tankGUI.updateAngleText(this.playerTank.power, this.playerTank.tankTurret.angle);
 			//this.updateTankGUI(this.playerTank.power, this.playerTank.tankTurret.angle);
 		}
+		if (this.resetShots.isDown) {
+		    this.shotsFired = false;
+		}
+
+		if (this.turnTimer.running) {
+		    this.turnTimerText = this.add.text(this.textGenerator(this.game.width / 2, 10, this.formatTime(Math.round((this.turnTimerEvent.delay - this.turnTimer.ms)/1000)), 'title'));
+
+		}
+		if (this.weaponListToggle.isDown) {
+		    if (this.myWeaponsList.visible == true) {
+		        this.myWeaponsList.visible = false;
+		    }
+		    else {
+		        this.myWeaponsList.visible = true
+		    }
+		}
+		//else {
+		    //this.turnTimerText.text = this.textGenerator(this.game.width / 2, 10, 'FIRE!', 'body');
+		//}
+
+
 
 		// Collision detection?
 
 
+	},
+
+	formatTime: function(s) {
+	    // Convert seconds (s) to a nicely formatted and padded time string
+	    var minutes = "0" + Math.floor(s / 60);
+	    var seconds = "0" + (s - minutes * 60);
+	    return minutes.substr(-2) + ":" + seconds.substr(-2);   
+	},
+
+	endTimer: function () {
+	    this.turnTimer.stop();
 	},
 
 	// Callback functions called from the GameHub during the game state..

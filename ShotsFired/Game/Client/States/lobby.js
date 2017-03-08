@@ -2,7 +2,7 @@
 var Lobby = {
 	create: function () {
 		// Set menu background (using menu layout for now)
-		this.background = this.add.sprite(0, 0, 'menu_background');
+		this.background = this.add.sprite(0, 0, 'menu_bg');
 
 		this.stage.disableVisibilityChange = true;
 
@@ -12,11 +12,11 @@ var Lobby = {
 		//TODO: Music.
 
 		// Buttons.
-		this.host = this.add.button(this.game.width / 4 - 50, this.game.height / 3, 'host', this.host, this);
-		this.join = this.add.button(this.game.width / 4 - 50, this.game.height / 2.3, 'join', this.join, this);
+		this.host = this.add.button(this.game.width / 4 - 50, this.game.height / 3, 'btn_host', this.host, this);
+		this.join = this.add.button(this.game.width / 4 - 50, this.game.height / 2.3, 'btn_join', this.join, this);
 
 		// This is here just so we can access the game before lobby and hosting functionality are totally done.
-		this.join = this.add.button(this.game.width / 4 - 50, this.game.height / 1.2, 'play_button', this.play, this);
+		this.join = this.add.button(this.game.width / 4 - 50, this.game.height / 1.2, 'btn_play', this.play, this);
 		this.connectToServer();
 	},
 
@@ -175,7 +175,7 @@ var Lobby = {
 			titlePosY += 30;
 		});
 
-		this.add.button(this.lobbyTitle.x, this.game.height / 1.2, 'ready_button', this.ready, _this);
+		this.add.button(this.lobbyTitle.x, this.game.height / 1.2, 'btn_ready', this.ready, _this);
 
 		this.lobbyDisplayed = true;
 	},

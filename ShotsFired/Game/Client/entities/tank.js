@@ -5,7 +5,7 @@ function TankCreator(game)
 	this.createTank = function(data, playerId) {
 		tank = new Tank(game, data.X, data.Y);
 
-		tank.anchor.setTo(0.5);
+		tank.anchor.setTo(0.5,0.5);
 
 		// Physics.
 		game.physics.arcade.enable(tank);
@@ -19,7 +19,6 @@ function TankCreator(game)
 		tank.playerId = playerId;
 
 		tank.loadTexture('tank');
-
 		return tank;
 	};
 }
@@ -32,7 +31,7 @@ Tank = function(game, x, y) {
 Tank.prototype = Object.create(Phaser.Sprite.prototype);
 Tank.prototype.constructor = Tank;
 
-// I hate this but a quick fix NOTICE ME PLSSSSSSSSSSSSSSSSSSSSSS 
+// I hate this but a quick fix NOTICE ME PLSSSSSSSSSSSSSSSSSSSSSS - I notice?
 // Add as a child of the tank etc.
 Tank.prototype.update = function()
 {
@@ -87,4 +86,6 @@ Tank.prototype.launchProjectile = function(projectileData)
 
 	// Set the bullet velocity.
 	this.game.physics.arcade.velocityFromAngle(this.tankTurret.angle, this.power, this.projectile.body.velocity);
+	
+	this.game.launch_sound.play();
 };

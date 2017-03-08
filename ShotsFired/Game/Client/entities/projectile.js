@@ -17,3 +17,10 @@ Projectile.prototype.update = function () {
 		this.kill();
 	}
 };
+
+/*
+stuff for projectile data
+"gravity":100,
+        "effect":explode
+        "effectTime":2000
+*/

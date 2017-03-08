@@ -1,0 +1,26 @@
+[
+    {
+        "btnAsset": "btn_shot",
+        "projectileAsset": "wpn_shot",
+        "damage": 100,
+        "armourPenetration": 2
+    },
+    {
+        "btnAsset": "btn_bomb",
+        "projectileAsset": "wpn_bomb",
+        "damage": 100,
+        "armourPenetration": 2
+    },
+    {
+        "btnAsset": "btn_flower",
+        "projectileAsset": "wpn_flower",
+        "damage": 100,
+        "armourPenetration": 2
+    },
+    {
+        "btnAsset": "btn_pig",
+        "projectileAsset": "wpn_pig",
+        "damage": 100,
+        "armourPenetration": 2
+    }
+]
