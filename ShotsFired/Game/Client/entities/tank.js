@@ -69,7 +69,9 @@ Tank.prototype.adjustPower = function(adjustment)
 Tank.prototype.movement = function(value)
 {
 	this.x += value;
-	this.tankGUI.moveGUI(value);
+
+	// Another quick fix.
+	this.tankGUI.moveGUI(this.x, this.y);
 };
 
 // Takes server projectile data and launches.
