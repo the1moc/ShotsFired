@@ -327,7 +327,8 @@ var Game = {
 				if (this.moveLeft.isDown && this.playerTank.x >this.TANK_MIDDLE)
 				{
 					// Move the tank to the left.
-					this.playerTank.movement(-1);
+				    this.playerTank.movement(-1);
+				    //this.playerTank.scale *= +1;
 					this.eventHub.server.moveLeft(this.playerTank.playerId);
 
 					// Take a unit from the fuel.
@@ -338,7 +339,8 @@ var Game = {
 				else if (this.moveRight.isDown && this.playerTank.x < this.game.width-this.TANK_MIDDLE)
 				{
 					// Move the tank to the right.
-					this.playerTank.movement(1);
+				    this.playerTank.movement(1);
+                    //this.playerTank.scale *= -1
 					this.eventHub.server.moveRight(this.playerTank.playerId);
 
 					// Take a unit from the fuel.
