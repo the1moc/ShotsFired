@@ -15,7 +15,7 @@ TankGUI = function (game, x, y, playerName, angle, power, health, armour) {
 	this.vText.anchor.setTo(0.5);
 
 	// Player name
-	this.playerName = game.add.text(x,y-52,'Player Name',game.font_style);
+	this.playerName = game.add.text(x,y-52, playerName, game.font_style);
 	this.playerName.anchor.setTo(0.5);
 
 	//armour bar
@@ -66,9 +66,16 @@ TankGUI.prototype.updateAngleText = function (power, angle) {
 	this.vText.text = power + ", " + Math.round(angle * -1);
 };
 
-TankGUI.prototype.moveGUI = function (value) {
-	this.vText.x += value;
-	this.healthBar.x += value;
-	this.armourBar.x += value;
-	this.playerName.x += value;
+TankGUI.prototype.moveGUI = function (x, y) {
+	this.vText.x = x;
+	this.vText.y = y - 45;
+
+	this.healthBar.x = x;
+	this.healthBar.y = y - 35;
+
+	this.armourBar.x = x;
+	this.armourBar.y = y - 30;
+
+	this.playerName.x = x;
+	this.playerName.y = y - 60;
 };
