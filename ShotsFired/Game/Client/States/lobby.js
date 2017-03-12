@@ -7,17 +7,40 @@ var Lobby = {
 		this.stage.disableVisibilityChange = true;
 
 		// Title image.
-		this.title = game.add.text(this.game.width / 5, this.game.height / 5, "Lobby", { font: "50px Arial", fill: "#000000", align: "center" });
+		this.title = game.add.text(50, 50, "Lobby", { font: "50px Arial", fill: "#000000", align: "center" });
 
-		//TODO: Music.
+		//TODO: Music. got some music - need a button and looping
+		this.lobbyMusic = game.add.audio('aud_lobbyMusic');
+		this.lobbyMusic.play();
+		this.lobbyMusic.volume = 0.1
+		this.lobbyMusic.mute = true;//temporary till i can fix
 
-		// Buttons.
-		this.host = this.add.button(this.game.width / 4 - 50, this.game.height / 3, 'btn_host', this.host, this);
-		this.join = this.add.button(this.game.width / 4 - 50, this.game.height / 2.3, 'btn_join', this.join, this);
+		//this.lobbyMusicOn = false;
+		
+		//this.lobbyMusicButton = this.add.button(this.game.width-50, 50, 'btn_Health', this.lobbyMusicOn, this);
+		
 
+
+		// Buttons
+		this.host = this.add.button(this.title.x, this.title.height + 100, 'btn_host', this.host, this);
+		this.join = this.add.button(this.title.x, this.title.height + 200, 'btn_join', this.join, this);
+	    //want a text field below the join button to pass in lobby number. needs to be invible until pressed
+	    //want an enter button to push the lobby variable to the server
+
+        //MALCOLM -- Why is this button needed? doesn't seem to do anything? Also erases this.join?
 		// This is here just so we can access the game before lobby and hosting functionality are totally done.
-		this.join = this.add.button(this.game.width / 4 - 50, this.game.height / 1.2, 'btn_play', this.play, this);
+		//this.join = this.add.button(this.game.width / 4 - 50, this.game.height / 1.2, 'btn_play', this.play, this);
 		this.connectToServer();
+	},
+
+	createGUI: function () {
+        //static GUI
+	    //phase 1 - host, join, enter
+	    //phase 2 - enter lobby room number and display list of active lobby with refresh list
+	    //phase 3 show the current lobby name, the list of players in the lobby, the settings for the lobby
+	    //Hide unecessary buttons and features from view.
+
+        
 	},
 
 	// Host a new instance of a game.
@@ -47,12 +70,17 @@ var Lobby = {
 	// Temporary play button to go to the game.
 	play: function()
 	{
+	    //need to pause music (stop)
+	    this.lobbyMusic.mute = true;
+
 		this.state.start("Game");
 	},
 
 	// Connect to the server 
 	connectToServer: function()
 	{
+	    
+
 		// Connect with signalR.
 		this.gameHub  = $.connection.gameHub;
 		this.eventHub = $.connection.eventHub;

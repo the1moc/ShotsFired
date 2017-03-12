@@ -54,7 +54,8 @@ var Preload = {
 	    // Audio
 		this.load.audio('aud_fire',         AUD_DIR + 'aud_shotFiredOrig.wav');
 		this.load.audio('aud_damage',       AUD_DIR + 'aud_damage.wav');
-		this.load.audio('aud_destroy',      AUD_DIR + 'aud_destroyed.wav');
+		this.load.audio('aud_destroy', AUD_DIR + 'aud_destroyed.wav');
+		this.load.audio('aud_lobbyMusic', AUD_DIR + 'Elevator-music.mp3');
 
 		// Data
 		this.load.text('dat_projectile',    DAT_DIR + 'projectileData.json');

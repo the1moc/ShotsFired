@@ -32,8 +32,16 @@ var Game = {
 
 	create: function()
 	{
+	    
 		// Game assets.
-		this.background = this.add.sprite(0, 0, 'game_bg1');
+	    this.background = this.add.sprite(0, 0, 'game_bg1');
+	    var bgScale = 600.0 / 1080;
+
+
+
+	    this.background.scale.setTo(1, bgScale);
+
+
 
 		//constants
 		this.TANK_WIDTH = 29;

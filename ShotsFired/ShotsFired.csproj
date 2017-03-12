@@ -229,6 +229,7 @@
     <Content Include="Game\Client\Assets\Audio\aud_destroyed.wav" />
     <Content Include="Game\Client\Assets\Audio\aud_shotFiredOrig.mp3" />
     <Content Include="Game\Client\Assets\Audio\aud_shotFiredOrig.wav" />
+    <Content Include="Game\Client\Assets\Audio\Elevator-music.mp3" />
     <Content Include="Game\Client\Assets\Images\Backgrounds\airadventurelevel1.png" />
     <Content Include="Game\Client\Assets\Images\Backgrounds\airadventurelevel2.png" />
     <Content Include="Game\Client\Assets\Images\Backgrounds\airadventurelevel3.png" />
