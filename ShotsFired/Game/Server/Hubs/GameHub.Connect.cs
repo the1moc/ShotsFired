@@ -17,17 +17,35 @@ namespace ShotsFired.Games.Server.Hubs
 			// New player object.
 			Player newPlayer;
 
-			if (username == null)
-			{
-				string names = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/names.txt"));
-				string[] seperatedNames = names.Split(',');
-				newPlayer = new Player(seperatedNames.ElementAt(new Random().Next(0, 20)), Context.ConnectionId);
-			}
-			else {
-				newPlayer = new Player(username, Context.ConnectionId);
-			}
+            //can now get 25,920 different combinations of names
+			//if (username == null)
+			//{
+			//	string names = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/names.txt"));
+			//	string[] seperatedNames = names.Split(',');
+			//	newPlayer = new Player(seperatedNames.ElementAt(new Random().Next(0, 20)), Context.ConnectionId);
+			//}
+			//else {
+			//	newPlayer = new Player(username, Context.ConnectionId);
+			//}
 
-			AddPlayerToServer(newPlayer);
+            if(username == null)
+            {
+                string ranks = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/ranks.txt"));
+                string[] seperatedRanks = ranks.Split(',');
+                
+                string firstNames = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/FirstNames.txt"));
+                string[] seperatedFirstNames = firstNames.Split(',');
+                string lastNames = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/LastNames.txt"));
+                string[] seperatedLastNames = lastNames.Split(',');
+                string generatedUsername = seperatedRanks.ElementAt(new Random().Next(0, 18)) + ". "+ seperatedFirstNames.ElementAt(new Random().Next(0, 40)) + " " + seperatedLastNames.ElementAt(new Random().Next(0, 36));
+                newPlayer = new Player(generatedUsername, Context.ConnectionId);
+            }
+            else
+            {
+                newPlayer = new Player(username, Context.ConnectionId);
+            }
+
+            AddPlayerToServer(newPlayer);
 
 			// Return the username and playerid to the client.
 			Clients.Caller.connectPlayerSuccess(newPlayer);

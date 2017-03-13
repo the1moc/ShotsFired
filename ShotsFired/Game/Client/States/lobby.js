@@ -6,26 +6,17 @@ var Lobby = {
 
 		this.stage.disableVisibilityChange = true;
 
-		// Title image.
-		this.title = game.add.text(50, 50, "Lobby", { font: "50px Arial", fill: "#000000", align: "center" });
+		this.lobbyLeftXPos = 50;
+		this.lobbyCentreXPos = 200;
+		this.lobbyRightXPos = 550;
 
-		//TODO: Music. got some music - need a button and looping
-		this.lobbyMusic = game.add.audio('aud_lobbyMusic');
-		this.lobbyMusic.play();
-		this.lobbyMusic.volume = 0.1
-		this.lobbyMusic.mute = true;//temporary till i can fix
+	    // Title image.
+		this.title = game.add.text(this.lobbyLeftXPos, 50, "Lobby", { font: "50px Arial", fill: "#000000", align: "center" });
 
-		//this.lobbyMusicOn = false;
-		
-		//this.lobbyMusicButton = this.add.button(this.game.width-50, 50, 'btn_Health', this.lobbyMusicOn, this);
-		
+		this.lobbyYPos = this.title.bottom + 25;
 
 
-		// Buttons
-		this.host = this.add.button(this.title.x, this.title.height + 100, 'btn_host', this.host, this);
-		this.join = this.add.button(this.title.x, this.title.height + 200, 'btn_join', this.join, this);
-	    //want a text field below the join button to pass in lobby number. needs to be invible until pressed
-	    //want an enter button to push the lobby variable to the server
+		this.createGUI();
 
         //MALCOLM -- Why is this button needed? doesn't seem to do anything? Also erases this.join?
 		// This is here just so we can access the game before lobby and hosting functionality are totally done.
@@ -33,14 +24,39 @@ var Lobby = {
 		this.connectToServer();
 	},
 
-	createGUI: function () {
-        //static GUI
-	    //phase 1 - host, join, enter
-	    //phase 2 - enter lobby room number and display list of active lobby with refresh list
-	    //phase 3 show the current lobby name, the list of players in the lobby, the settings for the lobby
-	    //Hide unecessary buttons and features from view.
+    // Connect to the server 
+	connectToServer: function () {
 
-        
+
+	    // Connect with signalR.
+	    this.gameHub = $.connection.gameHub;
+	    this.eventHub = $.connection.eventHub;
+
+	    this.setupCallbackFunctions();
+	    var _this = this;
+
+	    $.connection.hub.start().done(function () {
+	        //TODO: Add username passing from a selection screen.
+	        _this.gameHub.server.addPlayerToServerList(null);
+	    });
+	},
+
+	createGUI: function () {
+	    
+	    //setting button
+
+	    //TODO: Music. got some music - need a button and looping
+	    this.lobbyMusic = game.add.audio('aud_lobbyMusic');
+	    this.lobbyMusic.play();
+	    this.lobbyMusic.volume = 0.1
+	    this.lobbyMusic.mute = true;//temporary till i can fix
+	    // Buttons
+	    this.host = this.add.button(this.lobbyLeftXPos, this.title.height + 100, 'btn_host', this.host, this);
+	    this.join = this.add.button(this.lobbyLeftXPos, this.title.height + 200, 'btn_join', this.join, this);
+	    //i want to use the text class i found on the internet (we will need to ask if allowed) and reference it properly
+	    //http://codepen.io/jdnichollsc/pen/waVMdB?editors=001
+	    //http://www.html5gamedevs.com/topic/16672-input-type-text-in-canvas-with-phaser-and-canvasinput-d/
+	    //this.enterButton = this.add.button(this.title.x, this.title.height + 200, 'btn_Health', this.join, this);
 	},
 
 	// Host a new instance of a game.
@@ -76,24 +92,7 @@ var Lobby = {
 		this.state.start("Game");
 	},
 
-	// Connect to the server 
-	connectToServer: function()
-	{
-	    
-
-		// Connect with signalR.
-		this.gameHub  = $.connection.gameHub;
-		this.eventHub = $.connection.eventHub;
-
-		this.setupCallbackFunctions();
-		var _this = this;
-
-		$.connection.hub.start().done(function()
-		{
-			//TODO: Add username passing from a selection screen.
-			_this.gameHub.server.addPlayerToServerList(null);
-		});
-	},
+	
 
 	// All callback functions for the game.
 	setupCallbackFunctions: function()
@@ -186,8 +185,9 @@ var Lobby = {
 			alert("Lobby was closed due to host leaving");
 		}
 
+        //eventually this will show: Player Name | Team | Tank Image | Ready?
 		// Add the title.
-		this.lobbyTitle = game.add.text(500, 100, "Game Lobby: " + gameInstance.InstanceId, { font: "32px Arial", fill: '#000000', backgroundColor: "#FFFFFF" });
+		this.lobbyTitle = game.add.text(this.lobbyCentreXPos, this.lobbyYPos, "Game Lobby: " + gameInstance.InstanceId, { font: "22px Arial", fill: '#000000'});
 		this.currentLobbyUsers = [];
 		var titlePosX   = this.lobbyTitle.x;
 		var titlePosY   = this.lobbyTitle.y;
@@ -197,15 +197,70 @@ var Lobby = {
 		gameInstance.Players.forEach(function(player, index)
 		{
 			// Create lobby text for each player.
-			var text = game.add.text(titlePosX, titlePosY + 50, player.PlayerId + ": " + player.Username, { font: "20px Arial", fill: '#000000', backgroundColor: '#FFFFFF' });
+		    var text = game.add.text(titlePosX, titlePosY + 50, player.PlayerId + ": " + player.Username, { font: "15px Arial", fill: '#000000' });
 			text.playerId = player.PlayerId;
 			_this.currentLobbyUsers.push(text);
 			titlePosY += 30;
 		});
 
-		this.add.button(this.lobbyTitle.x, this.game.height / 1.2, 'btn_ready', this.ready, _this);
+        //need to show the setting for the lobby
+		this.displayLobbySettingsInformation();
+
+		this.add.button(this.lobbyRightXPos, this.game.height -100, 'btn_ready', this.ready, _this);
 
 		this.lobbyDisplayed = true;
+	},
+
+	displayLobbySettingsInformation: function () {
+        // Clear existing lobby information.
+		//if (this.lobbySettingsDisplayed) {
+		//	this.lobbyTitle.destroy();
+		//	this.currentLobbyUsers.forEach(function(text)
+		//	{
+		//		text.destroy();
+		//	});
+		//	this.lobbySettingsDisplayed = false;
+	    //}
+
+	    var spacer = 15;
+
+	    //Add the settings Title
+	    this.lobbySettingsTitle = game.add.text(this.lobbyRightXPos, this.lobbyYPos, "Game Settings", { font: "22px Arial", fill: '#000000' });
+	    //items,shot tracer, mod, hp, wind, shot type, turn time, map
+        //make a json fiel for this as its awful to look at
+	    this.mapText = game.add.text(this.lobbyRightXPos, this.lobbySettingsTitle.bottom + spacer, "Map", { font: "12px Arial", fill: '#000000' });
+        //< Map Name >
+	    this.gameTypeText = game.add.text(this.lobbyRightXPos, this.mapText.bottom + spacer, "Game Type", { font: "12px Arial", fill: '#000000' });
+        //< Gamt Type >
+	    this.playerCountText = game.add.text(this.lobbyRightXPos, this.gameTypeText.bottom + spacer, "No. Of Players", { font: "12px Arial", fill: '#000000' });
+        //enter number, default 4
+	    this.healthPointsText = game.add.text(this.lobbyRightXPos, this.playerCountText.bottom + spacer, "HP", { font: "12px Arial", fill: '#000000' });
+        //enter number, default 100
+	    this.windText = game.add.text(this.lobbyRightXPos, this.healthPointsText.bottom + spacer, "Wind", { font: "12px Arial", fill: '#000000' });
+        //radio
+	    this.friendlyFireText = game.add.text(this.lobbyRightXPos, this.windText.bottom + spacer, "Friendly Fire", { font: "12px Arial", fill: '#000000' });
+        //radio
+	    this.turnTimeText = game.add.text(this.lobbyRightXPos, this.friendlyFireText.bottom + spacer, "Turn Timer Length", { font: "12px Arial", fill: '#000000' });
+        //enter number, default 45, show in minutes, seconds
+	    this.shotTracerText = game.add.text(this.lobbyRightXPos, this.turnTimeText.bottom + spacer, "Shot Tracer", { font: "12px Arial", fill: '#000000' });
+        //radio
+	    this.itemsText = game.add.text(this.lobbyRightXPos, this.shotTracerText.bottom + spacer, "Items", { font: "12px Arial", fill: '#000000' });
+        //radio
+
+	    //JSON file setup, obv wouldn't look like this but some would have buttons and some would not.
+        //things like map selection would link to other arrays in the file
+	    /*
+            id: turnTimer,
+            text: TurnTimerLength,
+            style: {...},
+            input:radio / text / button
+            leftButton: null,
+            rightButton: null,
+            linkedArray: la de da,
+            default: 45 //in seconds,
+            max: 600
+        */
+
 	},
 
 	// Tell the server this player is ready.

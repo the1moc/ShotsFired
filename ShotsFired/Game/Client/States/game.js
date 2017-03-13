@@ -49,7 +49,7 @@ var Game = {
 		this.TANK_MIDDLE = Math.round(this.TANK_WIDTH / 2);
 		this.TURRET_WIDTH = 15;
 		this.TURRET_HEIGHT = 5;
-		this.TURN_TIME = Phaser.Timer.SECOND * 34;
+		this.TURN_TIME = Phaser.Timer.SECOND * 300;
 
 
 		// Master font.
@@ -365,7 +365,8 @@ var Game = {
 		}
 
 		if (this.turnTimer.running) {
-			this.turnTimerText = this.add.text(this.textGenerator(this.game.width / 2, 10, this.formatTime(Math.round((this.turnTimerEvent.delay - this.turnTimer.ms)/1000)), 'title'));
+		    this.turnTimerText = "";
+			this.turnTimerText = this.add.text(this.textGenerator(this.game.width / 2, 10, Math.round((this.turnTimerEvent.delay - this.turnTimer.ms)/1000), 'title'));
 
 		}
 		if (this.weaponListToggle.isDown) {
