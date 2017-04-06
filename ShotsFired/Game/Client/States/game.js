@@ -32,14 +32,14 @@ var Game = {
 
 	create: function()
 	{
-	    
+		
 		// Game assets.
-	    this.background = this.add.sprite(0, 0, 'game_bg1');
-	    var bgScale = 600.0 / 1080;
+		this.background = this.add.sprite(0, 0, 'game_bg1');
+		var bgScale = 600.0 / 1080;
 
 
 
-	    this.background.scale.setTo(1, bgScale);
+		this.background.scale.setTo(1, bgScale);
 
 
 
@@ -335,8 +335,8 @@ var Game = {
 				if (this.moveLeft.isDown && this.playerTank.x >this.TANK_MIDDLE)
 				{
 					// Move the tank to the left.
-				    this.playerTank.movement(-1);
-				    //this.playerTank.scale *= +1;
+					this.playerTank.movement(-1);
+					//this.playerTank.scale *= +1;
 					this.eventHub.server.moveLeft(this.playerTank.playerId);
 
 					// Take a unit from the fuel.
@@ -347,8 +347,8 @@ var Game = {
 				else if (this.moveRight.isDown && this.playerTank.x < this.game.width-this.TANK_MIDDLE)
 				{
 					// Move the tank to the right.
-				    this.playerTank.movement(1);
-                    //this.playerTank.scale *= -1
+					this.playerTank.movement(1);
+					//this.playerTank.scale *= -1
 					this.eventHub.server.moveRight(this.playerTank.playerId);
 
 					// Take a unit from the fuel.
@@ -365,7 +365,7 @@ var Game = {
 		}
 
 		if (this.turnTimer.running) {
-		    this.turnTimerText = "";
+			this.turnTimerText = "";
 			this.turnTimerText = this.add.text(this.textGenerator(this.game.width / 2, 10, Math.round((this.turnTimerEvent.delay - this.turnTimer.ms)/1000), 'title'));
 
 		}

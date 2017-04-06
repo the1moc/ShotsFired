@@ -4,15 +4,16 @@ using ShotsFired.Game.Server.Models.Tanks;
 
 namespace ShotsFired.Game.Server.Generators
 {
-	public static class TankGenerator
-	{
-		// Generate random X/Y.
-		private static Random _random = new Random();
+    public class TankGenerator : BaseGenerator
+    {
+        public Tank GenerateTank()
+        {
+            int xPosition = NumberGenerator.Next(50, 700);
 
-		public static Tank GenerateTank()
-		{
-			int xPosition = _random.Next(5, 795);
-			return new Tank(xPosition);
-		}
-	}
+            int armour = 690;
+            int health = 100;
+            //TODO: If passing selected lobby details, pass them here.
+            return new Tank(xPosition, armour, health);
+        }
+    }
 }
