@@ -69,18 +69,16 @@ var Lobby = {
 	// Join a pre-existing game CHANGE THIS 
 	join: function()
 	{
-		this.gameHub.server.joinGame(2, this.playerId);
-		/*
+		
 		this.lobbySelection = function(char)
 		{
 			if (!isNaN(parseInt(char))) {
-				this.gameHub.server.joinGame(char, this.playerId);
-				game.input.keyboard.stop();
+			    this.gameHub.server.joinGame(parseInt(char), this.playerId);
 			}
 		};
 
 		game.input.keyboard.addCallbacks(this, null, null, this.lobbySelection);
-		*/
+		
 		alert("Select a number to join that lobby (TEMPORARY QUICK METHOD)");
 	},
 
