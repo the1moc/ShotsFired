@@ -1,4 +1,5 @@
-﻿using ShotsFired.Game.Server.Models.Projectiles;
+﻿using System.Collections.Generic;
+using ShotsFired.Game.Server.Models.Projectiles;
 
 namespace ShotsFired.Game.Server.Models.Tanks
 {
@@ -37,12 +38,12 @@ namespace ShotsFired.Game.Server.Models.Tanks
 		int Power { get; set; }
 
 		/// <summary>
-		/// Gets or sets the projectile.
+		/// Gets or sets the projectiles for this tank.
 		/// </summary>
 		/// <value>
 		/// The projectile currently selected.
 		/// </value>
-		IProjectile Projectile { get; set; }
+		List<IProjectile> Projectiles { get; set; }
 
 		/// <summary>
 		/// Gets or sets the X co-ordinate.
