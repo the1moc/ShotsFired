@@ -1,0 +1,249 @@
+﻿{
+  "sections": [
+    {
+      "tank": [
+        {
+          "entryName": "Tank",
+          "options": [
+            {
+              "asset": "tank" 
+            }
+          ],
+          "colour": true
+        },
+        {
+          "entryName": "Turret",
+          "options": [
+            { "asset": "turret" }
+          ],
+          "colour": true
+        },
+        {
+          "entryName": "Treads",
+          "options": [
+            { "asset": "treads1" }
+          ],
+          "colour": true
+        },
+        {
+          "entryName": "Shot",
+          "options": [
+            { "asset": "pig" },
+            { "asset": "bomb" },
+            { "asset": "shot" },
+            { "asset": "flower" }
+          ]
+        }
+      ]
+    },
+    {
+      "upgrade": [
+        {
+          "armour": {
+            "entryName": "Armour",
+            "max": 10,
+            "min": 0,
+            "default": 0,
+            "entries": [
+              {
+                "cost": 1,
+                "value": 1,
+                "info": "increase your armour by 10"
+              },
+              {
+                "cost": 2,
+                "value": 2,
+                "info": "increase your armour by 10"
+              },
+              {
+                "cost": 4,
+                "value": 3,
+                "info": "increase your armour by 10"
+              },
+              {
+                "cost": 8,
+                "value": 4,
+                "info": "increase your armour by 10"
+              },
+              {
+                "cost": 16,
+                "value": 5,
+                "info": "increase your armour by 10"
+              },
+              {
+                "cost": 32,
+                "value": 6,
+                "info": "increase your armour by 10"
+              },
+              {
+                "cost": 64,
+                "value": 7,
+                "info": "increase your armour by 10"
+              },
+              {
+                "cost": 128,
+                "value": 8,
+                "info": "increase your armour by 10"
+              },
+              {
+                "cost": 256,
+                "value": 9,
+                "info": "increase your armour by 10"
+              },
+              {
+                "cost": 512,
+                "value": 10,
+                "info": "increase your armour by 10"
+              }
+            ]
+          }
+        },
+        {
+          "barrell": {
+            "entryName": "Barrell",
+            "max": 10,
+            "min": 0,
+            "default": 0,
+            "entries": [
+              {
+                "cost": 10,
+                "value": 1,
+                "info": "double the shots fired"
+              },
+              {
+                "cost": 10,
+                "value": 2,
+                "info": "triple the shots fired"
+              },
+              {
+                "cost": 10,
+                "value": 3,
+                "info": "quadruple shots fired"
+              }
+            ]
+          }
+        },
+        {
+          "precision": {
+            "entryName": "Precision",
+            "max": 0,
+            "min": 5,
+            "default": 5,
+            "entries": [
+              {
+                "cost": 1,
+                "value": 4.5,
+                "info": "Reduce spread to "
+              },
+              {
+                "cost": 2,
+                "value": 4,
+                "info": "Reduce spread to "
+              },
+              {
+                "cost": 3,
+                "value": 3.5,
+                "info": "Reduce spread to "
+              },
+              {
+                "cost": 4,
+                "value": 3,
+                "info": "Reduce spread to "
+              },
+              {
+                "cost": 5,
+                "value": 2.5,
+                "info": "Reduce spread to "
+              },
+              {
+                "cost": 6,
+                "value": 2,
+                "info": "Reduce spread to "
+              },
+              {
+                "cost": 7,
+                "value": 1.5,
+                "info": "Reduce spread to "
+              },
+              {
+                "cost": 8,
+                "value": 1,
+                "info": "Reduce spread to "
+              },
+              {
+                "cost": 9,
+                "value": 0.5,
+                "info": "Reduce spread to "
+              },
+              {
+                "cost": 10,
+                "value": 0,
+                "info": "Reduce spread to "
+              }
+            ]
+          }
+        },
+        {
+          "treads": {
+            "entryName": "Treads",
+            "max": 5,
+            "min": 0,
+            "default": 0,
+            "entries": [
+              {
+                "cost": 2,
+                "value": 5,
+                "info": "Improve fuel efficiency"
+              },
+              {
+                "cost": 2,
+                "value": 4,
+                "info": "Improve fuel efficiency"
+              },
+              {
+                "cost": 2,
+                "value": 3,
+                "info": "Improve fuel efficiency"
+              },
+              {
+                "cost": 2,
+                "value": 2,
+                "info": "Improve fuel efficiency"
+              },
+              {
+                "cost": 2,
+                "value": 1,
+                "info": "Improve fuel efficiency"
+              }
+            ]
+          }
+        }
+
+      ]
+    }
+  ],
+  "options": [
+    {
+      "colour": [
+        { "colour": "#ff0000" },
+        { "colour": "#8b0000" },
+        { "colour": "#a020f0" },
+        { "colour": "#551a8b" },
+        { "colour": "#ffc0cb" },
+        { "colour": "#98fb98" },
+        { "colour": "#548b54" },
+        { "colour": "#ffa500" },
+        { "colour": "#8b5a00" },
+        { "colour": "#ffd700" },
+        { "colour": "#ffff00" },
+        { "colour": "#ff1493" },
+        { "colour": "#0000ff" },
+        { "colour": "#00008b" },
+        { "colour": "#f0f8ff" },
+        { "colour": "#7fffd4" },
+        { "colour": "#fffafa" },
+        { "colour": "#8b2252" }
+      ]
+    }
+  ]
+}

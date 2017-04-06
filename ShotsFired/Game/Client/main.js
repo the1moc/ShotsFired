@@ -6,6 +6,7 @@ game.state.add('Boot', Boot);
 game.state.add('Preload', Preload);
 game.state.add('Menu', Menu);
 game.state.add('Lobby', Lobby);
+game.state.add('Customization', Customization);
 game.state.add('Game', Game);
 
 // Start.

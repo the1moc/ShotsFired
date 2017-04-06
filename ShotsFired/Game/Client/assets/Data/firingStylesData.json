@@ -1,0 +1,26 @@
+﻿[
+    {
+        "btnAsset": "btn_normal",
+        "projectileAsset": "wpn_shot",
+        "damage": 100,
+        "armourPenetration": 2
+    },
+    {
+        "btnAsset": "btn_explosive",
+        "projectileAsset": "wpn_shot",
+        "damage": 100,
+        "armourPenetration": 2
+    },
+    {
+        "btnAsset": "btn_bounce",
+        "projectileAsset": "wpn_shot",
+        "damage": 100,
+        "armourPenetration": 2
+    },
+    {
+        "btnAsset": "btn_direct",
+        "projectileAsset": "wpn_shot",
+        "damage": 100,
+        "armourPenetration": 2
+    }
+]

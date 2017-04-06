@@ -1,0 +1,40 @@
+﻿{
+  "ColourOptions": [
+    { "colour": "#ff0000" },
+    { "colour": "#8b0000" },
+    { "colour": "#a020f0" },
+    { "colour": "#551a8b" },
+    { "colour": "#ffc0cb" },
+    { "colour": "#98fb98" },
+    { "colour": "#548b54" },
+    { "colour": "#ffa500" },
+    { "colour": "#8b5a00" },
+    { "colour": "#ffd700" },
+    { "colour": "#ffff00" },
+    { "colour": "#ff1493" },
+    { "colour": "#0000ff" },
+    { "colour": "#00008b" },
+    { "colour": "#f0f8ff" },
+    { "colour": "#7fffd4" },
+    { "colour": "#fffafa" },
+    { "colour": "#8b2252" }
+  ],
+  "TankOptions": [
+    { "asset": "tank" },
+    { "asset": "tank1" }
+  ],
+  "TurretOptions": [
+    { "asset": "turret" },
+    { "asset": "turret1" }
+  ],
+  "TreadsOptions": [
+    { "asset": "treads1" },
+    { "asset": "treads2" }
+  ],
+  "ProjectileOptions": [
+    { "asset": "pig" },
+    { "asset": "bomb" },
+    { "asset": "shot" },
+    { "asset": "flower" }
+  ]
+}

@@ -1,0 +1,207 @@
+﻿{
+  "tankVariations": 2,
+  "tank": [
+    {
+      "name": "Tank",
+      "asset": "btn_base",
+      "data": [
+        {
+          "heading": "Tank",
+          "asset": 0,
+          "colour": "#8b0000",
+          "info": "Change the tank colour",
+          "infoAsset":  "btn_Armour",
+          "assetOptions": [
+            { "asset": "tank" },
+            { "asset": "tank1" }
+          ],
+          "colourOptions": [
+            { "colour": "#ff0000" },
+            { "colour": "#8b0000" },
+            { "colour": "#a020f0" },
+            { "colour": "#551a8b" },
+            { "colour": "#ffc0cb" },
+            { "colour": "#98fb98" },
+            { "colour": "#548b54" },
+            { "colour": "#ffa500" },
+            { "colour": "#8b5a00" },
+            { "colour": "#ffd700" },
+            { "colour": "#ffff00" },
+            { "colour": "#ff1493" },
+            { "colour": "#0000ff" },
+            { "colour": "#00008b" },
+            { "colour": "#f0f8ff" },
+            { "colour": "#7fffd4" },
+            { "colour": "#fffafa" },
+            { "colour": "#8b2252" }
+          ]
+        },
+        {
+          "heading": "Turret",
+          "asset": 0,
+          "colour": "",
+          "info": "Change turret colour",
+          "infoAsset":  "btn_Armour",
+          "assetOptions": [
+            { "asset": "turret" },
+            { "asset": "turret1" }
+          ],
+          "colourOptions": [
+            { "colour": "#ff0000" },
+            { "colour": "#8b0000" },
+            { "colour": "#a020f0" },
+            { "colour": "#551a8b" },
+            { "colour": "#ffc0cb" },
+            { "colour": "#98fb98" },
+            { "colour": "#548b54" },
+            { "colour": "#ffa500" },
+            { "colour": "#8b5a00" },
+            { "colour": "#ffd700" },
+            { "colour": "#ffff00" },
+            { "colour": "#ff1493" },
+            { "colour": "#0000ff" },
+            { "colour": "#00008b" },
+            { "colour": "#f0f8ff" },
+            { "colour": "#7fffd4" },
+            { "colour": "#fffafa" },
+            { "colour": "#8b2252" }
+          ]
+        },
+        {
+          "heading": "Treads",
+          "asset": 0,
+          "colour": "",
+          "info": "Change the treads colour",
+          "infoAsset":  "btn_Armour",
+          "assetOptions": [
+            { "asset": "treads1" },
+            { "asset": "treads2" }
+          ],
+          "colourOptions": [
+            { "colour": "#ff0000" },
+            { "colour": "#8b0000" },
+            { "colour": "#a020f0" },
+            { "colour": "#551a8b" },
+            { "colour": "#ffc0cb" },
+            { "colour": "#98fb98" },
+            { "colour": "#548b54" },
+            { "colour": "#ffa500" },
+            { "colour": "#8b5a00" },
+            { "colour": "#ffd700" },
+            { "colour": "#ffff00" },
+            { "colour": "#ff1493" },
+            { "colour": "#0000ff" },
+            { "colour": "#00008b" },
+            { "colour": "#f0f8ff" },
+            { "colour": "#7fffd4" },
+            { "colour": "#fffafa" },
+            { "colour": "#8b2252" }
+          ]
+        },
+        {
+          "heading": "Projectile",
+          "asset": 0,
+          "colour": "",
+          "info": "Change your shot",
+          "infoAsset":  "btn_Armour",
+          "assetOptions": [
+            { "asset": "treads1" },
+            { "asset": "treads2" }
+          ],
+          "colourOptions": [
+            { "colour": "#ff0000" },
+            { "colour": "#8b0000" },
+            { "colour": "#a020f0" },
+            { "colour": "#551a8b" },
+            { "colour": "#ffc0cb" },
+            { "colour": "#98fb98" },
+            { "colour": "#548b54" },
+            { "colour": "#ffa500" },
+            { "colour": "#8b5a00" },
+            { "colour": "#ffd700" },
+            { "colour": "#ffff00" },
+            { "colour": "#ff1493" },
+            { "colour": "#0000ff" },
+            { "colour": "#00008b" },
+            { "colour": "#f0f8ff" },
+            { "colour": "#7fffd4" },
+            { "colour": "#fffafa" },
+            { "colour": "#8b2252" }
+          ]
+        }
+      ]
+    }
+  ],
+  "upgrade": [
+    {
+      "name": "Upgrade",
+      "asset": "btn_base",
+      "data": [
+        {
+          "heading": "Armour",
+          "asset": "btn_Armour",
+          "colour": "",
+          "max": 100,
+          "min": 0,
+          "default": 0,
+          "info": "Affects the amount of armour a tank has."
+        },
+        {
+          "heading": "Barrel",
+          "asset": "turret",
+          "colour": "",
+          "max": 3,
+          "min": 1,
+          "default": 1,
+          "info": "Affects the number of shots fired."
+        },
+        {
+          "heading": "Precision",
+          "asset": "turret",
+          "colour": "",
+          "max": 0,
+          "min": 0.5,
+          "default": 0.5,
+          "info": "Affects the accuracy of the shots fired."
+        },
+        {
+          "heading": "Treads",
+          "asset": "btn_Armour",
+          "colour": "",
+          "max": 0.5,
+          "min": 5,
+          "default": 3,
+          "info": "Affects how well the tank uses fuel. The lower the number the better."
+        },
+        {
+          "heading": "Shrapnel",
+          "asset": "btn_Armour",
+          "colour": "",
+          "max": 10,
+          "min": 2,
+          "default": 4,
+          "info": "Affects the amount of shrapnel on explosion."
+        },
+        {
+          "heading": "Bounce",
+          "asset": "btn_Armour",
+          "colour": "",
+          "max": 5,
+          "min": 1,
+          "default": 1,
+          "info": "Affects the number of bounces a projectile has."
+        },
+        {
+          "heading": "Armour Piercing",
+          "asset": "btn_Armour",
+          "colour": "",
+          "max": 10,
+          "min": 1,
+          "default": 1,
+          "info": "Affects how projectiles interact with armour."
+        }
+      ]
+    }
+  ]
+}
+

@@ -1,0 +1,158 @@
+﻿/*
+    createGUI: function () {
+        //##############CAN'T GET THIS SHIT TO WORK#######################
+        
+        this.data = JSON.parse(this.game.cache.getText("dat_customization"));
+        this.tankSectionButton = new Phaser.Button(this.game, this.leftXPos, this.custYPos, 'btn_base', this.doT, this);//currently use btn base but add text to asset later
+        this.upgradeSectionButton = new Phaser.Button(this.game, this.leftXPos, this.custYPos + 60, 'btn_base', this.doT, this);//currently use btn base but add text to asset later
+
+        var tankLength = Object.keys(this.data.sections[0].tank).length;
+        var left, right, cLeft, cRight, headerText, asset, cBMD, cC, optionsName;
+
+        for (var i = 0; i < tankLength; i++){
+            headerText = new Phaser.Text(this.game, this.headingXPos, this.custYPos + (60 * i), this.data.sections[0].tank[i].entryName, this.game.style);
+
+            //get correctOPtions
+            var p = this.data.options[this.data.sections[0].tank[i].options] + "." + this.data.sections[0].tank[i].entryName;
+            var t = i.toString();
+            var optionsLength = Object.keys("" + this.data.options[i].t).length;
+            console.log(this.data.options[i].t);
+            console.log("len: " + optionsLength);
+            //console.log("p: " + p);
+            if (optionsLength > 1) {
+                left = new Phaser.Button(this.game, this.centreXPos, this.custYPos+(60 * i), 'btn_Armour', this.doT, this);
+                //asset = this.add.sprite(this.data.options[[this.data.sections[0].tank[i].options]]+ "." +  this.data.sections[0].tank[i].entryName[0].asset);
+                asset = this.add.sprite(10, 10 + (60*i), this.data.options[[this.data.sections[0].tank[i].options]] + "." + this.data.sections[0].tank[i].entryName[0].asset);
+                right = new Phaser.Button(this.game, this.centreXPos, this.custYPos+(60 * i), 'btn_Armour', this.doT, this);
+            }
+            else {
+                asset = this.add.sprite(this.data.options[[this.data.sections[0].tank[i].options]] + "." + this.data.sections[0].tank[i].entryName[0].asset);
+            }
+            if (this.data.sections[0].tank[i].colour == true) {
+                cLeft = new Phaser.Button(this.game, this.centreXPos, this.custYPos+(60 * i), 'btn_Armour', this.doT, this);
+                cC = null;
+                cBMD = game.add.bitmapData(60, 40);
+                cRight = new Phaser.Button(this.game, this.centreXPos, this.custYPos+(60 * i), 'btn_Armour', this.doT, this);
+            }
+            optionsLength = 0;
+        }
+        
+    },
+    */
+
+	//this.cData = JSON.parse(this.game.cache.getText("dat_customization"));
+
+        ////console.log(this.cData.tank[0].data[0].heading);
+        ////console.log(this.cData.tank[0].asset);
+       
+        //var fLL = Object.keys(this.cData.tank).length;//first layer length - inside tank
+        //var sectionButton;
+        //var sectionButtonText;
+        //this.sections = this.add.group();
+        //for (var i = 0; i < fLL; i++) {
+                
+        //    //layout the section button and print the section name on it
+        //    sectionButton = new Phaser.Button(this.game, this.leftXPos, this.custYPos + (60 * 0),this.cData.tank[0].asset, this.doT, this);
+        //    sectionButtonText = new Phaser.Text(this.game, sectionButton.width/2, sectionButton.height/2, this.cData.tank[0].name, { font: "14px Arial", fill: "#ffffff", align: "center" });
+        //    sectionButtonText.anchor.setTo(0.5);
+        //    this.sections.add(sectionButton);
+        //    this.sections.add(sectionButtonText);
+             
+        //    //definitions for next layer
+        //    var subHeadingText;
+        //    var assetButton, colourButton, infoButton, infoText;
+        //    this.slData = this.cData.tank[0].data;
+        //    var sLL = Object.keys(this.slData).length;//second layer length - inside data
+        //    //console.log("data " + this.cData.tank[0].data);
+        //    this.tankSectionGroup = this.add.group();
+        //    //console.log("here");
+                
+                
+        //    for (var j = 0; j < 2; j++) {//this would be j<sLL
+        //        //console.log("secondLayer 3?: " + j);//should only run 4 times
+        //        //var assetOptionData = this.slData[j].assetOptions;
+        //        //console.log(this.sldata[j]);
+                
+        //        //console.log(this.slData[j].assetOptions[0].asset);
+
+        //        subHeadingText = new Phaser.Text(this.game, this.headingXPos, this.custYPos + (60 * j), this.slData[j].heading, { font: "14px Arial", fill: "#000000", align: "center" });
+        //        this.tankSectionGroup.add(subHeadingText);
+               
+        //        var defaultAsset = this.slData[j].asset;
+        //        assetButton = new Phaser.Button(this.game, this.centreXPos, this.custYPos + (60 * j), this.slData[j].assetOptions[defaultAsset].asset, this.doT, this);
+        //        this.tankSectionGroup.add(assetButton);
+
+        //        var colour;
+        //        //check if default colour is set
+        //        if(this.slData[j].colour != ""){
+        //            colour = this.slData[j].colour;
+        //        }
+        //        else {
+        //            colour = '#000000';
+        //        }
+        //        //console.log(colour);
+        //        var cBMD = game.add.bitmapData(60, 40);
+        //        cBMD.ctx.beginPath();
+        //        cBMD.ctx.rect(0, 0, 180, 30);
+        //        cBMD.ctx.fillStyle = colour;
+        //        cBMD.ctx.fill();
+
+        //        colourButton = new Phaser.Button(this.game, assetButton.right + 10, this.custYPos + (60 * j), cBMD, this.doT, this);
+        //        this.tankSectionGroup.add(colourButton);
+
+        //        //**********Want to call a function that resprays the tank asset with the colour*******
+
+        //        infoButton = new Phaser.Button(this.game, colourButton.right + 10, this.custYPos + (60 * j), this.slData[j].infoAsset, this.doT, this);
+        //        infoText = new Phaser.Text(this.game, this.rightXPos, this.custYPos + (60 * j), this.slData[j].info, { font: "14px Arial", fill: "#000000", align: "center" });
+        //        infoText.visible = true;
+        //        this.tankSectionGroup.add(infoButton);
+        //        this.tankSectionGroup.add(infoText);
+                
+        //        //COME BACK TO THIS - WILL BE FOR MENUS
+        //        //check thirdlayer and loop through - options
+        //        //for (thirdLayer in this.cData.tank[firstLayer][i][secondLayer][j]) {
+        //        //    for (var k = 0; k < this.cData.tank[firstLayer][i][secondLayer][j][thirdLayer][k].length; k++){
+
+        //        //    }
+        //        //}
+
+        //    }
+        //}
+        
+        //upgrade section
+        //fLL = Object.keys(this.cData.upgrade).length;//recycling
+        //console.log(this.cData.upgrade[0].asset);
+        //for (var i = 0; i < fLL; i++){
+        //    //layout the section button and print the section name on it
+        //    sectionButton = new Phaser.Button(this.game, this.leftXPos, this.custYPos + (60 * 1), this.cData.upgrade[0].asset, this.doT, this);
+        //    sectionButtonText = new Phaser.Text(this.game, sectionButton.x + 5, sectionButton.y + 10, this.cData.upgrade[0].name, { font: "14px Arial", fill: "#ffffff", align: "center" });
+        //    this.sections.add(sectionButton);
+        //    this.sections.add(sectionButtonText);
+        //}
+
+
+
+        //this.sectionData.forEach(function(element,index){
+        //    section = new Phaser.Button(this.leftXPos, this.custYPos + (60 * index), element.btnAsset, this.clickButton, this);
+        //    this.sections.add(section);
+
+        //    this.sectionBodyData = JSON.parse(this.game.cache.getText(element.name));
+        //    this.sectionBody = this.add.group();
+
+        //    var heading, assetbtn, colourbtn, infobtn, info;
+        //    this.sectionBodyData.forEach(function (element, index) {
+        //        heading = new Phaser.Text(this.headingXPos, this.custYPos + (60 * index), element.heading, { font: "14px Arial", fill: "#000000", align: "center" });
+        //        //assetbtn = new Phaser.Button(heading.right, this.custYPos + (60 * index), element.previewAsset, this.doT, this);
+        //        //colourbtn = new Phaser.Button(assetbtn.right, this.custYPos + (60 * index), element.colour, this.doT, this);
+        //        //infobtn = new Phaser.Button(colourbtn.right, this.custYPos + (60 * index), btn_Armour, this.doT, this);
+        //        //info = new Phaser.Text(this.rightXPos, this.custYPos + (60 * index), element.info, { font: "14px Arial", fill: "#000000", align: "center" });
+                
+        //        this.sectionBody.add(heading);
+        //        //this.sectionBody.add(assetbtn);
+        //        //this.sectionBody.add(colourbtn);
+        //        //this.sectionBody.add(infobtn);
+
+        //    }, this);
+
+
+        //},this);

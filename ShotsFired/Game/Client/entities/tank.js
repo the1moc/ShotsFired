@@ -4,7 +4,6 @@ function TankCreator(game)
 	// Create a tank.
 	this.createTank = function(data, playerId) {
 		tank = new Tank(game, data.X, data.Y);
-
 		tank.anchor.setTo(0.5,0.5);
 
 		// Physics.
@@ -36,7 +35,7 @@ Tank.prototype.constructor = Tank;
 Tank.prototype.update = function()
 {
 	this.tankTurret.x = this.body.x + (this.body.width / 2);
-	this.tankTurret.y = this.body.y;
+	this.tankTurret.y = this.body.y + 5;
 }
 
 Tank.prototype.damage = function (amount, data) {
@@ -74,6 +73,11 @@ Tank.prototype.movement = function(value)
 	this.tankGUI.moveGUI(this.x, this.y);
 };
 
+//resets fuel for new turn
+Tank.prototype.resetFuel = function (data) {
+    this.fuel = data.fuel
+}
+
 // Takes server projectile data and launches.
 Tank.prototype.launchProjectile = function(projectileData)
 {
@@ -91,3 +95,4 @@ Tank.prototype.launchProjectile = function(projectileData)
 	
 	this.game.launch_sound.play();
 };
+
