@@ -53,6 +53,10 @@
         this.tankSection = this.add.button(this.leftXPos, this.custYPos, 'btn_host', this.showTankSection, this);
         this.upgradeSection = this.add.button(this.leftXPos, this.tankSection.bottom + 10, 'btn_join', this.showUpgradeSection, this);
 
+        this.backToLobbyButton = this.add.button(this.leftXPos, this.game.height - 100, 'btn_join', this.backToLobby, this);
+
+
+
         //Heading, Centre = stuff, right = info
         this.typeHeading = this.add.text(this.headingXPos, this.custYPos, "Type", { font: "14px Arial", fill: "#000000", align: "center" });
         this.custHeading = this.add.text(this.centreXPos, this.custYPos, "Options", { font: "14px Arial", fill: "#000000", align: "center" });
@@ -223,5 +227,9 @@
         cBMD.ctx.rect(0, 0, 180, 30);
         cBMD.ctx.beginPath();
         cBMD.ctx.beginPath();
+    },
+
+    backToLobby: function () {
+        this.state.start("Lobby");
     }
 };

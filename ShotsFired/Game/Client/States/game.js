@@ -385,7 +385,6 @@ var Game = {
 		if (this.turnTimer.running) {
 		    this.turnTimerText = "";
 			this.turnTimerText = this.add.text(this.game.width / 2, 10, Math.round((this.turnTimerEvent.delay - this.turnTimer.ms)/1000), this.small_style);
-
 		}
 
 		// Collision detection?

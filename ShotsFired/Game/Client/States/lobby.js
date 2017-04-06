@@ -51,9 +51,9 @@ var Lobby = {
 	    this.lobbyMusic.volume = 0.1
 	    this.lobbyMusic.mute = true;//temporary till i can fix
 	    // Buttons
-	    this.host = this.add.button(this.lobbyLeftXPos, this.title.height + 100, 'btn_host', this.host, this);
-	    this.join = this.add.button(this.lobbyLeftXPos, this.title.height + 200, 'btn_join', this.join, this);
-	    this.custom = this.add.button(this.lobbyLeftXPos, this.title.height + 400, 'btn_join', this.customization, this);
+	    this.hostButton = this.add.button(this.lobbyLeftXPos, this.title.height + 100, 'btn_host', this.host, this);
+	    this.joinButton = this.add.button(this.lobbyLeftXPos, this.title.height + 200, 'btn_join', this.join, this);
+	    this.customButton = this.add.button(this.lobbyLeftXPos, this.title.height + 400, 'btn_join', this.customization, this);
 	    //i want to use the text class i found on the internet (we will need to ask if allowed) and reference it properly
 	    //http://codepen.io/jdnichollsc/pen/waVMdB?editors=001
 	    //http://www.html5gamedevs.com/topic/16672-input-type-text-in-canvas-with-phaser-and-canvasinput-d/
