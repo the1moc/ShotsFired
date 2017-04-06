@@ -53,6 +53,7 @@ var Lobby = {
 	    // Buttons
 	    this.host = this.add.button(this.lobbyLeftXPos, this.title.height + 100, 'btn_host', this.host, this);
 	    this.join = this.add.button(this.lobbyLeftXPos, this.title.height + 200, 'btn_join', this.join, this);
+	    this.custom = this.add.button(this.lobbyLeftXPos, this.title.height + 400, 'btn_join', this.customization, this);
 	    //i want to use the text class i found on the internet (we will need to ask if allowed) and reference it properly
 	    //http://codepen.io/jdnichollsc/pen/waVMdB?editors=001
 	    //http://www.html5gamedevs.com/topic/16672-input-type-text-in-canvas-with-phaser-and-canvasinput-d/
@@ -92,7 +93,9 @@ var Lobby = {
 		this.state.start("Game");
 	},
 
-	
+	customization: function(){
+	    this.state.start("Customization");
+	},
 
 	// All callback functions for the game.
 	setupCallbackFunctions: function()
@@ -229,6 +232,9 @@ var Lobby = {
 	    //items,shot tracer, mod, hp, wind, shot type, turn time, map
         //make a json fiel for this as its awful to look at
 	    this.mapText = game.add.text(this.lobbyRightXPos, this.lobbySettingsTitle.bottom + spacer, "Map", { font: "12px Arial", fill: '#000000' });
+	    //this.mapButtonLeft = this.add.button(this.lobbyLeftXPos, this.title.height + 100, 'btn_host', this.host, this);
+	    //this.mapButtonLeft = this.add.button(this.lobbyLeftXPos, this.title.height + 100, 'btn_host', this.host, this);
+	    //this.mapButtonLeft = this.add.button(this.lobbyLeftXPos, this.title.height + 100, 'btn_host', this.host, this);
         //< Map Name >
 	    this.gameTypeText = game.add.text(this.lobbyRightXPos, this.mapText.bottom + spacer, "Game Type", { font: "12px Arial", fill: '#000000' });
         //< Gamt Type >

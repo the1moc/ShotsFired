@@ -19,7 +19,7 @@ namespace ShotsFired.Game.Server.Models.Tanks
 			Armour     = 100;
 			Health     = 100;
 			Power      = 250;
-			Fuel       = 10000;
+			Fuel       = 200;
 			Projectile = new StandardProjectile();
 		}
 

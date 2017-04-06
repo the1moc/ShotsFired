@@ -243,6 +243,7 @@
     <Content Include="Game\Client\Assets\Images\Buttons\btn_flower.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_host.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_join.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\btn_menuBase.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_pig.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_play.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_ready.png" />
@@ -275,11 +276,14 @@
     <Content Include="Game\Client\Lib\phaser.min.js" />
     <Content Include="Game\Client\Main.js" />
     <Content Include="Game\Client\States\boot.js" />
+    <Content Include="Game\Client\States\customization.js" />
+    <Content Include="Game\Client\States\CustomizationFailedImprovements.txt" />
     <Content Include="Game\Client\States\game.js" />
     <Content Include="Game\Client\States\lobby.js" />
     <Content Include="Game\Client\States\menu.js" />
     <Content Include="Game\Client\States\preload.js" />
     <Content Include="favicon.ico" />
+    <Content Include="Game\Client\States\settings.js" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -301,6 +305,10 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Game\Client\Assets\Data\projectileData.json" />
+    <Content Include="Game\Client\Assets\Data\customizationData.json" />
+    <Content Include="Game\Client\Assets\Data\settingsData.json" />
+    <Content Include="Game\Client\Assets\Data\sData.json" />
+    <Content Include="Game\Client\Assets\Data\firingStylesData.json" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>

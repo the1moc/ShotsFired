@@ -17,7 +17,7 @@ namespace ShotsFired.Game.Server.Models
 		/// <param name="worldId">The world identifier.</param>
 		public World()
 		{
-			Gravity = 300;
+			Gravity = 100;
 
 			// Possible creation of this variable later in project.
 			Wind = 0;

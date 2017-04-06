@@ -11,11 +11,11 @@ TankGUI = function (game, x, y, playerName, angle, power, health, armour) {
 
 	
 	// Power and angle variables
-	this.vText = game.add.text(x, y - 66, power + ", " + angle, game.font_style);
+	this.vText = game.add.text(x, y - 66, power + ", " + angle, game.small_style);
 	this.vText.anchor.setTo(0.5);
 
 	// Player name
-	this.playerName = game.add.text(x,y-52, playerName, game.font_style);
+	this.playerName = game.add.text(x,y-52, playerName, game.small_style);
 	this.playerName.anchor.setTo(0.5);
 
 	//armour bar
