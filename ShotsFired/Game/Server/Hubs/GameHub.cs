@@ -253,5 +253,23 @@ namespace ShotsFired.Games.Server.Hubs
                 throw new HubException("User not found on server.");
             }
         }
+
+        /// <summary>
+        /// Saves the selections.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <exception cref="HubException">User not found on server.</exception>
+        public void SaveSelections(dynamic options)
+        {
+            // TODO: Make this not so grim
+            IPlayer player = FindPlayerByConnectionId(Context.ConnectionId);
+            player.BodyAssetId = options.bodyAsset;
+            player.BodyAssetColour = options.bodyAssetColour;
+            player.TurretAssetId = options.turretAsset;
+            player.TurretAssetColour = options.turretAssetColour;
+            player.ProjectileAssetId = options.projectileAsset;
+
+            Clients.Caller.customizationSaved();
+        }
     }
 }

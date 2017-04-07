@@ -44,5 +44,14 @@ namespace ShotsFired.Game.Server.Models.Players
 
 		public bool IsInActiveGame { get; set; }
 
+        public int BodyAssetId { get; set; }
+
+        public int BodyAssetColour { get; set; }
+
+        public int TurretAssetId { get; set; }
+
+        public int TurretAssetColour { get; set; }
+        
+        public int ProjectileAssetId { get; set; }
 	}
 }

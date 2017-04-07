@@ -2,7 +2,7 @@
     create: function () {
         // Set menu background (using menu layout for now)
         this.background = this.add.sprite(0, 0, 'menu_bg');
-
+        this.setChanges = this.add.button(250, 500, "btn_ready", this.sendSelections, this)
         this.stage.disableVisibilityChange = true;
 
         // Title image.
@@ -14,7 +14,7 @@
         this.rightXPos = 550;
         this.custYPos = this.title.bottom + 25;
 
-        //groups
+        // Groups
         this.tankSecGroup = this.add.group();
         this.upgSecGroup = this.add.group();
         this.tankSecGroup.visible = false;
@@ -33,6 +33,20 @@
         this.createGUI();
     },
 
+    sendSelections: function () {
+        var gameHub = $.connection.gameHub;
+
+        var mockSelections = {
+            bodyAsset: 1,
+            bodyAssetColour: 2,
+            turretAsset: 3,
+            turretAssetColour: 0,
+            projectileAsset: 0
+        };
+
+        gameHub.server.saveSelections(mockSelections);
+    },
+
     createGUI: function () {
         //data
         this.cData = JSON.parse(this.game.cache.getText("dat_customization"));
@@ -46,7 +60,6 @@
         this.colourData = Object.keys(this.cData.ColourOptions).length;
         //shot assets
         this.shotData = Object.keys(this.cData.ProjectileOptions).length;
-
 
         //create main section buttons
         //sections
@@ -123,7 +136,6 @@
         this.tankSecGroup.add(this.shotLeftAsset);
         this.tankSecGroup.add(this.shotAsset);
         this.tankSecGroup.add(this.shotRightAsset);
-        
 
 
         //this.healthBarText = this.add.text(this.textGenerator(this.healthBar_val.x + 20, this.healthBar_val.y + 1, this.playerTank.health + "/" + this.playerTank.data.health, 'small'));

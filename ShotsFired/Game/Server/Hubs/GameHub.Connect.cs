@@ -17,17 +17,6 @@ namespace ShotsFired.Games.Server.Hubs
             // New player object.
             Player newPlayer;
 
-            //can now get 25,920 different combinations of names
-            //if (username == null)
-            //{
-            //	string names = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/names.txt"));
-            //	string[] seperatedNames = names.Split(',');
-            //	newPlayer = new Player(seperatedNames.ElementAt(new Random().Next(0, 20)), Context.ConnectionId);
-            //}
-            //else {
-            //	newPlayer = new Player(username, Context.ConnectionId);
-            //}
-
             if(username == null)
             {
                 string ranks = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/ranks.txt"));

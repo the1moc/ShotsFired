@@ -1,30 +1,28 @@
 /// <reference path="../Lib/phaser.min.js" />
 var Lobby = {
-    create: function () {
+    create: function()
+    {
         // Set menu background (using menu layout for now)
         this.background = this.add.sprite(0, 0, 'menu_bg');
 
         this.stage.disableVisibilityChange = true;
 
-        this.lobbyLeftXPos   = 50;
+        this.lobbyLeftXPos = 50;
         this.lobbyCentreXPos = 200;
-        this.lobbyRightXPos  = 550;
+        this.lobbyRightXPos = 550;
 
         // Title image.
         this.title = game.add.text(this.lobbyLeftXPos, 50, "Lobby", { font: "50px Arial", fill: "#000000", align: "center" });
 
         this.lobbyYPos = this.title.bottom + 25;
 
-
         this.createGUI();
-
         this.connectToServer();
     },
 
     // Connect to the server 
-    connectToServer: function () {
-
-
+    connectToServer: function()
+    {
         // Connect with signalR.
         this.gameHub = $.connection.gameHub;
         this.eventHub = $.connection.eventHub;
@@ -32,14 +30,16 @@ var Lobby = {
         this.setupCallbackFunctions();
         var _this = this;
 
-        $.connection.hub.start().done(function () {
+        $.connection.hub.start().done(function()
+        {
             //TODO: Add username passing from a selection screen.
             _this.gameHub.server.addPlayerToServerList(null);
         });
     },
 
-    createGUI: function () {
-        
+    createGUI: function()
+    {
+
         //setting button
 
         //TODO: Music. got some music - need a button and looping
@@ -48,8 +48,9 @@ var Lobby = {
         this.lobbyMusic.volume = 0.1
         this.lobbyMusic.mute = true;//temporary till i can fix
         // Buttons
-        this.host = this.add.button(this.lobbyLeftXPos, this.title.height + 100, 'btn_host', this.host, this);
-        this.join = this.add.button(this.lobbyLeftXPos, this.title.height + 200, 'btn_join', this.join, this);
+        this.hostButton = this.add.button(this.lobbyLeftXPos, this.title.height + 100, 'btn_host', this.host, this);
+        this.joinButton = this.add.button(this.lobbyLeftXPos, this.title.height + 200, 'btn_join', this.join, this);
+        this.custom = this.add.button(this.lobbyLeftXPos, this.title.height + 400, 'btn_join', this.customization, this);
         //i want to use the text class i found on the internet (we will need to ask if allowed) and reference it properly
         //http://codepen.io/jdnichollsc/pen/waVMdB?editors=001
         //http://www.html5gamedevs.com/topic/16672-input-type-text-in-canvas-with-phaser-and-canvasinput-d/
@@ -62,7 +63,7 @@ var Lobby = {
         this.gameHub.server.hostGame(this.playerId);
     },
 
-    // Join a pre-existing game CHANGE THIS 
+    // Join a pre-existing game
     join: function()
     {
         this.lobbySelection = function(char)
@@ -73,7 +74,7 @@ var Lobby = {
         };
 
         game.input.keyboard.addCallbacks(this, null, null, this.lobbySelection);
-        
+
         alert("Select a number to join that lobby (TEMPORARY QUICK METHOD)");
     },
 
@@ -86,7 +87,8 @@ var Lobby = {
         this.state.start("Game");
     },
 
-    customization: function(){
+    customization: function()
+    {
         this.state.start("Customization");
     },
 
@@ -156,6 +158,13 @@ var Lobby = {
             _this.state.start("Game");
         }
 
+        // On return of setting the player state to ready.
+        this.gameHub.client.customizationSaved = function()
+        {
+            alert("Choices saved");
+            _this.state.start("Lobby");
+        }
+
         // On all players being ready, fetch the lobby state.
         //TODO: tell ALL clients about this REMEMBER DO TO THIS
         this.gameHub.client.getLobbyState = function()
@@ -168,11 +177,9 @@ var Lobby = {
                 turntimer: 100,
                 shottracer: true
             };
-
             _this.gameHub.server.beginGame(_this.playerId, mockLobbyData);
         }
 
-        // TODO: Probably a better way to do this.
         // Create callbacks for the playing game state.
         this.state.states.Game.createGameCallbackFunctions(this.gameHub);
         this.state.states.Game.createEventCallbackFunctions();
@@ -199,10 +206,10 @@ var Lobby = {
 
         //eventually this will show: Player Name | Team | Tank Image | Ready?
         // Add the title.
-        this.lobbyTitle = game.add.text(this.lobbyCentreXPos, this.lobbyYPos, "Game Lobby: " + gameInstance.InstanceId, { font: "22px Arial", fill: '#000000'});
+        this.lobbyTitle = game.add.text(this.lobbyCentreXPos, this.lobbyYPos, "Game Lobby: " + gameInstance.InstanceId, { font: "22px Arial", fill: '#000000' });
         this.currentLobbyUsers = [];
-        var titlePosX   = this.lobbyTitle.x;
-        var titlePosY   = this.lobbyTitle.y;
+        var titlePosX = this.lobbyTitle.x;
+        var titlePosY = this.lobbyTitle.y;
 
         // Reference for this.
         _this = this;
@@ -218,12 +225,13 @@ var Lobby = {
         //need to show the setting for the lobby
         this.displayLobbySettingsInformation();
 
-        this.add.button(this.lobbyRightXPos, this.game.height -100, 'btn_ready', this.ready, _this);
+        this.add.button(this.lobbyRightXPos, this.game.height - 100, 'btn_ready', this.ready, _this);
 
         this.lobbyDisplayed = true;
     },
 
-    displayLobbySettingsInformation: function () {
+    displayLobbySettingsInformation: function()
+    {
         // Clear existing lobby information.
         //if (this.lobbySettingsDisplayed) {
         //	this.lobbyTitle.destroy();
@@ -241,6 +249,9 @@ var Lobby = {
         //items,shot tracer, mod, hp, wind, shot type, turn time, map
         //make a json fiel for this as its awful to look at
         this.mapText = game.add.text(this.lobbyRightXPos, this.lobbySettingsTitle.bottom + spacer, "Map", { font: "12px Arial", fill: '#000000' });
+        //this.mapButtonLeft = this.add.button(this.lobbyLeftXPos, this.title.height + 100, 'btn_host', this.host, this);
+        //this.mapButtonLeft = this.add.button(this.lobbyLeftXPos, this.title.height + 100, 'btn_host', this.host, this);
+        //this.mapButtonLeft = this.add.button(this.lobbyLeftXPos, this.title.height + 100, 'btn_host', this.host, this);
         //< Map Name >
         this.gameTypeText = game.add.text(this.lobbyRightXPos, this.mapText.bottom + spacer, "Game Type", { font: "12px Arial", fill: '#000000' });
         //< Gamt Type >

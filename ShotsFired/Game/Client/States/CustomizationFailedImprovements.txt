@@ -40,7 +40,7 @@
     },
     */
 
-	//this.cData = JSON.parse(this.game.cache.getText("dat_customization"));
+    //this.cData = JSON.parse(this.game.cache.getText("dat_customization"));
 
         ////console.log(this.cData.tank[0].data[0].heading);
         ////console.log(this.cData.tank[0].asset);
