@@ -65,6 +65,10 @@ namespace ShotsFired.Game.Server.Models
 		/// </value>
 		public bool IsGameRunning { get; set; }
 
+		/// <summary>
+		/// Begins the game.
+		/// </summary>
+		/// <param name="lobbyData">The lobby data.</param>
 		public void BeginGame(Lobby lobbyData)
 		{
 			World         = new World();
@@ -72,7 +76,7 @@ namespace ShotsFired.Game.Server.Models
 
 			// Generate a tank for each player.
 			TankGenerator tankGenerator = new TankGenerator();
-			Players.ForEach(player => player.Tank = tankGenerator.GenerateTank());
+			Players.ForEach(player => player.Tank = tankGenerator.GenerateTank(player.TankSettings));
 			Players.ForEach(player => player.IsInActiveGame = true);
 		}
 

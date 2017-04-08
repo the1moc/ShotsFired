@@ -263,11 +263,11 @@ namespace ShotsFired.Games.Server.Hubs
         {
             // TODO: Make this not so grim
             IPlayer player = FindPlayerByConnectionId(Context.ConnectionId);
-            player.BodyAssetId = options.bodyAsset;
-            player.BodyAssetColour = options.bodyAssetColour;
-            player.TurretAssetId = options.turretAsset;
-            player.TurretAssetColour = options.turretAssetColour;
-            player.ProjectileAssetId = options.projectileAsset;
+            player.TankSettings.BodyAssetId = options.bodyAsset;
+            player.TankSettings.BodyAssetColour = options.bodyAssetColour;
+            player.TankSettings.TurretAssetId = options.turretAsset;
+            player.TankSettings.TurretAssetColour = options.turretAssetColour;
+            player.TankSettings.ProjectileAssetId = options.projectileAsset;
 
             Clients.Caller.customizationSaved();
         }

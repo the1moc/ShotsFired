@@ -23,6 +23,11 @@ var Lobby = {
     // Connect to the server 
     connectToServer: function()
     {
+    	if (this.connected)
+    	{
+    		return;
+    	}
+
         // Connect with signalR.
         this.gameHub = $.connection.gameHub;
         this.eventHub = $.connection.eventHub;
@@ -32,6 +37,7 @@ var Lobby = {
 
         $.connection.hub.start().done(function()
         {
+        	_this.connected = true;
             //TODO: Add username passing from a selection screen.
             _this.gameHub.server.addPlayerToServerList(null);
         });
@@ -50,7 +56,7 @@ var Lobby = {
         // Buttons
         this.hostButton = this.add.button(this.lobbyLeftXPos, this.title.height + 100, 'btn_host', this.host, this);
         this.joinButton = this.add.button(this.lobbyLeftXPos, this.title.height + 200, 'btn_join', this.join, this);
-        this.custom = this.add.button(this.lobbyLeftXPos, this.title.height + 400, 'btn_join', this.customization, this);
+        this.custom = this.add.button(this.lobbyLeftXPos, this.title.height + 400, 'btn_custom', this.customization, this);
         //i want to use the text class i found on the internet (we will need to ask if allowed) and reference it properly
         //http://codepen.io/jdnichollsc/pen/waVMdB?editors=001
         //http://www.html5gamedevs.com/topic/16672-input-type-text-in-canvas-with-phaser-and-canvasinput-d/

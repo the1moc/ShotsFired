@@ -211,6 +211,7 @@
     <Compile Include="Game\Server\Models\Lobby.cs" />
     <Compile Include="Game\Server\Models\GameInstance.cs" />
     <Compile Include="Game\Server\Models\Players\IPlayer.cs" />
+    <Compile Include="Game\Server\Models\Players\CustomSettings.cs" />
     <Compile Include="Game\Server\Models\Projectiles\IProjectile.cs" />
     <Compile Include="Game\Server\Models\Tanks\ITank.cs" />
     <Compile Include="Global.asax.cs">
@@ -245,6 +246,7 @@
     <Content Include="Game\Client\Assets\Images\Buttons\BounceShot.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_bomb.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_flower.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\btn_custom.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_host.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_join.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_menuBase.png" />
