@@ -22,13 +22,13 @@ namespace ShotsFired.Game.Server.Models.Tanks
             Health = health;
             Power  = 250;
             Fuel   = 200;
-			BodyAssetId = tankSettings.BodyAssetId;
-			BodyAssetColour = tankSettings.BodyAssetColour;
-			TurretAssetId = tankSettings.TurretAssetId;
-			TurretAssetColour = tankSettings.TurretAssetColour;
-			ProjectileAssetId = tankSettings.ProjectileAssetId;
+            BodyAssetId = tankSettings.BodyAssetId;
+            BodyAssetColour = tankSettings.BodyAssetColour;
+            TurretAssetId = tankSettings.TurretAssetId;
+            TurretAssetColour = tankSettings.TurretAssetColour;
+            ProjectileAssetId = tankSettings.ProjectileAssetId;
 
-			ProjectileGenerator projectileGenerator = new ProjectileGenerator();
+            ProjectileGenerator projectileGenerator = new ProjectileGenerator();
             Projectiles = new List<IProjectile>(4);
             for (int i = 0; i < 4; i++)
             {
@@ -50,14 +50,16 @@ namespace ShotsFired.Game.Server.Models.Tanks
 
         public int Fuel { get; set; }
 
-		public int BodyAssetId { get; set; }
+        public int BodyAssetId { get; set; }
 
-		public int BodyAssetColour { get; set; }
+        public int BodyAssetColour { get; set; }
 
-		public int TurretAssetId { get; set; }
+        public int TurretAssetId { get; set; }
 
-		public int TurretAssetColour { get; set; }
+        public int TurretAssetColour { get; set; }
 
-		public int ProjectileAssetId { get; set; }
-	}
+        public int ProjectileAssetId { get; set; }
+
+        public bool TankReady { get; set; }
+    }
 }

@@ -100,5 +100,13 @@ namespace ShotsFired.Game.Server.Models.Tanks
 		/// The projectile asset identifier.
 		/// </value>
 		int ProjectileAssetId { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether the shot is ready to be fired.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if ready to be fired; otherwise, <c>false</c>.
+		/// </value>
+		bool TankReady { get; set; }
 	}
 }

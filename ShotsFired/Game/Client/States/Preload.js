@@ -33,9 +33,12 @@ var Preload = {
 
         // Buttons
         this.load.image('btn_weaponList',   BTN_DIR + 'btn_weaponsList.png');
-        this.load.image('btn_play',         BTN_DIR + 'btn_play.png');
-        this.load.image('btn_ready',        BTN_DIR + 'btn_ready.png');
+        this.load.image('btn_play', BTN_DIR + 'btn_play.png');
+        this.load.image('btn_save', BTN_DIR + 'btn_save.png');
+        this.load.image('btn_return', BTN_DIR + 'btn_return.png');
+        this.load.image('btn_ready', BTN_DIR + 'btn_ready.png');
         this.load.image('btn_custom',       BTN_DIR + 'btn_custom.png');
+        this.load.image('btn_customizeTank',BTN_DIR + 'btn_customizeTank.png');
         this.load.image('btn_host',         BTN_DIR + 'btn_host.png');
         this.load.image('btn_join',         BTN_DIR + 'btn_join.png');
         this.load.image('btn_flower',       BTN_DIR + 'btn_flower.png');

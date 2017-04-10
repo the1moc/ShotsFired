@@ -22,25 +22,18 @@ var Game = {
     init: function()
     {
         this.gameInstance = this.state.states.Lobby.gameInstance;
-        this.playerId     = this.state.states.Lobby.playerId;
+        this.playerId = this.state.states.Lobby.playerId;
 
-        // Difficulty.
-
-        // Level.
+        // Map.
+        this.map = this.gameInstance.World.Map;
 
         // Physics & Gravity.
         this.physics.startSystem(Phaser.Physics.ARCADE);
         this.physics.arcade.gravity.y = this.gameInstance.World.Gravity;
 
-        // Constants.
-
         // Variables.
-        this.playerHealth = 200;
-
-    },
-
-    preload: function () {
-
+        this.playerHealth = this.gameInstance.World.Health;
+        this.playerFuel = this.gameInstance.World.Fuel;
     },
 
     create: function()
@@ -123,9 +116,6 @@ var Game = {
         // Movement controls.
         this.moveLeft = this.input.keyboard.addKey(Phaser.Keyboard.A);
         this.moveRight = this.input.keyboard.addKey(Phaser.Keyboard.D);
-
-        //test reset button
-        this.resetShots = this.input.keyboard.addKey(Phaser.Keyboard.R);
 
         //weapon button
         this.generateFiringStylesList();
@@ -310,17 +300,9 @@ var Game = {
         //	//this.readyText.text = 'Ready?: ' + this.shotsFired;
 
         //}
-        if (this.fireButton.isDown && this.shotsFired == false && this.currentStyleSelected) {
-            //fire a regular bullet from the tank
-            //THIS WILL BE THE ASSET PASSED IN LATER ON
-            this.playerTank.launchProjectile(this.currentStyleSelected.projectileAsset);
-            //this is where the different types of shot should be implemented
-            //handle selected firing style
-
-
+    	if (this.fireButton.isDown && this.currentStyleSelected && !this.shotsFired) {
+    		this.gameHub.server.setFireReady(this.playerTank.playerId);
             this.shotsFired = true;
-            this.eventHub.server.launchProjectile(this.playerTank.playerId);
-            console.log('Shots Fired!');
         }
         else if(!this.shotsFired){
             // Player can only change the angle and power before shooting. Not during and not after
@@ -377,9 +359,6 @@ var Game = {
             }
             this.playerTank.tankGUI.updateAngleText(this.playerTank.power, this.playerTank.tankTurret.angle);
             //this.updateTankGUI(this.playerTank.power, this.playerTank.tankTurret.angle);
-        }
-        if (this.resetShots.isDown) {
-            this.shotsFired = false;
         }
 
         if (this.turnTimer.running) {
@@ -484,12 +463,19 @@ var Game = {
         }
 
         // Launch a projectile from a tank.
-        this.eventHub.client.launchProjectile = function(playerId)
+        this.gameHub.client.launchProjectiles = function()
         {
-            _this.players.filter(function(tank)
-            {
-                return tank.playerId == playerId
-            }).first.launchProjectile("wpn_shot");
+        	_this.players.forEach(function (player)
+        	{
+        		player.launchProjectile("wpn_shot");
+        	});
+        }
+
+    	// Launch a projectile from a tank.
+        this.gameHub.client.resetTurn = function ()
+        {
+        	_this.shotsFired = false;
+        	_this.playerTank.fuel = _this.turnFuel;
         }
     }
 };

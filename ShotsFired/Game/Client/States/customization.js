@@ -2,7 +2,7 @@
     create: function () {
         // Set menu background (using menu layout for now)
         this.background = this.add.sprite(0, 0, 'menu_bg');
-        this.setChanges = this.add.button(250, 500, "btn_ready", this.sendSelections, this)
+        this.setChanges = this.add.button(250, 500, "btn_save", this.sendSelections, this)
         this.stage.disableVisibilityChange = true;
 
         // Title image.
@@ -63,10 +63,10 @@
 
         //create main section buttons
         //sections
-        this.tankSection = this.add.button(this.leftXPos, this.custYPos, 'btn_host', this.showTankSection, this);
-        this.upgradeSection = this.add.button(this.leftXPos, this.tankSection.bottom + 10, 'btn_join', this.showUpgradeSection, this);
+        this.tankSection = this.add.button(this.leftXPos, this.custYPos, 'btn_customizeTank', this.showTankSection, this);
+        //this.upgradeSection = this.add.button(this.leftXPos, this.tankSection.bottom + 10, 'btn_join', this.showUpgradeSection, this);
 
-        this.backToLobbyButton = this.add.button(this.leftXPos, this.game.height - 100, 'btn_join', this.backToLobby, this);
+        this.backToLobbyButton = this.add.button(this.leftXPos, this.game.height - 100, 'btn_return', this.backToLobby, this);
 
 
 

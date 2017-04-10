@@ -17,17 +17,18 @@ var Lobby = {
         this.lobbyYPos = this.title.bottom + 25;
 
         this.createGUI();
+
+        if (this.connected) {
+            this.gameHub.server.returnGameInstanceToClient();
+            return;
+        }
+
         this.connectToServer();
     },
 
     // Connect to the server 
     connectToServer: function()
     {
-    	if (this.connected)
-    	{
-    		return;
-    	}
-
         // Connect with signalR.
         this.gameHub = $.connection.gameHub;
         this.eventHub = $.connection.eventHub;
@@ -37,7 +38,7 @@ var Lobby = {
 
         $.connection.hub.start().done(function()
         {
-        	_this.connected = true;
+            _this.connected = true;
             //TODO: Add username passing from a selection screen.
             _this.gameHub.server.addPlayerToServerList(null);
         });
@@ -181,7 +182,8 @@ var Lobby = {
                 health: 100,
                 wind: 1,
                 turntimer: 100,
-                shottracer: true
+                shottracer: true,
+                gravity: 100
             };
             _this.gameHub.server.beginGame(_this.playerId, mockLobbyData);
         }

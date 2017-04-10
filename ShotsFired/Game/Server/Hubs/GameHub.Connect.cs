@@ -26,7 +26,7 @@ namespace ShotsFired.Games.Server.Hubs
                 string[] seperatedFirstNames = firstNames.Split(',');
                 string lastNames = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/LastNames.txt"));
                 string[] seperatedLastNames = lastNames.Split(',');
-                string generatedUsername = seperatedRanks.ElementAt(new Random().Next(0, 18)) + ". "+ seperatedFirstNames.ElementAt(new Random().Next(0, 40)) + " " + seperatedLastNames.ElementAt(new Random().Next(0, 36));
+                string generatedUsername = seperatedRanks.ElementAt(new Random().Next(0, 18)) + "."+ seperatedFirstNames.ElementAt(new Random().Next(0, 40)) + seperatedLastNames.ElementAt(new Random().Next(0, 36));
                 newPlayer = new Player(generatedUsername, Context.ConnectionId);
             }
             else

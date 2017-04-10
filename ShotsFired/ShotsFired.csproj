@@ -247,6 +247,9 @@
     <Content Include="Game\Client\Assets\Images\Buttons\btn_bomb.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_flower.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_custom.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\btn_customizeTank.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\btn_save.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\btn_return.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_host.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_join.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_menuBase.png" />
