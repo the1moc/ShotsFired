@@ -74,7 +74,7 @@ var Lobby = {
         };
 
 		game.input.keyboard.addCallbacks(this, null, null, this.lobbySelection);
-		*/
+		
 		alert("Select a number to join that lobby (TEMPORARY QUICK METHOD)");
 	},
 

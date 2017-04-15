@@ -31,6 +31,9 @@ var Preload = {
 		this.load.image('wpn_flower',       SPT_DIR + 'wpn_flower.png');
 		this.load.image('wpn_pig',          SPT_DIR + 'wpn_pig.png');
 
+	    //spritesheet
+		this.load.spritesheet('shotSmoke',  SPT_DIR + 'Smoke &amp; Fire.png', 16, 15, 16);
+
 		// Buttons
 		this.load.image('btn_weaponList',   BTN_DIR + 'btn_weaponsList.png');
 		this.load.image('btn_play',         BTN_DIR + 'btn_play.png');

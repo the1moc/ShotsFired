@@ -94,5 +94,12 @@ Tank.prototype.launchProjectile = function(projectileData)
 	this.game.physics.arcade.velocityFromAngle(this.tankTurret.angle, this.power, this.projectile.body.velocity);
 	
 	this.game.launch_sound.play();
+	this.turretSmoke = this.game.add.sprite(turretPositionXY.x-16, turretPositionXY.y-30, 'shotSmoke');
+	
+	this.turretSmoke.animations.add('anim_shotSmoke', [0, 1, 2, 3, 4, 5, 6, 7]);
+	this.turretSmoke.scale.setTo(2);
+	this.turretSmoke.animations.play('anim_shotSmoke', 20, false,true);
+	
+	//this.turretSmoke.visible = false;
 };
 

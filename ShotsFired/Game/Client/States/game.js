@@ -69,6 +69,10 @@ var Game = {
 		// Variables.
 		this.shotsFired = false;
 		this.launch_sound = this.game.add.audio('aud_fire');
+
+	    //smoke animation
+		
+
 		// Create the tanks.
 		tankCreator = new TankCreator(this);
 		_this = this;
