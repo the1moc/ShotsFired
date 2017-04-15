@@ -474,7 +474,8 @@ var Game = {
     	// Launch a projectile from a tank.
         this.gameHub.client.resetTurn = function ()
         {
-        	_this.shotsFired = false;
+            _this.shotsFired = false;
+            _this.fireButton.reset();
         	_this.playerTank.fuel = _this.turnFuel;
         }
     }

@@ -165,7 +165,7 @@ namespace ShotsFired.Games.Server.Hubs
         {
             GameInstance game = GetGameInstanceById(GetPlayerByPlayerId(playerId).CurrentGameInstanceId);
             game.BeginGame(lobbyData);
-            Clients.All.startGame(game);
+            Clients.Clients(game.Players.Select(p => p.ConnectionId).ToList()).startGame(game);
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace ShotsFired.Games.Server.Hubs
         /// </summary>
         /// <param name="gameInstanceId">The game instance identifier.</param>
         /// <returns>An instance of the game</returns>
-        public GameInstance GetGameInstanceById(string gameInstanceId) {
+        public static GameInstance GetGameInstanceById(string gameInstanceId) {
             try
             {
                 return _games.Find(game => game.InstanceId == gameInstanceId);
@@ -297,9 +297,9 @@ namespace ShotsFired.Games.Server.Hubs
             if(currentGame.Players.All(p => p.Tank.TankReady))
             {
                 currentGame.Players.Select(p => { return player.Tank.TankReady = false; });
-                Clients.All.launchProjectiles();
+                Clients.Clients(currentGame.Players.Select(p => p.ConnectionId).ToList()).launchProjectiles();
                 System.Threading.Thread.Sleep(7000);
-                Clients.All.resetTurn();
+                Clients.Clients(currentGame.Players.Select(p => p.ConnectionId).ToList()).resetTurn();
             }
         }
     }
