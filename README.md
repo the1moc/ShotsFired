@@ -1,6 +1,10 @@
 # ShotsFired
 Game inspired by Tanks
 
+http://www.ultidev.com/Products/UWS-Cassini-Pro/Default.aspx
+
+We are using this to host the server, rather than having the ball ache of setting up IIS etc for the demonstration. It will let us run the server easily from PC to PC with all the same features as IIS etc (y)
+
 # Running software
 - Clone it
 - Open the solution up in VS (it should automatically restore all nuget packages)

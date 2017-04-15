@@ -60,5 +60,53 @@ namespace ShotsFired.Game.Server.Models.Tanks
 		/// The y co-ordinate.
 		/// </value>
 		double Y { get; set; }
+
+		/// <summary>
+		/// Gets or sets the body asset identifier.
+		/// </summary>
+		/// <value>
+		/// The body asset identifier.
+		/// </value>
+		int BodyAssetId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the body asset colour.
+		/// </summary>
+		/// <value>
+		/// The body asset colour.
+		/// </value>
+		int BodyAssetColour { get; set; }
+
+		/// <summary>
+		/// Gets or sets the turret asset identifier.
+		/// </summary>
+		/// <value>
+		/// The turret asset identifier.
+		/// </value>
+		int TurretAssetId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the turret asset colour.
+		/// </summary>
+		/// <value>
+		/// The turret asset colour.
+		/// </value>
+		int TurretAssetColour { get; set; }
+
+		/// <summary>
+		/// Gets or sets the projectile asset identifier.
+		/// </summary>
+		/// <value>
+		/// The projectile asset identifier.
+		/// </value>
+		int ProjectileAssetId { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether the shot is ready to be fired.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if ready to be fired; otherwise, <c>false</c>.
+		/// </value>
+		bool TankReady { get; set; }
 	}
 }

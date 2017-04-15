@@ -211,6 +211,7 @@
     <Compile Include="Game\Server\Models\Lobby.cs" />
     <Compile Include="Game\Server\Models\GameInstance.cs" />
     <Compile Include="Game\Server\Models\Players\IPlayer.cs" />
+    <Compile Include="Game\Server\Models\Players\CustomSettings.cs" />
     <Compile Include="Game\Server\Models\Projectiles\IProjectile.cs" />
     <Compile Include="Game\Server\Models\Tanks\ITank.cs" />
     <Compile Include="Global.asax.cs">
@@ -242,8 +243,13 @@
     <Content Include="Game\Client\Assets\Images\Backgrounds\airadventurelevel4.png" />
     <Content Include="Game\Client\Assets\Images\Backgrounds\menu_background.png" />
     <Content Include="Game\Client\Assets\Images\Backgrounds\temp_background.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\BounceShot.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_bomb.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_flower.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\btn_custom.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\btn_customizeTank.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\btn_save.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\btn_return.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_host.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_join.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_menuBase.png" />
@@ -252,6 +258,11 @@
     <Content Include="Game\Client\Assets\Images\Buttons\btn_ready.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_shot.png" />
     <Content Include="Game\Client\Assets\Images\Buttons\btn_weaponsList.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\ExplosiveShot.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\LeftArrow.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\NormalShot.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\RightArrow.png" />
+    <Content Include="Game\Client\Assets\Images\Buttons\StraightShot.png" />
     <Content Include="Game\Client\Assets\Images\Sprites\armourTile.png" />
     <Content Include="Game\Client\Assets\Images\Sprites\bullet.png" />
     <Content Include="Game\Client\Assets\Images\Sprites\fuelTile.png" />
@@ -312,6 +323,7 @@
     <Content Include="Game\Client\Assets\Data\settingsData.json" />
     <Content Include="Game\Client\Assets\Data\sData.json" />
     <Content Include="Game\Client\Assets\Data\firingStylesData.json" />
+    <Content Include="Game\Client\Assets\Images\Buttons\btn_menuBase.xcf" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>

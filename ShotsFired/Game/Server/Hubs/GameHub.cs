@@ -205,6 +205,19 @@ namespace ShotsFired.Games.Server.Hubs
         }
 
         /// <summary>
+        /// Returns the game instance to client that the player is already in.
+        /// </summary>
+        /// <param name="gameInstanceId">The game instance identifier.</param>
+        public void ReturnGameInstanceToClient()
+        {
+            // If they are not in a game, just return and do nothing.
+            if (FindPlayerByConnectionId(Context.ConnectionId).CurrentGameInstanceId == null)
+                return;
+
+            Clients.Caller.gameJoinSuccess(GetGameInstanceById(FindPlayerByConnectionId(Context.ConnectionId).CurrentGameInstanceId));
+        }
+
+        /// <summary>
         /// Gets the desired game instance.
         /// </summary>
         /// <param name="gameInstanceId">The game instance identifier.</param>
@@ -251,6 +264,42 @@ namespace ShotsFired.Games.Server.Hubs
             catch (ArgumentException nullException)
             {
                 throw new HubException("User not found on server.");
+            }
+        }
+
+        /// <summary>
+        /// Saves the selections.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <exception cref="HubException">User not found on server.</exception>
+        public void SaveSelections(dynamic options)
+        {
+            // TODO: Make this not so grim
+            IPlayer player = FindPlayerByConnectionId(Context.ConnectionId);
+            player.TankSettings.BodyAssetId = options.bodyAsset;
+            player.TankSettings.BodyAssetColour = options.bodyAssetColour;
+            player.TankSettings.TurretAssetId = options.turretAsset;
+            player.TankSettings.TurretAssetColour = options.turretAssetColour;
+            player.TankSettings.ProjectileAssetId = options.projectileAsset;
+
+            Clients.Caller.customizationSaved();
+        }
+
+        /// <summary>
+        /// Sets the fire ready.
+        /// </summary>
+        /// <param name="playerId">The player identifier.</param>
+        public void SetFireReady(string playerId)
+        {
+            IPlayer player = GetPlayerByPlayerId(playerId);
+            GameInstance currentGame = GetGameInstanceById(player.CurrentGameInstanceId);
+            player.Tank.TankReady = true;
+            if(currentGame.Players.All(p => p.Tank.TankReady))
+            {
+                currentGame.Players.Select(p => { return player.Tank.TankReady = false; });
+                Clients.All.launchProjectiles();
+                System.Threading.Thread.Sleep(7000);
+                Clients.All.resetTurn();
             }
         }
     }

@@ -51,5 +51,13 @@ namespace ShotsFired.Game.Server.Models
         ///   <c>true</c> if shots traces are wanted; otherwise, <c>false</c>.
         /// </value>
         public bool ShotTracer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gravity.
+        /// </summary>
+        /// <value>
+        /// The gravity.
+        /// </value>
+        public int Gravity { get; set; }
     }
 }

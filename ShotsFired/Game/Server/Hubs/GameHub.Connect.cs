@@ -17,17 +17,6 @@ namespace ShotsFired.Games.Server.Hubs
             // New player object.
             Player newPlayer;
 
-            //can now get 25,920 different combinations of names
-            //if (username == null)
-            //{
-            //	string names = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/names.txt"));
-            //	string[] seperatedNames = names.Split(',');
-            //	newPlayer = new Player(seperatedNames.ElementAt(new Random().Next(0, 20)), Context.ConnectionId);
-            //}
-            //else {
-            //	newPlayer = new Player(username, Context.ConnectionId);
-            //}
-
             if(username == null)
             {
                 string ranks = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/ranks.txt"));
@@ -37,7 +26,7 @@ namespace ShotsFired.Games.Server.Hubs
                 string[] seperatedFirstNames = firstNames.Split(',');
                 string lastNames = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/LastNames.txt"));
                 string[] seperatedLastNames = lastNames.Split(',');
-                string generatedUsername = seperatedRanks.ElementAt(new Random().Next(0, 18)) + ". "+ seperatedFirstNames.ElementAt(new Random().Next(0, 40)) + " " + seperatedLastNames.ElementAt(new Random().Next(0, 36));
+                string generatedUsername = seperatedRanks.ElementAt(new Random().Next(0, 18)) + "."+ seperatedFirstNames.ElementAt(new Random().Next(0, 40)) + seperatedLastNames.ElementAt(new Random().Next(0, 36));
                 newPlayer = new Player(generatedUsername, Context.ConnectionId);
             }
             else

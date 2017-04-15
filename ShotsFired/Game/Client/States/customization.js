@@ -2,7 +2,7 @@
     create: function () {
         // Set menu background (using menu layout for now)
         this.background = this.add.sprite(0, 0, 'menu_bg');
-
+        this.setChanges = this.add.button(250, 500, "btn_save", this.sendSelections, this)
         this.stage.disableVisibilityChange = true;
 
         // Title image.
@@ -14,7 +14,7 @@
         this.rightXPos = 550;
         this.custYPos = this.title.bottom + 25;
 
-        //groups
+        // Groups
         this.tankSecGroup = this.add.group();
         this.upgSecGroup = this.add.group();
         this.tankSecGroup.visible = false;
@@ -33,6 +33,20 @@
         this.createGUI();
     },
 
+    sendSelections: function () {
+        var gameHub = $.connection.gameHub;
+
+        var mockSelections = {
+            bodyAsset: 1,
+            bodyAssetColour: 2,
+            turretAsset: 3,
+            turretAssetColour: 0,
+            projectileAsset: 0
+        };
+
+        gameHub.server.saveSelections(mockSelections);
+    },
+
     createGUI: function () {
         //data
         this.cData = JSON.parse(this.game.cache.getText("dat_customization"));
@@ -47,13 +61,12 @@
         //shot assets
         this.shotData = Object.keys(this.cData.ProjectileOptions).length;
 
-
         //create main section buttons
         //sections
-        this.tankSection = this.add.button(this.leftXPos, this.custYPos, 'btn_host', this.showTankSection, this);
-        this.upgradeSection = this.add.button(this.leftXPos, this.tankSection.bottom + 10, 'btn_join', this.showUpgradeSection, this);
+        this.tankSection = this.add.button(this.leftXPos, this.custYPos, 'btn_customizeTank', this.showTankSection, this);
+        //this.upgradeSection = this.add.button(this.leftXPos, this.tankSection.bottom + 10, 'btn_join', this.showUpgradeSection, this);
 
-        this.backToLobbyButton = this.add.button(this.leftXPos, this.game.height - 100, 'btn_join', this.backToLobby, this);
+        this.backToLobbyButton = this.add.button(this.leftXPos, this.game.height - 100, 'btn_return', this.backToLobby, this);
 
 
 
@@ -127,7 +140,6 @@
         this.tankSecGroup.add(this.shotLeftAsset);
         this.tankSecGroup.add(this.shotAsset);
         this.tankSecGroup.add(this.shotRightAsset);
-        
 
 
         //this.healthBarText = this.add.text(this.textGenerator(this.healthBar_val.x + 20, this.healthBar_val.y + 1, this.playerTank.health + "/" + this.playerTank.data.health, 'small'));

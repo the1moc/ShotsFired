@@ -15,15 +15,16 @@ namespace ShotsFired.Game.Server.Models.Players
 		/// <param name="username">The username.</param>
 		public Player(string username, string connectionId)
 		{
-			Username              = username;
-			PlayerId              = new Random().Next(0, 100000).ToString();
-			Tank                  = null;
+			Username = username;
+			PlayerId = new Random().Next(0, 100000).ToString();
+			TankSettings = new CustomSettings();
+			Tank = null;
 			CurrentGameInstanceId = null;
-			Ready                 = false;
-			IsHost                = false;
-			IsInActiveGame        = false;
-			IsInLobby             = false;
-			ConnectionId          = connectionId;
+			Ready = false;
+			IsHost = false;
+			IsInActiveGame = false;
+			IsInLobby = false;
+			ConnectionId = connectionId;
 		}
 
 		public string ConnectionId { get; set; }
@@ -44,5 +45,6 @@ namespace ShotsFired.Game.Server.Models.Players
 
 		public bool IsInActiveGame { get; set; }
 
+		public CustomSettings TankSettings { get; set; }
 	}
 }
