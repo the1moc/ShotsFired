@@ -54,6 +54,7 @@ var Game = {
         this.small_style = { font: "12px Arial", fill: "#ffffff" };
         this.body_style = { font: "12px Arial", fill: "#ffffff" };
         this.title_style = { font: "12px Arial", fill: "#ffffff" };
+        this.large_style = { font: "35px Arial", fill: "#000000" };
         // Groups.
         this.players = this.add.group();
         this.players.enableBody = true;
@@ -319,7 +320,13 @@ var Game = {
 
         //}
     	if (this.fireButton.isDown && this.currentStyleSelected && !this.shotsFired) {
-    		this.gameHub.server.setFireReady(this.playerTank.playerId);
+    	    this.gameHub.server.setFireReady(this.playerTank.playerId);
+    	    this.fireText = this.add.text(this.game.width / 2 - 50, 150, "LOCKED IN", this.large_style);
+    	    _this = this;
+    	    setTimeout(function ()
+    	    {
+    	        _this.fireText.destroy();
+    	    }, 1500);
             this.shotsFired = true;
         }
         else if(!this.shotsFired){
@@ -497,7 +504,13 @@ var Game = {
         {
             _this.shotsFired = false;
             _this.fireButton.reset();
-        	_this.playerTank.fuel = _this.turnFuel;
+            _this.playerTank.fuel = _this.turnFuel;
+
+            _this.nextTurnText = _this.add.text(_this.game.width / 2 - 50, 150, "NEXT TURN!", _this.large_style);
+            setTimeout(function ()
+            {
+                _this.nextTurnText.destroy();
+            }, 3000);
         }
     }
 };
