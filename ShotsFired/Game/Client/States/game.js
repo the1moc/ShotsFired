@@ -63,6 +63,9 @@ var Game = {
         // Variables.
         this.shotsFired = false;
         this.launch_sound = this.game.add.audio('aud_fire');
+
+        
+
         // Create the tanks.
         tankCreator = new TankCreator(this);
         _this = this;
@@ -398,6 +401,14 @@ var Game = {
         // Collision detection?
         this.game.physics.arcade.collide(this.projectiles, this.players, this.damageTank, null, this);//hit tank
 
+    },
+
+    damageTank: function(){
+        this.damageSmoke = this.game.add.sprite(turretPositionXY.x - 16, turretPositionXY.y - 30, 'shotSmoke');
+
+        this.turretSmoke.animations.add('anim_damageSmoke', [8, 9, 10, 11, 12, 13, 14, 15]);
+        this.turretSmoke.scale.setTo(2);
+        this.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
     },
 
     //formatTime: function(s) {
