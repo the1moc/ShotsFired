@@ -87,7 +87,7 @@ var Game = {
         this.maxArmour = this.playerTank.armour;
         this.maxHealth = this.playerTank.health;
         this.turnFuel = this.playerTank.fuel;
-
+        this.fuelDeduction = 100 / this.turnFuel;
 
         //initialise the buttons
         this.initialiseButtons();
@@ -198,26 +198,28 @@ var Game = {
 
         this.fuelTile = this.add.sprite(10, 110, 'btn_Fuel');
 
+        this.fBMD_base = 100;
+
         //the value inside the data are value/100, height of bar
-        var fBMD_bg = game.add.bitmapData(100, 10);
+        var fBMD_bg = game.add.bitmapData(this.fBMD_base, 10);
         fBMD_bg.ctx.beginPath();
         fBMD_bg.ctx.rect(0, 0, 180, 30);
         fBMD_bg.ctx.fillStyle = '#A68F00';
         fBMD_bg.ctx.fill();
 
         //the value inside the data are value/100, height of bar
-        var fBMD = game.add.bitmapData(100, 10);
-        fBMD.ctx.beginPath();
-        fBMD.ctx.rect(0, 0, 180, 30);
-        fBMD.ctx.fillStyle = '#FFDB00';
-        fBMD.ctx.fill();
+        this.fBMD = game.add.bitmapData(this.fBMD_base, 10);
+        this.fBMD.ctx.beginPath();
+        this.fBMD.ctx.rect(0, 0, this.fBMD_base, 10);
+        this.fBMD.ctx.fillStyle = '#FFDB00';
+        this.fBMD.ctx.fill();
 
         this.healthBar_bg = game.add.sprite(this.healthTile.x + 50, this.healthTile.y + 15, hBMD_bg);
         this.healthBar_val = game.add.sprite(this.healthTile.x + 50, this.healthTile.y + 15, hBMD);
         this.armourBar_bg = game.add.sprite(this.armourTile.x + 50, this.armourTile.y + 15, aBMD_bg);
         this.armourBar_val = game.add.sprite(this.armourTile.x + 50, this.armourTile.y + 15, aBMD);
         this.fuelBar_bg = game.add.sprite(this.fuelTile.x + 50, this.fuelTile.y + 15, fBMD_bg);
-        this.fuelBar_val = game.add.sprite(this.fuelTile.x + 50, this.fuelTile.y + 15, fBMD);
+        this.fuelBar_val = game.add.sprite(this.fuelTile.x + 50, this.fuelTile.y + 15, this.fBMD);
 
         this.healthBarText = this.add.text(this.healthBar_val.x + 20, this.healthBar_val.y + 1, this.playerTank.health, this.tiny_style);
         this.armourBarText = this.add.text(this.armourBar_val.x + 20, this.armourBar_val.y + 1, this.playerTank.armour, this.tiny_style);
@@ -276,6 +278,19 @@ var Game = {
         this.healthBarText.text = this.playerTank.health;
         this.armourBarText.text = this.playerTank.armour;
         this.fuelBarText.setText(this.playerTank.fuel);
+
+        //deduct fuel
+        //var deduction = this.fBMD_base - this.fuelDeduction;
+        var currWidth = this.fuelBar_val.width;
+        this.fuelBar_val.width = currWidth - currWidth / this.playerTank.fuel;
+        
+        //this.fBMD.ctx.beginPath();
+        //this.fBMD.ctx.rect(0, 0, this.fBMD_base - deduction, 30);
+        //this.fBMD.ctx.fillStyle = '#FFDB00';
+        //this.fBMD.ctx.fill();
+        //this.fBMD.update(0, 0, this.fBMD_base - deduction, 10);
+        //this.fBMD.ctx.fillStyle = '#FFDB00';
+        //this.fBMD.ctx.fill();
     },
 
     update: function () {
