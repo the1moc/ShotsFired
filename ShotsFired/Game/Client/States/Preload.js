@@ -27,6 +27,7 @@ var Preload = {
 
         //spritesheet
         this.load.spritesheet('shotSmoke', SPT_DIR + 'Smoke &amp; Fire.png', 16, 15, 16);
+        
 
         // Weapons
         this.load.image('wpn_shot',         SPT_DIR + 'wpn_shot.png');
