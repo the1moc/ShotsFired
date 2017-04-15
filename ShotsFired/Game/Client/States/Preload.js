@@ -25,6 +25,9 @@ var Preload = {
         this.load.image('turret',           SPT_DIR + 'turret.png');
         this.load.image('tank',             SPT_DIR + 'tank.png');		
 
+        //spritesheet
+        this.load.spritesheet('shotSmoke', SPT_DIR + 'Smoke &amp; Fire.png', 16, 15, 16);
+
         // Weapons
         this.load.image('wpn_shot',         SPT_DIR + 'wpn_shot.png');
         this.load.image('wpn_bomb',         SPT_DIR + 'wpn_bomb.png');

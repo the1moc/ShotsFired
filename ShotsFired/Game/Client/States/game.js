@@ -117,6 +117,9 @@ var Game = {
         this.moveLeft = this.input.keyboard.addKey(Phaser.Keyboard.A);
         this.moveRight = this.input.keyboard.addKey(Phaser.Keyboard.D);
 
+        //test reset button
+        this.resetShots = this.input.keyboard.addKey(Phaser.Keyboard.R);
+
         //weapon button
         this.generateFiringStylesList();
     },
@@ -360,6 +363,9 @@ var Game = {
             this.playerTank.tankGUI.updateAngleText(this.playerTank.power, this.playerTank.tankTurret.angle);
             //this.updateTankGUI(this.playerTank.power, this.playerTank.tankTurret.angle);
         }
+    	if (this.resetShots.isDown) {
+    	    this.shotsFired = false;
+    	}
 
         if (this.turnTimer.running) {
             this.turnTimerText = "";
