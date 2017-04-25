@@ -91,7 +91,8 @@ var Preload = {
         //playerUI
         this.load.image('playerUI_bars', UI_DIR + 'player_ui_imgBars.png');
         this.load.image('playerUI_stylesBG', UI_DIR + 'player_ui_firingOptionsBG.png');
-        this.load.image('player_well',UI_DIR + 'player_well.png');
+        this.load.image('player_well', UI_DIR + 'player_well.png');
+        this.load.image('imgWell', UI_DIR + 'imgWell.png');
 
         //shot tiles
         this.load.image('btn_Normal', BTN_DIR + 'btn_NormalStyle.png');

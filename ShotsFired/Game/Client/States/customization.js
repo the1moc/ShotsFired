@@ -80,7 +80,7 @@ var Customization = {
         }
         this.bottomBG = this.add.sprite(ex, top.bottom + 32 * this.rows, 'lrgBanner_bottom');
 
-        //call button generation
+        //call button generation for sections
         this.generateUIButtons();
 
         //divider
@@ -91,8 +91,17 @@ var Customization = {
         var divBot = this.add.sprite(divTop.x, divMid.bottom, 'div_b');
 
 
-
-
+        //vars for style
+        this.defaultSelection = 0;
+        this.currentTurretSelected = this.defaultSelection;
+        this.currentBodySelected = this.defaultSelection;
+        this.currentShotSelected = this.defaultSelection;
+        //change later
+        this.contentassetX = this.centreXPos;
+        this.contentColourX = this.contentassetX + 250;
+        var spacer = 10;
+        //for the above variables we will need to check if they have been set allready when passed into this class if not then its all default.
+        
         //data
         this.cData = JSON.parse(this.game.cache.getText("dat_customization"));
 
@@ -106,14 +115,21 @@ var Customization = {
         //shot assets
         this.shotData = Object.keys(this.cData.ProjectileOptions).length;
 
-        //create main section buttons
-        //sections
+        //rows
+        this.turretTypeText = game.add.text(this.contentassetX, this.yPos, "Turret:", stylePicker(1));
+        this.turretTypeChoiceBG = game.add.sprite(this.contentassetX, this.turretTypeText.bottom + spacer, 'playerUI_stylesBG');
+        this.turretColourText = game.add.text(this.contentColourX, this.yPos, "Colour:", stylePicker(1));
+        this.turretColourChoiceBG = game.add.sprite(this.contentColourX, this.turretTypeText.bottom + spacer, 'playerUI_stylesBG');
         
-        //this.upgradeSection = this.add.button(this.leftXPos, this.tankSection.bottom + 10, 'btn_join', this.showUpgradeSection, this);
+        this.bodyTypeText = game.add.text(this.contentassetX, this.turretColourChoiceBG.bottom + spacer, "Body:", stylePicker(1));
+        this.bodyTypeChoiceBG = game.add.sprite(this.contentassetX, this.bodyTypeText.bottom + spacer, 'playerUI_stylesBG');
+        this.bodyColourText = game.add.text(this.contentColourX, this.turretColourChoiceBG.bottom + spacer, "Colour:", stylePicker(1));
+        this.bodyColourChoiceBG = game.add.sprite(this.contentColourX, this.bodyTypeText.bottom + spacer, 'playerUI_stylesBG');
 
+        this.shotTypeText = game.add.text(this.contentassetX, this.bodyColourChoiceBG.bottom + spacer, "Projectile:", stylePicker(1));
+        this.shotTypeChoiceBG = game.add.sprite(this.contentassetX, this.shotTypeText.bottom + spacer, 'playerUI_stylesBG');
         
-
-
+        
 
         //Heading, Centre = stuff, right = info
         this.typeHeading = this.add.text(this.headingXPos, this.custYPos, "Type", { font: "14px Arial", fill: "#000000", align: "center" });

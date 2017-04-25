@@ -382,6 +382,7 @@
     <Content Include="Game\Client\Assets\Images\UI\btn_radio_on.png" />
     <Content Include="Game\Client\Assets\Images\UI\btn_right_down.png" />
     <Content Include="Game\Client\Assets\Images\UI\btn_right_up.png" />
+    <Content Include="Game\Client\Assets\Images\UI\imgWell.png" />
     <Content Include="Game\Client\Assets\Images\UI\large_banner_bottom.png" />
     <Content Include="Game\Client\Assets\Images\UI\large_banner_row.png" />
     <Content Include="Game\Client\Assets\Images\UI\large_banner_top.png" />
