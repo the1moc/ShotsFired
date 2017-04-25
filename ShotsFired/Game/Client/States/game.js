@@ -38,10 +38,14 @@ var Game = {
 
     create: function()
     {
-        // Game assets.
-        this.background = this.add.sprite(0, 0, 'game_bg1');
+        //random game bg
+        var noOfBgs = 4;
+        var selectedBG = Math.floor(Math.random() * noOfBgs)+1;
+        console.log(selectedBG);
+        this.background = this.add.sprite(0, 0, 'game_bg' + selectedBG);
         var bgScale = 600.0 / 1080;
         this.background.scale.setTo(1, bgScale);
+
         //constants
         this.TANK_WIDTH = 29;
         this.TANK_HEIGHT = 19;
@@ -49,21 +53,24 @@ var Game = {
         this.TURRET_WIDTH = 15;
         this.TURRET_HEIGHT = 5;
         this.TURN_TIME = Phaser.Timer.SECOND * 300;
-        // Master fonts.
+
+        // Master fonts. change all to stylepciker
         this.tiny_style = { font: "8px Arial", fill: "#ffffff" };
         this.small_style = { font: "12px Arial", fill: "#ffffff" };
         this.body_style = { font: "12px Arial", fill: "#ffffff" };
         this.title_style = { font: "12px Arial", fill: "#ffffff" };
         this.large_style = { font: "35px Arial", fill: "#000000" };
+
         // Groups.
         this.players = this.add.group();
         this.players.enableBody = true;
         this.projectiles = this.add.group();
         this.weaponList = this.add.group();
+
         // Variables.
         this.shotsFired = false;
-        this.launch_sound = this.game.add.audio('aud_fire');
-
+        this.launch_sound = this.game.add.audio('aud_fire');//move to tank?
+        this.current_turn = 1;
         
 
         // Create the tanks.
@@ -94,15 +101,14 @@ var Game = {
         this.fuelDeduction = 100 / this.turnFuel;
 
         //initialise the buttons
-        this.initialiseButtons();
+        this.initialisePlayerControls();
         // Create the GUI.
         this.createGUI();
-        //need to make a random list of weapons
-        //this.generateWeaponsList();
+        
         
     },
 
-    initialiseButtons: function(){
+    initialisePlayerControls: function () {
         // Buttons
         // Fire Controls
         this.fireButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -122,29 +128,110 @@ var Game = {
         this.moveRight = this.input.keyboard.addKey(Phaser.Keyboard.D);
 
         //test reset button
-        this.resetShots = this.input.keyboard.addKey(Phaser.Keyboard.R);
-
-        //weapon button
-        this.generateFiringStylesList();
+        //this.resetShots = this.input.keyboard.addKey(Phaser.Keyboard.R);
     },
 
-    generateFiringStylesList: function(){
+    
+
+    createGUI: function () {
+        //player stats: health, armour, fuel with super small number in them and a little image of the players' tank
+        this.playerStatBG = this.add.sprite(10, 10, 'playerUI_bars');
+        this.bMD_barWidth = 100;
+
+        //background(width, height)
+        var aBMD_bg = game.add.bitmapData(this.bMD_barWidth, 10);
+        aBMD_bg.ctx.beginPath();
+        aBMD_bg.ctx.rect(0, 0, this.bMD_barWidth, 30);
+        aBMD_bg.ctx.fillStyle = '#1C0772';
+        aBMD_bg.ctx.fill();
+        //varying bar
+        var aBMD = game.add.bitmapData(this.bMD_barWidth, 10);
+        aBMD.ctx.beginPath();
+        aBMD.ctx.rect(0, 0, this.bMD_barWidth, 30);
+        aBMD.ctx.fillStyle = '#4188D2';
+        aBMD.ctx.fill();
+        
+        //the value inside the data are value/100, height of bar
+        var hBMD_bg = game.add.bitmapData(this.bMD_barWidth, 10);
+        hBMD_bg.ctx.beginPath();
+        hBMD_bg.ctx.rect(0, 0, this.bMD_barWidth, 30);
+        hBMD_bg.ctx.fillStyle = '#A61000';
+        hBMD_bg.ctx.fill();
+
+        //the value inside the data are value/100, height of bar
+        var hBMD = game.add.bitmapData(this.bMD_barWidth, 10);
+        hBMD.ctx.beginPath();
+        hBMD.ctx.rect(0, 0, this.bMD_barWidth, 30);
+        hBMD.ctx.fillStyle = '#FF1300';
+        hBMD.ctx.fill();
+
+        //the value inside the data are value/100, height of bar
+        var fBMD_bg = game.add.bitmapData(this.bMD_barWidth, 10);
+        fBMD_bg.ctx.beginPath();
+        fBMD_bg.ctx.rect(0, 0, this.bMD_barWidth, 30);
+        fBMD_bg.ctx.fillStyle = '#A68F00';
+        fBMD_bg.ctx.fill();
+
+        //the value inside the data are value/100, height of bar
+        this.fBMD = game.add.bitmapData(this.bMD_barWidth, 10);
+        this.fBMD.ctx.beginPath();
+        this.fBMD.ctx.rect(0, 0, this.bMD_barWidth, 10);
+        this.fBMD.ctx.fillStyle = '#FFDB00';
+        this.fBMD.ctx.fill();
+
+        var barX = 74;
+        var barY = 7;
+        var barDivider = 10;
+
+        this.armourBar_bg = game.add.sprite(barX, barY, aBMD_bg);
+        this.armourBar_val = game.add.sprite(barX, barY, aBMD);
+        this.playerStatBG.addChild(this.armourBar_bg);
+        this.playerStatBG.addChild(this.armourBar_val);
+
+        this.healthBar_bg = game.add.sprite(barX, this.armourBar_bg.bottom + barDivider, hBMD_bg);
+        this.healthBar_val = game.add.sprite(barX, this.armourBar_bg.bottom + barDivider, hBMD);
+        this.playerStatBG.addChild(this.healthBar_bg);
+        this.playerStatBG.addChild(this.healthBar_val);
+        
+        this.fuelBar_bg = game.add.sprite(barX, this.healthBar_bg.bottom + barDivider, fBMD_bg);
+        this.fuelBar_val = game.add.sprite(barX, this.healthBar_bg.bottom + barDivider, this.fBMD);//'this' is required as it is referenced for shrinking the bar
+        this.playerStatBG.addChild(this.fuelBar_bg);
+        this.playerStatBG.addChild(this.fuelBar_val);
+
+        this.armourBarText = this.add.text(this.armourBar_bg.x + 10, this.armourBar_bg.y -2, this.playerTank.armour, this.small_style);
+        this.healthBarText = this.add.text(this.healthBar_val.x + 10, this.healthBar_val.y - 2, this.playerTank.health, this.small_style);
+        this.fuelBarText = this.add.text(this.fuelBar_val.x + 10, this.fuelBar_val.y - 2, this.playerTank.fuel, this.small_style);
+        this.playerStatBG.addChild(this.armourBarText);
+        this.playerStatBG.addChild(this.healthBarText);
+        this.playerStatBG.addChild(this.fuelBarText);
+
+        //submenu for firing styles
+        this.firingStylesBG = this.add.sprite(10, this.playerStatBG.bottom + 10, 'playerUI_stylesBG');
+        this.generateFiringStylesList();
+
+        //timer
+        this.turnTimer = this.game.time.create();
+        this.turnTimerEvent = this.turnTimer.add(this.TURN_TIME, this.endTurn, this);
+        this.turnTimer.start();
+    },
+
+    generateFiringStylesList: function () {
         this.styleData = JSON.parse(this.game.cache.getText('dat_firingStyles'));
 
         this.firingStylesList = this.add.group();
         this.firingStylesList.visible = true;
 
-        var firStyle;
-        this.styleData.forEach(function(element, index){
-            firStyle = new Phaser.Button(this.game, 20 + (index * 40), 160, element.btnAsset, this.selectFiringStyle, this);
-            this.firingStylesList.add(firStyle);
-            
-            firStyle.styleData = element;
-        },this);
+        var firingStyle;
+        this.styleData.forEach(function (element, index) {
+            firingStyle = new Phaser.Button(this.game, 34 + (index * 50), 92, element.btnAsset, this.selectFiringStyle, this);
+            this.firingStylesList.add(firingStyle);
+
+            firingStyle.styleData = element;
+        }, this);
     },
-    
-    selectFiringStyle: function(style){
-        if(!style.selected){//first time clicking
+
+    selectFiringStyle: function (style) {
+        if (!style.selected) {//first time clicking
             this.clearStyleChoiceSelection();
 
             style.selected = true;
@@ -157,81 +244,13 @@ var Game = {
         }
     },
 
-    clearStyleChoiceSelection: function(){
+    clearStyleChoiceSelection: function () {
         this.currentStyleSelected = null;
 
         this.firingStylesList.forEach(function (style) {
             style.alpha = 1;
             style.selected = false;
         }, this);
-    },
-
-    createGUI: function () {
-        //this.readyText = this.add.text(this.textGenerator(200, 32, 'Ready?: ' + this.shotsFired, 'body'));
-        this.armourTile = this.add.sprite(10, 10, 'btn_Armour');
-
-        //the value inside the data are value/100, height of bar
-        var aBMD_bg = game.add.bitmapData(100, 10);
-        aBMD_bg.ctx.beginPath();
-        aBMD_bg.ctx.rect(0, 0, 180, 30);
-        aBMD_bg.ctx.fillStyle = '#1C0772';
-        aBMD_bg.ctx.fill();
-
-        //the value inside the data are value/100, height of bar
-        var aBMD = game.add.bitmapData(100, 10);
-        aBMD.ctx.beginPath();
-        aBMD.ctx.rect(0, 0, 180, 30);
-        aBMD.ctx.fillStyle = '#4188D2';
-        aBMD.ctx.fill();
-
-        this.healthTile = this.add.sprite(10, 60, 'btn_Health');
-
-        //the value inside the data are value/100, height of bar
-        var hBMD_bg = game.add.bitmapData(100, 10);
-        hBMD_bg.ctx.beginPath();
-        hBMD_bg.ctx.rect(0, 0, 180, 30);
-        hBMD_bg.ctx.fillStyle = '#A61000';
-        hBMD_bg.ctx.fill();
-
-        //the value inside the data are value/100, height of bar
-        var hBMD = game.add.bitmapData(100, 10);
-        hBMD.ctx.beginPath();
-        hBMD.ctx.rect(0, 0, 180, 30);
-        hBMD.ctx.fillStyle = '#FF1300';
-        hBMD.ctx.fill();
-
-        this.fuelTile = this.add.sprite(10, 110, 'btn_Fuel');
-
-        this.fBMD_base = 100;
-
-        //the value inside the data are value/100, height of bar
-        var fBMD_bg = game.add.bitmapData(this.fBMD_base, 10);
-        fBMD_bg.ctx.beginPath();
-        fBMD_bg.ctx.rect(0, 0, 180, 30);
-        fBMD_bg.ctx.fillStyle = '#A68F00';
-        fBMD_bg.ctx.fill();
-
-        //the value inside the data are value/100, height of bar
-        this.fBMD = game.add.bitmapData(this.fBMD_base, 10);
-        this.fBMD.ctx.beginPath();
-        this.fBMD.ctx.rect(0, 0, this.fBMD_base, 10);
-        this.fBMD.ctx.fillStyle = '#FFDB00';
-        this.fBMD.ctx.fill();
-
-        this.healthBar_bg = game.add.sprite(this.healthTile.x + 50, this.healthTile.y + 15, hBMD_bg);
-        this.healthBar_val = game.add.sprite(this.healthTile.x + 50, this.healthTile.y + 15, hBMD);
-        this.armourBar_bg = game.add.sprite(this.armourTile.x + 50, this.armourTile.y + 15, aBMD_bg);
-        this.armourBar_val = game.add.sprite(this.armourTile.x + 50, this.armourTile.y + 15, aBMD);
-        this.fuelBar_bg = game.add.sprite(this.fuelTile.x + 50, this.fuelTile.y + 15, fBMD_bg);
-        this.fuelBar_val = game.add.sprite(this.fuelTile.x + 50, this.fuelTile.y + 15, this.fBMD);
-
-        this.healthBarText = this.add.text(this.healthBar_val.x + 20, this.healthBar_val.y + 1, this.playerTank.health, this.tiny_style);
-        this.armourBarText = this.add.text(this.armourBar_val.x + 20, this.armourBar_val.y + 1, this.playerTank.armour, this.tiny_style);
-        this.fuelBarText = this.add.text(this.fuelBar_val.x + 20, this.fuelBar_val.y + 1, this.playerTank.fuel, this.tiny_style);
-        
-        this.turnTimer = this.game.time.create();
-        this.turnTimerEvent = this.turnTimer.add(this.TURN_TIME, this.endTurn, this);
-        this.turnTimer.start();
     },
 
     //this might be a server side thing
@@ -388,9 +407,9 @@ var Game = {
             this.playerTank.tankGUI.updateAngleText(this.playerTank.power, this.playerTank.tankTurret.angle);
             //this.updateTankGUI(this.playerTank.power, this.playerTank.tankTurret.angle);
         }
-    	if (this.resetShots.isDown) {
-    	    this.shotsFired = false;
-    	}
+    	//if (this.resetShots.isDown) {
+    	//    this.shotsFired = false;
+    	//}
 
         if (this.turnTimer.running) {
             this.turnTimerText = "";
@@ -399,7 +418,7 @@ var Game = {
         }
 
         // Collision detection?
-        this.game.physics.arcade.collide(this.projectiles, this.players, this.damageTank, null, this);//hit tank
+        this.game.physics.arcade.collide(this.projectiles, this.players.tank, this.damageTank, null, this);//hit tank
 
     },
 
@@ -516,7 +535,7 @@ var Game = {
             _this.shotsFired = false;
             _this.fireButton.reset();
             _this.playerTank.fuel = _this.turnFuel;
-
+            this.current_turn++;
             _this.nextTurnText = _this.add.text(_this.game.width / 2 - 50, 150, "NEXT TURN!", _this.large_style);
             setTimeout(function ()
             {

@@ -1,18 +1,31 @@
-﻿var Customization = {
+﻿//<a href='http://www.freepik.com/free-vector/polygonal-camouflage-background_834791.htm'>Designed by Freepik</a>
+//reference for the background by attribution?
+
+var Customization = {
     create: function () {
         // Set menu background (using menu layout for now)
-        this.background = this.add.sprite(0, 0, 'menu_bg');
+        //this.background = this.add.sprite(0, 0, 'menu_bg');
+        this.background = this.add.sprite(0, 0, 'menu_bg2');
+        var bgScale = 600.0 / 1080;
+        this.background.scale.setTo(1, bgScale);
+
         this.setChanges = this.add.button(250, 500, "btn_save", this.sendSelections, this)
         this.stage.disableVisibilityChange = true;
 
         // Title image.
-        this.title = game.add.text(40, 50, "Customization", { font: "50px Arial", fill: "#000000", align: "center" });
+        this.customizationTitle = game.add.text(this.game.width / 2, 40, "Shots Fired!", { font: "50px Arial", fill: "#000000", align: "center" });
+        this.customizationTitle.anchor.setTo(0.5, 0.5);
+        this.customizationSubTitle = game.add.text(this.game.width / 2, this.customizationTitle.bottom + 15, "Customization Menu", { font: "20px Arial", fill: "#000000", align: "center" });
+        this.customizationSubTitle.anchor.setTo(0.5, 0.5);
+        this.leftXPos = 100;
+        this.centreXPos = 240;
+        this.rightXPos = 500;
+        this.yPos = 162;
 
-        this.leftXPos = 40;
-        this.headingXPos = 160;
-        this.centreXPos = 250;
-        this.rightXPos = 550;
-        this.custYPos = this.title.bottom + 25;
+        //this.headingXPos = 160;
+        //this.centreXPos = 250;
+        //this.rightXPos = 550;
+        //this.custYPos = this.title.bottom + 25;
 
         // Groups
         this.tankSecGroup = this.add.group();
@@ -47,7 +60,39 @@
         gameHub.server.saveSelections(mockSelections);
     },
 
+    generateUIButtons: function () {
+        //section buttons & return button
+        this.tankCustomizationButton = this.add.button(this.leftXPos, this.yPos, 'btnUP', this.showTankSection, this);
+        this.tankCustomizationLabel = this.add.text(26, 0, "Tank", stylePicker(1));
+        this.tankCustomizationButton.addChild(this.tankCustomizationLabel);
+
+        this.returnButton = this.add.button(this.leftXPos, this.bottomBG.top - 10, 'btnUP', this.backToLobby, this);
+        this.returnLabel = this.add.text(18, 0, "Return", stylePicker(1));
+        this.returnButton.addChild(this.returnLabel);
+    },
+
     createGUI: function () {
+        //create background UI
+        var ex = 80; var ey = 100; this.rows = 10;
+        var top = this.add.sprite(ex, ey, 'lrgBanner_top');
+        for (var i = 0; i < this.rows; i++) {
+            var row = this.add.sprite(ex, top.bottom + 32 * i, 'lrgBanner_row');
+        }
+        this.bottomBG = this.add.sprite(ex, top.bottom + 32 * this.rows, 'lrgBanner_bottom');
+
+        //call button generation
+        this.generateUIButtons();
+
+        //divider
+        var divTop = this.add.sprite(this.tankCustomizationButton.right + 15, this.tankCustomizationButton.y - 5, 'div_t');
+        for (var i = 0; i < this.rows - 1; i++) {
+            var divMid = this.add.sprite(divTop.x, divTop.bottom + 32 * i, 'div_m');
+        }
+        var divBot = this.add.sprite(divTop.x, divMid.bottom, 'div_b');
+
+
+
+
         //data
         this.cData = JSON.parse(this.game.cache.getText("dat_customization"));
 
@@ -63,10 +108,10 @@
 
         //create main section buttons
         //sections
-        this.tankSection = this.add.button(this.leftXPos, this.custYPos, 'btn_customizeTank', this.showTankSection, this);
+        
         //this.upgradeSection = this.add.button(this.leftXPos, this.tankSection.bottom + 10, 'btn_join', this.showUpgradeSection, this);
 
-        this.backToLobbyButton = this.add.button(this.leftXPos, this.game.height - 100, 'btn_return', this.backToLobby, this);
+        
 
 
 
