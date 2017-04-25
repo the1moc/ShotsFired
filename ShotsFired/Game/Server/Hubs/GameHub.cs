@@ -296,7 +296,10 @@ namespace ShotsFired.Games.Server.Hubs
             player.Tank.TankReady = true;
             if(currentGame.Players.All(p => p.Tank.TankReady))
             {
-                currentGame.Players.ForEach(p => player.Tank.TankReady = false );
+                foreach(IPlayer p in currentGame.Players)
+                {
+                    p.Tank.TankReady = false;
+                }
                 Clients.Clients(currentGame.Players.Select(p => p.ConnectionId).ToList()).launchProjectiles();
                 System.Threading.Thread.Sleep(7000);
                 Clients.Clients(currentGame.Players.Select(p => p.ConnectionId).ToList()).resetTurn();
