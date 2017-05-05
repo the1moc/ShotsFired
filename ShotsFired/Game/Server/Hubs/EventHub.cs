@@ -111,5 +111,19 @@ namespace ShotsFired.Games.Server.Hubs
                 Clients.All.notEnoughClients();
             }
         }
+
+        public void CollisionTrigger(string playerId, int calculatedDamage)
+        {
+            try
+            {
+                IPlayer hitPlayer = GameHub.GetPlayerByPlayerId(playerId);
+                hitPlayer.Tank.Health -= calculatedDamage;
+                return;
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
     }
 }

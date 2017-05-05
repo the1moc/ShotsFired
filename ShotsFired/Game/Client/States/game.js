@@ -32,7 +32,7 @@ var Game = {
         // Variables.
         this.playerHealth = this.gameInstance.World.Health;
         this.playerFuel = this.gameInstance.World.Fuel;
-    },
+    }, 
 
     create: function()
     {
@@ -93,6 +93,9 @@ var Game = {
             {
                 _this.playerTank = tank;
             }
+
+            player.IsHost ? _this.isPlayerHost = true : _this.isPlayerHost = false;
+
             _this.players.add(tank);
         });
         //this.add.sprite(200, 200, 'pixelTank');
@@ -436,42 +439,32 @@ var Game = {
 
     },
 
-    damageTank: function (x, y) {
-        var calcDamage = this.getRandomArbitrary(this.DAMAGEMIN, this.DAMAGEMAX);
+    damageTank: function (projectile, tank) {
+        var calcDamage = this.DAMAGEMIN;
 
-        this.damageSmoke = this.game.add.sprite(y.turretPositionXY.x - 16, y.turretPositionXY.y - 30, 'shotSmoke');
-        //this.updatePlayerStats(1);
-        this.turretSmoke.animations.add('anim_damageSmoke', [8, 9, 10, 11, 12, 13, 14, 15]);
-        this.turretSmoke.scale.setTo(2);
+        this.damageSmoke = this.game.add.sprite(tank.turretPositionXY.x - 16, tank.turretPositionXY.y - 30, 'shotSmoke');
+        tank.turretSmoke.animations.add('anim_damageSmoke', [8, 9, 10, 11, 12, 13, 14, 15]);
+        tank.turretSmoke.scale.setTo(2);
 
-        if (y.health - calcDamage <= 0) {
-            this.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
-            y.health - calcDamage;
+        if (tank.health - calcDamage <= 0) {
+            tank.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
+            tank.health -= calcDamage;
             this.updatePlayerStats();
             this.destroy_sound.play();
-            y.alive = false;
+            tank.alive = false;
         }
         else {
-            this.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
-            y.health - calcDamage;
+            tank.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
+            tank.health -= calcDamage;
             this.damage_sound.play();
-            this.updatePlayerStats();
+            this.updatePlayerStats(2);
+
+            if (this.isPlayerHost)
+            {
+                this.eventHub.server.collisionTrigger(this.playerTank.playerId, calcDamage);
+            }
         }
     },
-
-    getRandomArbitrary: function(min, max) {
-        return Math.random() * (max - min) + min;
-    },
-    //formatTime: function(s) {
-    //	// Convert seconds (s) to a nicely formatted and padded time string
-    //	var minutes = "0" + Math.floor(s / 60);
-    //	var seconds = "0" + (s - minutes * 60);
-    //	return minutes.substr(-2) + ":" + seconds.substr(-2);   
-    //},
-
-    //endTimer: function () {
-    //	this.turnTimer.stop();
-    //},
 
     // Callback functions called from the GameHub during the game state..
     createGameCallbackFunctions: function(gameHub)

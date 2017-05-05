@@ -97,7 +97,7 @@ namespace ShotsFired.Games.Server.Hubs
             }
 
             // Is the game is already running.
-            if(game.IsGameRunning)
+            if (game.IsGameRunning)
             {
                 Clients.Caller.gameIsAlreadyRunning();
                 return;
