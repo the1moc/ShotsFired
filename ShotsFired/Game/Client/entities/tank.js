@@ -52,6 +52,24 @@ function TankCreator(game)
 		tank.armour   = data.Armour;
 		tank.fuel     = data.Fuel;
 		tank.playerId = playerId;
+		switch(tankSettings.ProjectileAssetId)
+		{
+		    case 0:
+		        tank.projectileAsset = "wpn_shot";
+		        break;
+		    case 1:
+		        tank.projectileAsset = "wpn_bomb";
+		        break;
+		    case 2:
+		        tank.projectileAsset = "wpn_pig";
+		        break;
+		    case 3:
+		        tank.projectileAsset = "wpn_apple";
+		        break;
+		    default:
+		        tank.projectileAsset = "wpn_shot";
+		        break;
+		}
 
 		tank.loadTexture('tank');
 		return tank;
@@ -115,10 +133,10 @@ Tank.prototype.resetFuel = function (data) {
 }
 
 // Takes server projectile data and launches.
-Tank.prototype.launchProjectile = function(projectileData)
+Tank.prototype.launchProjectile = function()
 {
 	// Create new projectile.
-	this.projectile = new Projectile(this.game, this.tankTurret.x, this.tankTurret.y, projectileData);
+	this.projectile = new Projectile(this.game, this.tankTurret.x, this.tankTurret.y, this.projectileAsset);
 
 	// Launch projectile on the angle of the turret.
 	var turretPositionXY = new Phaser.Point(this.tankTurret.x, this.tankTurret.y);

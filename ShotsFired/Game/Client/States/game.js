@@ -557,7 +557,7 @@ var Game = {
         {
         	_this.players.forEach(function (player)
         	{
-        		player.launchProjectile("wpn_shot");
+        		player.launchProjectile();
         	});
         }
 
