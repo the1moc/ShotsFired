@@ -445,6 +445,7 @@ var Game = {
 
     damageTank: function (projectile, tank) {
         var calcDamage = this.DAMAGEMIN;
+        projectile.destroy();
 
         this.damageSmoke = this.game.add.sprite(tank.turretPositionXY.x - 16, tank.turretPositionXY.y - 30, 'shotSmoke');
         tank.turretSmoke.animations.add('anim_damageSmoke', [8, 9, 10, 11, 12, 13, 14, 15]);
@@ -461,7 +462,7 @@ var Game = {
             tank.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
             tank.health -= calcDamage;
             this.damage_sound.play();
-            this.updatePlayerStats(2);
+            this.updatePlayerStats(2, calcDamage);
 
             if (this.isPlayerHost)
             {
@@ -561,15 +562,19 @@ var Game = {
     	// Launch a projectile from a tank. - resets after 7 seconds
         this.gameHub.client.resetTurn = function ()
         {
-            _this.shotsFired = false;
-            _this.fireButton.reset();
-            _this.playerTank.fuel = _this.TURNFUEL;
-            this.current_turn++;
-            _this.nextTurnText = _this.add.text(_this.game.width / 2 - 50, 150, "NEXT TURN!", _this.large_style);
-            setTimeout(function ()
+            setTimeout(function()
             {
-                _this.nextTurnText.destroy();
-            }, 3000);
+                _this.shotsFired = false;
+                _this.fireButton.reset();
+                _this.playerTank.fuel = _this.TURNFUEL;
+                this.current_turn++;
+                _this.nextTurnText = _this.add.text(_this.game.width / 2 - 50, 150, "NEXT TURN!", _this.large_style);
+                setTimeout(function()
+                {
+                    _this.nextTurnText.destroy();
+                }, 3000);
+            }, 7000);
+
         }
     }
 };

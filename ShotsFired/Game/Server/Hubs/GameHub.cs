@@ -301,7 +301,6 @@ namespace ShotsFired.Games.Server.Hubs
                     p.Tank.TankReady = false;
                 }
                 Clients.Clients(currentGame.Players.Select(p => p.ConnectionId).ToList()).launchProjectiles();
-                System.Threading.Thread.Sleep(7000);
                 Clients.Clients(currentGame.Players.Select(p => p.ConnectionId).ToList()).resetTurn();
             }
         }
