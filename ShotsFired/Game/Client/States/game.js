@@ -445,7 +445,6 @@ var Game = {
 
     damageTank: function (projectile, tank) {
         var calcDamage = this.DAMAGEMIN;
-        projectile.destroy();
 
         this.damageSmoke = this.game.add.sprite(tank.turretPositionXY.x - 16, tank.turretPositionXY.y - 30, 'shotSmoke');
         tank.turretSmoke.animations.add('anim_damageSmoke', [8, 9, 10, 11, 12, 13, 14, 15]);
@@ -469,6 +468,7 @@ var Game = {
                 this.eventHub.server.collisionTrigger(this.playerTank.playerId, calcDamage);
             }
         }
+        projectile.kill();
     },
 
     // Callback functions called from the GameHub during the game state..
