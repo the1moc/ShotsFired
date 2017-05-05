@@ -139,8 +139,8 @@ Tank.prototype.launchProjectile = function()
 	this.projectile = new Projectile(this.game, this.tankTurret.x, this.tankTurret.y, this.projectileAsset);
 
 	// Launch projectile on the angle of the turret.
-	var turretPositionXY = new Phaser.Point(this.tankTurret.x, this.tankTurret.y);
-	turretPositionXY.rotate(turretPositionXY.x, turretPositionXY.y, this.tankTurret.angle, false);
+	this.turretPositionXY = new Phaser.Point(this.tankTurret.x, this.tankTurret.y);
+	this.turretPositionXY.rotate(this.turretPositionXY.x, this.turretPositionXY.y, this.tankTurret.angle, false);
 
 	//TODO: Add animation of puff of smoke at the barrel
 
@@ -148,7 +148,7 @@ Tank.prototype.launchProjectile = function()
 	this.game.physics.arcade.velocityFromAngle(this.tankTurret.angle, this.power, this.projectile.body.velocity);
 	
 	this.game.launch_sound.play();
-	this.turretSmoke = this.game.add.sprite(turretPositionXY.x-16, turretPositionXY.y-30, 'shotSmoke');
+	this.turretSmoke = this.game.add.sprite(this.turretPositionXY.x - 16, this.turretPositionXY.y - 30, 'shotSmoke');
 	
 	this.turretSmoke.animations.add('anim_shotSmoke', [0, 1, 2, 3, 4, 5, 6, 7]);
 	this.turretSmoke.scale.setTo(2);

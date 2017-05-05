@@ -29,9 +29,10 @@ var Preload = {
 
         // Weapons
         this.load.image('wpn_shot', SPT_DIR + 'wpn_shot.png');
-        this.load.image('wpn_bomb', SPT_DIR + 'wpn_bomb.png');
-        this.load.image('wpn_flower', SPT_DIR + 'wpn_flower.png');
-        this.load.image('wpn_pig', SPT_DIR + 'wpn_pig.png');
+        this.load.image('wpn_bomb', SPT_DIR + 'bombShot.png');
+        this.load.image('wpn_apple', SPT_DIR + 'appleShot.png');
+        this.load.image('wpn_pig', SPT_DIR + 'pigShot.png');
+        this.load.image('btn_wpn_bg', BTN_DIR + 'customizationBGTile.png');
 
         // Buttons
         //this.load.image('btn_weaponList', BTN_DIR + 'btn_weaponsList.png');
