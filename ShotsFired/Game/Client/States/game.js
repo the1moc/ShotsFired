@@ -32,7 +32,7 @@ var Game = {
         // Variables.
         this.playerHealth = this.gameInstance.World.Health;
         this.playerFuel = this.gameInstance.World.Fuel;
-    },
+    }, 
 
     create: function()
     {
@@ -94,6 +94,9 @@ var Game = {
             {
                 _this.playerTank = tank;
             }
+
+            player.IsHost ? _this.isPlayerHost = true : _this.isPlayerHost = false;
+
             _this.players.add(tank);
         });
         //this.add.sprite(200, 200, 'pixelTank');
@@ -306,15 +309,16 @@ var Game = {
         this.healthBarText.setText(this.playerTank.health);
         this.armourBarText.setText(this.playerTank.armour);
         this.fuelBarText.setText(this.playerTank.fuel);
-        var damageModifier = this.STATBARWIDTH / this.MAXHEALTH;
-        var reduction = 0;
+
         switch (value) {
             case 1: var currWidth = this.fuelBar_val.width;
+                var difference;
+                
                 this.fuelBar_val.width = currWidth - (currWidth / this.playerTank.fuel);
                 break;
             case 2: var currHWidth = this.healthBar_val.width;                
-                reduction = damageModifier * dmg;
-                this.healthBar_val.width = currHWidth - reduction;
+                this.STATBARWIDTH / this.MAXHEALTH * dmg;
+                this.healthBar_val.width = currHWidth - dmg;
                 break;
             case 3: var currAWidth = this.armourBar_val.width;
                 this.armourBar_val.width = currAWidth - (currAWidth / this.playerTank.armour);
@@ -440,43 +444,32 @@ var Game = {
     },
 
     damageTank: function (projectile, tank) {
-        var calcDamage = 0;
-        calcDamage = this.getRandomArbitrary(this.DAMAGEMIN, this.DAMAGEMAX);
-        
+        var calcDamage = this.DAMAGEMIN;
+        projectile.destroy();
+
         this.damageSmoke = this.game.add.sprite(tank.turretPositionXY.x - 16, tank.turretPositionXY.y - 30, 'shotSmoke');
-        //this.updatePlayerStats(1);
-        //this.turretSmoke.animations.add('anim_damageSmoke', [8, 9, 10, 11, 12, 13, 14, 15]);
-        //this.turretSmoke.scale.setTo(2);
+        tank.turretSmoke.animations.add('anim_damageSmoke', [8, 9, 10, 11, 12, 13, 14, 15]);
+        tank.turretSmoke.scale.setTo(2);
 
         if (tank.health - calcDamage <= 0) {
-            //this.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
-            tank.health - calcDamage;
-            this.updatePlayerStats(2,calcDamage);
+            tank.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
+            tank.health -= calcDamage;
+            this.updatePlayerStats(2, calcDamage);
             this.destroy_sound.play();
             tank.alive = false;
         }
         else {
-            //this.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
+            tank.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
             tank.health -= calcDamage;
-            
             this.damage_sound.play();
             this.updatePlayerStats(2, calcDamage);
+
+            if (this.isPlayerHost)
+            {
+                this.eventHub.server.collisionTrigger(this.playerTank.playerId, calcDamage);
+            }
         }
     },
-
-    getRandomArbitrary: function(min, max) {
-        return Math.floor(Math.random() * (max - min) + min);
-    },
-    //formatTime: function(s) {
-    //	// Convert seconds (s) to a nicely formatted and padded time string
-    //	var minutes = "0" + Math.floor(s / 60);
-    //	var seconds = "0" + (s - minutes * 60);
-    //	return minutes.substr(-2) + ":" + seconds.substr(-2);   
-    //},
-
-    //endTimer: function () {
-    //	this.turnTimer.stop();
-    //},
 
     // Callback functions called from the GameHub during the game state..
     createGameCallbackFunctions: function(gameHub)
@@ -569,15 +562,19 @@ var Game = {
     	// Launch a projectile from a tank. - resets after 7 seconds
         this.gameHub.client.resetTurn = function ()
         {
-            _this.shotsFired = false;
-            _this.fireButton.reset();
-            _this.playerTank.fuel = _this.TURNFUEL;
-            this.current_turn++;
-            _this.nextTurnText = _this.add.text(_this.game.width / 2 - 50, 150, "NEXT TURN!", _this.large_style);
-            setTimeout(function ()
+            setTimeout(function()
             {
-                _this.nextTurnText.destroy();
-            }, 3000);
+                _this.shotsFired = false;
+                _this.fireButton.reset();
+                _this.playerTank.fuel = _this.TURNFUEL;
+                this.current_turn++;
+                _this.nextTurnText = _this.add.text(_this.game.width / 2 - 50, 150, "NEXT TURN!", _this.large_style);
+                setTimeout(function()
+                {
+                    _this.nextTurnText.destroy();
+                }, 3000);
+            }, 7000);
+
         }
     }
 };
