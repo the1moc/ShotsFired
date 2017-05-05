@@ -2,7 +2,10 @@
 //reference for the background by attribution?
 
 var Customization = {
-    create: function () {
+    create: function()
+    {
+        this.sendSelections();
+
         this.background = this.add.sprite(0, 0, 'menu_bg2');
         var bgScale = 600.0 / 1080;
         this.background.scale.setTo(1, bgScale);
@@ -42,15 +45,7 @@ var Customization = {
     sendSelections: function () {
         var gameHub = $.connection.gameHub;
 
-        var mockSelections = {
-            bodyAsset: 1,
-            bodyAssetColour: 2,
-            turretAsset: 3,
-            turretAssetColour: 0,
-            projectileAsset: 0
-        };
-
-        gameHub.server.saveSelections(mockSelections);
+        gameHub.server.saveSelections(this.selections);
     },
 
     generateUIButtons: function () {

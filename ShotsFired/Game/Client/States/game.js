@@ -77,8 +77,8 @@ var Game = {
         _this = this;
         this.gameInstance.Players.forEach(function(player)
         {
-            tank            = tankCreator.createTank(player.Tank, player.PlayerId);
-            tankTurret      = new Turret(_this, 400, 600 - 20);
+            tank            = tankCreator.createTank(player.Tank, player.PlayerId, player.TankSettings);
+            tankTurret      = new Turret(_this, 400, 600 - 20, player.TankSettings);
             tank.tankTurret = tankTurret;
 
             //TODO: This can be done inside the tank class, seeing as it is basically using all the data from it.

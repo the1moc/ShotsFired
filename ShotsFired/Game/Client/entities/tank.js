@@ -2,8 +2,44 @@
 function TankCreator(game)
 {
 	// Create a tank.
-	this.createTank = function(data, playerId) {
-		tank = new Tank(game, data.X, data.Y);
+    this.createTank = function(data, playerId, tankSettings)
+    {
+        var tankAssetName;
+
+        switch(tankSettings.BodyAssetId)
+        {
+            case 0:
+                tankAssetName = "tank";
+                break;
+            case 1:
+                tankAssetName = "tank2";
+                break;
+            default:
+                console.log("No valid body asset id, revering to default");
+                tankAssetName = "tank";
+                break;
+        }
+
+        tank = new Tank(game, data.X, data.Y, tankAssetName);
+        switch(tankSettings.BodyAssetColour)
+        {
+            case 1:
+                // Red
+                tank.tint = 0xFF99FF;
+                break;
+            case 2:
+                // Yellow
+                tank.tint = 0xFFFF00;
+                break;
+            case 3:
+                // Blue
+                tank.tint = 0x66CCFF;
+                break;
+            default:
+                console.log("No valid tint, reverting to default");
+                break;
+        }
+
 		tank.anchor.setTo(0.5,0.5);
 
 		// Physics.
@@ -23,8 +59,8 @@ function TankCreator(game)
 }
 
 // Tank constructor.
-Tank = function(game, x, y) {
-	Phaser.Sprite.call(this, game, x, y, "tank");
+Tank = function(game, x, y, assetName) {
+	Phaser.Sprite.call(this, game, x, y, assetName);
 }
 
 Tank.prototype = Object.create(Phaser.Sprite.prototype);
