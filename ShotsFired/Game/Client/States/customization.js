@@ -115,25 +115,25 @@ var Customization = {
         this.tb2 = game.add.button(this.turretTypeChoiceBG.x + 74, this.turretTypeChoiceBG.y + 8, 'turret', this.turretSelected, 1);
         this.tb3 = game.add.sprite(this.turretTypeChoiceBG.x + 124, this.turretTypeChoiceBG.y + 8, 'btn_na');
 
-        this.tc1 = game.add.button(this.turretColourChoiceBG.x + 24, this.turretColourChoiceBG.y + 8, 'turret', this.turretColourSelected, this);
-        this.tc1 = game.add.button(this.turretColourChoiceBG.x + 74, this.turretColourChoiceBG.y + 8, 'turret', this.turretColourSelected, this);
-        this.tc3 = game.add.button(this.turretColourChoiceBG.x + 124, this.turretColourChoiceBG.y + 8, 'turret', this.turretColourSelected, this);
+        this.tc1 = game.add.button(this.turretColourChoiceBG.x + 24, this.turretColourChoiceBG.y + 8, 'turret', this.turretColourSelected, 1);
+        this.tc1 = game.add.button(this.turretColourChoiceBG.x + 74, this.turretColourChoiceBG.y + 8, 'turret', this.turretColourSelected, 2);
+        this.tc3 = game.add.button(this.turretColourChoiceBG.x + 124, this.turretColourChoiceBG.y + 8, 'turret', this.turretColourSelected, 3);
 
         //buttons and na blocks - body
-        this.tb1 = game.add.button(this.bodyTypeChoiceBG.x + 24, this.bodyTypeChoiceBG.y + 8, 'turret', this.bodySelected, this);
-        this.tb2 = game.add.button(this.bodyTypeChoiceBG.x + 74, this.bodyTypeChoiceBG.y + 8, 'turret', this.bodySelected, this);
+        this.tb1 = game.add.button(this.bodyTypeChoiceBG.x + 24, this.bodyTypeChoiceBG.y + 8, 'turret', this.bodySelected, 0);
+        this.tb2 = game.add.button(this.bodyTypeChoiceBG.x + 74, this.bodyTypeChoiceBG.y + 8, 'turret', this.bodySelected, 1);
         this.tb3 = game.add.sprite(this.bodyTypeChoiceBG.x + 124, this.bodyTypeChoiceBG.y + 8, 'btn_na');
 
-        this.tc1 = game.add.button(this.bodyColourChoiceBG.x + 24, this.bodyColourChoiceBG.y + 8, 'turret', this.bodyColourSelected, this);
-        this.tc1 = game.add.button(this.bodyColourChoiceBG.x + 74, this.bodyColourChoiceBG.y + 8, 'turret', this.bodyColourSelected, this);
-        this.tc3 = game.add.button(this.bodyColourChoiceBG.x + 124, this.bodyColourChoiceBG.y + 8, 'turret', this.bodyColourSelected, this);
+        this.tc1 = game.add.button(this.bodyColourChoiceBG.x + 24, this.bodyColourChoiceBG.y + 8, 'turret', this.bodyColourSelected, 1);
+        this.tc1 = game.add.button(this.bodyColourChoiceBG.x + 74, this.bodyColourChoiceBG.y + 8, 'turret', this.bodyColourSelected, 2);
+        this.tc3 = game.add.button(this.bodyColourChoiceBG.x + 124, this.bodyColourChoiceBG.y + 8, 'turret', this.bodyColourSelected, 3);
 
         //buttons and na blocks - shot assets
-        this.sb1 = game.add.button(this.shotTypeChoiceBG.x + 24, this.shotTypeChoiceBG.y + 8, 'turret', this.shotSelected, this);
-        this.sb2 = game.add.button(this.shotTypeChoiceBG.x + 74, this.shotTypeChoiceBG.y + 8, 'turret', this.shotSelected, this);
-        this.sb3 = game.add.button(this.shotTypeChoiceBG.x + 74, this.shotTypeChoiceBG.y + 8, 'turret', this.shotSelected, this);
+        this.sb1 = game.add.button(this.shotTypeChoiceBG.x + 24, this.shotTypeChoiceBG.y + 8, 'turret', this.shotSelected, 1);
+        this.sb2 = game.add.button(this.shotTypeChoiceBG.x + 74, this.shotTypeChoiceBG.y + 8, 'turret', this.shotSelected, 2);
+        this.sb3 = game.add.button(this.shotTypeChoiceBG.x + 74, this.shotTypeChoiceBG.y + 8, 'turret', this.shotSelected, 3);
 
-        //
+        //save button
         this.saveButton = this.add.button(this.rightXPos, this.bottomBG.top - 10, 'btnUP', this.sendSelections, this);
         this.saveLabel = this.add.text(18, 0, "Save", stylePicker(1));
         this.saveButton.addChild(this.saveLabel);
@@ -186,11 +186,13 @@ var Customization = {
 
     shotSelected: function (type) {
         switch (type) {
-            case 0: this.selections.projectileAsset = 0;
-                break;
             case 1: this.selections.projectileAsset = 1;
                 break;
             case 2: this.selections.projectileAsset = 2;
+                break;
+            case 3: this.selections.projectileAsset = 3;
+                break;
+            default: this.selections.projectileAsset = 0;
                 break;
         }
     },
