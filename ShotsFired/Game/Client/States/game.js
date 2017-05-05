@@ -447,19 +447,19 @@ var Game = {
         var calcDamage = this.DAMAGEMIN;
         projectile.destroy();
 
-        this.damageSmoke = this.game.add.sprite(tank.turretPositionXY.x - 16, tank.turretPositionXY.y - 30, 'shotSmoke');
-        tank.turretSmoke.animations.add('anim_damageSmoke', [8, 9, 10, 11, 12, 13, 14, 15]);
-        tank.turretSmoke.scale.setTo(2);
+        //this.damageSmoke = this.game.add.sprite(tank.turretPositionXY.x - 16, tank.turretPositionXY.y - 30, 'shotSmoke');
+        //tank.turretSmoke.animations.add('anim_damageSmoke', [8, 9, 10, 11, 12, 13, 14, 15]);
+        //tank.turretSmoke.scale.setTo(2);
 
         if (tank.health - calcDamage <= 0) {
-            tank.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
+            //tank.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
             tank.health -= calcDamage;
             this.updatePlayerStats(2, calcDamage);
             this.destroy_sound.play();
             tank.alive = false;
         }
         else {
-            tank.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
+            //tank.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
             tank.health -= calcDamage;
             this.damage_sound.play();
             this.updatePlayerStats(2, calcDamage);
