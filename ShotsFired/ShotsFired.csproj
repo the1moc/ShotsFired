@@ -353,6 +353,7 @@
     <Content Include="Game\Client\Assets\Images\Sprites\fuelTile.png" />
     <Content Include="Game\Client\Assets\Images\Sprites\healthTile.png" />
     <Content Include="Game\Client\Assets\Images\Sprites\menu_title.png" />
+    <Content Include="Game\Client\Assets\Images\Sprites\na.png" />
     <Content Include="Game\Client\Assets\Images\Sprites\pixel-tank.png" />
     <Content Include="Game\Client\Assets\Images\Sprites\Smoke &amp;amp%3b Fire.png" />
     <Content Include="Game\Client\Assets\Images\Sprites\tank.png" />

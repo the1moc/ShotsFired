@@ -2,10 +2,8 @@
 /*
 Arcade Physics: Ship trail
 Add options for firing styles
-- normal
 - explosive (firework)
 - bounce (can collide a certain number of times)
-- direct (fires straight(no gravity))
 
 Pass in to game init:
 - asset of shot
@@ -39,7 +37,7 @@ var Game = {
     create: function()
     {
         //random game bg
-        var noOfBgs = 4;
+        var noOfBgs = 2;
         var selectedBG = Math.floor(Math.random() * noOfBgs)+1;
         console.log(selectedBG);
         this.background = this.add.sprite(0, 0, 'game_bg' + selectedBG);
@@ -53,6 +51,7 @@ var Game = {
         this.TURRET_WIDTH = 15;
         this.TURRET_HEIGHT = 5;
         this.TURN_TIME = Phaser.Timer.SECOND * 300;
+        this.COLLISION_DELAY = 1000;
 
         // Master fonts. change all to stylepciker
         this.tiny_style = { font: "8px Arial", fill: "#ffffff" };
@@ -213,6 +212,7 @@ var Game = {
         this.turnTimer = this.game.time.create();
         this.turnTimerEvent = this.turnTimer.add(this.TURN_TIME, this.endTurn, this);
         this.turnTimer.start();
+        this.turnTimerText = this.add.text(this.game.width / 2, 10, this.TURN_TIME/1000, this.small_style);
     },
 
     generateFiringStylesList: function () {
@@ -296,17 +296,31 @@ var Game = {
     //	return text;
         
     //},
-
-    updatePlayerStats: function(fuel){
+    
+    updatePlayerStats: function(value){
         this.healthBarText.text = this.playerTank.health;
         this.armourBarText.text = this.playerTank.armour;
         this.fuelBarText.setText(this.playerTank.fuel);
 
+        switch (value) {
+            case 1: var currWidth = this.fuelBar_val.width;
+                this.fuelBar_val.width = currWidth - currWidth / this.playerTank.fuel;
+                break;
+            case 2: var currWidth = this.healthBar_val.width;
+                this.healthBar_val.width = currHWidth - currHWidth / this.playerTank.health;
+                break;
+            case 3: var currWidth = this.armourBar_val.width;
+                this.armourBar_val.width = currWidth - currWidth / this.playerTank.armour;
+                break;
+        }
+
         //deduct fuel
         //var deduction = this.fBMD_base - this.fuelDeduction;
-        var currWidth = this.fuelBar_val.width;
-        this.fuelBar_val.width = currWidth - currWidth / this.playerTank.fuel;
+        //var currWidth = this.fuelBar_val.width;
+        //this.fuelBar_val.width = currWidth - currWidth / this.playerTank.fuel;
         
+        //var currHWidth = this.healthBar_val.width;
+        //this.healthBar_val.width = currHWidth - currHWidth / this.playerTank.health;
         //this.fBMD.ctx.beginPath();
         //this.fBMD.ctx.rect(0, 0, this.fBMD_base - deduction, 30);
         //this.fBMD.ctx.fillStyle = '#FFDB00';
@@ -387,7 +401,7 @@ var Game = {
                     //TODO: Move this duplicated functionality to a generic function.
                     this.playerTank.fuel--;
 
-                    this.updatePlayerStats(this.playerTank.fuel);
+                    this.updatePlayerStats(1);
                     //this.fuelText.text = 'Fuel: ' + this.playerTank.fuel;
                 }
                 else if (this.moveRight.isDown && this.playerTank.x < this.game.width-this.TANK_MIDDLE)
@@ -400,34 +414,31 @@ var Game = {
                     // Take a unit from the fuel.
                     //TODO: Move this duplicated functionality to a generic function.
                     this.playerTank.fuel--;
-                    this.updatePlayerStats(this.playerTank.fuel);
+                    this.updatePlayerStats(1);
                     //this.fuelText.text = 'Fuel: ' + this.playerTank.fuel;
                 }
             }
             this.playerTank.tankGUI.updateAngleText(this.playerTank.power, this.playerTank.tankTurret.angle);
             //this.updateTankGUI(this.playerTank.power, this.playerTank.tankTurret.angle);
         }
-    	//if (this.resetShots.isDown) {
-    	//    this.shotsFired = false;
-    	//}
 
         if (this.turnTimer.running) {
-            this.turnTimerText = "";
-            this.turnTimerText = this.add.text(this.game.width / 2, 10, Math.round((this.turnTimerEvent.delay - this.turnTimer.ms)/1000), this.small_style);
-
+            //this.turnTimerText = this.add.text(this.game.width / 2, 10, Math.round((this.turnTimerEvent.delay - this.turnTimer.ms)/1000), this.small_style);
+            this.turnTimerText.setText(Math.round((this.turnTimerEvent.delay - this.turnTimer.ms) / 1000));
         }
 
         // Collision detection?
-        this.game.physics.arcade.collide(this.projectiles, this.players.tank, this.damageTank, null, this);//hit tank
+        this.game.physics.arcade.collide(this.projectiles, this.players, this.damageTank, null, this);//hit tank
 
     },
 
     damageTank: function(){
         this.damageSmoke = this.game.add.sprite(turretPositionXY.x - 16, turretPositionXY.y - 30, 'shotSmoke');
-
+        //this.updatePlayerStats(1);
         this.turretSmoke.animations.add('anim_damageSmoke', [8, 9, 10, 11, 12, 13, 14, 15]);
         this.turretSmoke.scale.setTo(2);
         this.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
+
     },
 
     //formatTime: function(s) {
