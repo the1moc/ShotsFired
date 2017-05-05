@@ -54,6 +54,7 @@ var Game = {
         this.COLLISION_DELAY = 1000;
         this.DAMAGEMIN = 30;
         this.DAMAGEMAX = 40;
+        this.STATBARWIDTH = 100;
 
         // Master fonts. change all to stylepciker
         this.tiny_style = { font: "8px Arial", fill: "#ffffff" };
@@ -101,10 +102,10 @@ var Game = {
         //this.add.sprite(200, 200, 'pixelTank');
 
         //define maximum h, a, f
-        this.maxArmour = this.playerTank.armour;
-        this.maxHealth = this.playerTank.health;
-        this.turnFuel = this.playerTank.fuel;
-        this.fuelDeduction = 100 / this.turnFuel;
+        this.MAXARMOUR = this.playerTank.armour;
+        this.MAXHEALTH = this.playerTank.health;
+        this.TURNFUEL = this.playerTank.fuel;
+        this.fuelDeduction = 100 / this.TURNFUEL;
 
         //initialise the buttons
         this.initialisePlayerControls();
@@ -262,19 +263,19 @@ var Game = {
 
     //this might be a server side thing
     //gravity - set to a random number between ? 0-50 both plus and minus plus update some text to display on screen so players can adjust
-    newTurn: function(){
-        //timer
-        //wind
-        //reset fuel
-        //this.playerTank.fuel = 
-    },
+    //newTurn: function(){
+    //    //timer
+    //    //wind
+    //    //reset fuel
+    //    //this.playerTank.fuel = 
+    //},
 
-    resetTurn: function(){
-        //reset turn timer
-        //reset fuel
-        //reset shot firing capability
-        //increment turns by 1
-    },
+    //resetTurn: function(){
+    //    //reset turn timer
+    //    //reset fuel
+    //    //reset shot firing capability
+    //    //increment turns by 1
+    //},
 
     //need to edit this as shadow isn't needed for everything. also need to put this in the preload function or a bit later. just as long as this is declared earlier than this class
     //textGenerator: function (x, y, input, type) {
@@ -304,20 +305,23 @@ var Game = {
         
     //},
     
-    updatePlayerStats: function(value){
-        this.healthBarText.text = this.playerTank.health;
-        this.armourBarText.text = this.playerTank.armour;
+    updatePlayerStats: function(value, dmg){
+        this.healthBarText.setText(this.playerTank.health);
+        this.armourBarText.setText(this.playerTank.armour);
         this.fuelBarText.setText(this.playerTank.fuel);
 
         switch (value) {
             case 1: var currWidth = this.fuelBar_val.width;
-                this.fuelBar_val.width = currWidth - currWidth / this.playerTank.fuel;
+                var difference;
+                
+                this.fuelBar_val.width = currWidth - (currWidth / this.playerTank.fuel);
                 break;
-            case 2: var currWidth = this.healthBar_val.width;
-                this.healthBar_val.width = currHWidth - currHWidth / this.playerTank.health;
+            case 2: var currHWidth = this.healthBar_val.width;                
+                this.STATBARWIDTH / this.MAXHEALTH * dmg;
+                this.healthBar_val.width = currHWidth - dmg;
                 break;
-            case 3: var currWidth = this.armourBar_val.width;
-                this.armourBar_val.width = currWidth - currWidth / this.playerTank.armour;
+            case 3: var currAWidth = this.armourBar_val.width;
+                this.armourBar_val.width = currAWidth - (currAWidth / this.playerTank.armour);
                 break;
         }
 
@@ -449,7 +453,7 @@ var Game = {
         if (tank.health - calcDamage <= 0) {
             tank.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
             tank.health -= calcDamage;
-            this.updatePlayerStats();
+            this.updatePlayerStats(2, calcDamage);
             this.destroy_sound.play();
             tank.alive = false;
         }
@@ -554,12 +558,12 @@ var Game = {
         	});
         }
 
-    	// Launch a projectile from a tank.
+    	// Launch a projectile from a tank. - resets after 7 seconds
         this.gameHub.client.resetTurn = function ()
         {
             _this.shotsFired = false;
             _this.fireButton.reset();
-            _this.playerTank.fuel = _this.turnFuel;
+            _this.playerTank.fuel = _this.TURNFUEL;
             this.current_turn++;
             _this.nextTurnText = _this.add.text(_this.game.width / 2 - 50, 150, "NEXT TURN!", _this.large_style);
             setTimeout(function ()

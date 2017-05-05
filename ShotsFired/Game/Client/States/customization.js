@@ -7,7 +7,7 @@ var Customization = {
         var bgScale = 600.0 / 1080;
         this.background.scale.setTo(1, bgScale);
 
-        this.setChanges = this.add.button(250, 500, "btn_save", this.sendSelections, this);
+        //this.setChanges = this.add.button(250, 500, "btn_save", this.sendSelections, this);
         this.stage.disableVisibilityChange = true;
 
         // Title image.
@@ -112,7 +112,9 @@ var Customization = {
 
         //buttons and na blocks - turret
         _this = this;
-        this.tb1 = game.add.button(this.turretTypeChoiceBG.x + 24, this.turretTypeChoiceBG.y + 8, 'turret', this.turretSelected, _this);
+        this.tb1 = game.add.button(this.turretTypeChoiceBG.x + 24, this.turretTypeChoiceBG.y + 8, 'btn_wpn_bg', this.turretSelected, _this);
+        this.tba = game.add.sprite(0, 0, 'turret');
+        this.tb1.addChild(this.tba);
         this.tb1.value = 0;
         this.tb2 = game.add.button(this.turretTypeChoiceBG.x + 74, this.turretTypeChoiceBG.y + 8, 'turret', this.turretSelected, _this);
         this.tb2.value = 1;
