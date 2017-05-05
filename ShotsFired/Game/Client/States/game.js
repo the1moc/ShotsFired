@@ -309,16 +309,16 @@ var Game = {
         this.healthBarText.setText(this.playerTank.health);
         this.armourBarText.setText(this.playerTank.armour);
         this.fuelBarText.setText(this.playerTank.fuel);
-
+        var reduction = 0;
+        var dmgModifier = this.STATBARWIDTH / this.MAXHEALTH;
         switch (value) {
             case 1: var currWidth = this.fuelBar_val.width;
                 var difference;
-                
                 this.fuelBar_val.width = currWidth - (currWidth / this.playerTank.fuel);
                 break;
             case 2: var currHWidth = this.healthBar_val.width;                
-                this.STATBARWIDTH / this.MAXHEALTH * dmg;
-                this.healthBar_val.width = currHWidth - dmg;
+                reduction = dmgModifier * dmg;
+                this.healthBar_val.width = currHWidth - reduction;
                 break;
             case 3: var currAWidth = this.armourBar_val.width;
                 this.armourBar_val.width = currAWidth - (currAWidth / this.playerTank.armour);
@@ -449,8 +449,8 @@ var Game = {
         //this.damageSmoke = this.game.add.sprite(tank.turretPositionXY.x - 16, tank.turretPositionXY.y - 30, 'shotSmoke');
         //tank.turretSmoke.animations.add('anim_damageSmoke', [8, 9, 10, 11, 12, 13, 14, 15]);
         //tank.turretSmoke.scale.setTo(2);
-
-        if (tank.health - calcDamage <= 0) {
+        var predictedHealth = tank.health - calcDamage;
+        if (predictedHealth <= 0) {
             //tank.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
             tank.health -= calcDamage;
             this.updatePlayerStats(2, calcDamage);
