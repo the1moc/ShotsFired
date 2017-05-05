@@ -26,14 +26,22 @@ var Customization = {
         this.tankSecGroup.visible = false;
         this.upgSecGroup.visible = false;
 
-        this.currentSelection = 0;
+        //this.currentSelection = 0;
 
-        this.selectedShot;
-        this.selectedTurret;
-        this.selectedBody;
-        this.selectedBodyColour;
-        this.selectedTurretColour;
+        //this.selectedShot;
+        //this.selectedTurret;
+        //this.selectedBody;
+        //this.selectedBodyColour;
+        //this.selectedTurretColour;
 
+
+        this.selections = {
+            bodyAsset: 0,
+            bodyAssetColour: 0,
+            turretAsset: 0,
+            turretAssetColour: 0,
+            projectileAsset: 0
+        };
         this.initial_Value = 0;
 
         this.createGUI();
@@ -42,15 +50,9 @@ var Customization = {
     sendSelections: function () {
         var gameHub = $.connection.gameHub;
 
-        var mockSelections = {
-            bodyAsset: 1,
-            bodyAssetColour: 2,
-            turretAsset: 3,
-            turretAssetColour: 0,
-            projectileAsset: 0
-        };
+        
 
-        gameHub.server.saveSelections(mockSelections);
+        gameHub.server.saveSelections(this.selections);
     },
 
     generateUIButtons: function () {
@@ -63,6 +65,8 @@ var Customization = {
         this.returnButton = this.add.button(this.leftXPos, this.bottomBG.top - 10, 'btnUP', this.backToLobby, this);
         this.returnLabel = this.add.text(18, 0, "Return", stylePicker(1));
         this.returnButton.addChild(this.returnLabel);
+
+
         
     },
 
@@ -86,14 +90,7 @@ var Customization = {
             var divMid = this.add.sprite(divTop.x, divTop.bottom + 32 * i, 'div_m');
         }
         var divBot = this.add.sprite(divTop.x, divMid.bottom, 'div_b');
-
-
-        //current options selected
-        this.defaultSelection = 0;
-        this.currentTurretSelected = this.defaultSelection;
-        this.currentBodySelected = this.defaultSelection;
-        this.currentShotSelected = this.defaultSelection;
-
+        
         this.contentassetX = this.centreXPos;
         this.contentColourX = this.contentassetX + 250;
         var spacer = 10;
@@ -114,29 +111,97 @@ var Customization = {
         this.shotTypeChoiceBG = game.add.sprite(this.contentassetX, this.shotTypeText.bottom + spacer, 'playerUI_stylesBG');
 
         //buttons and na blocks - turret
-        this.tb1 = game.add.button(this.turretTypeChoiceBG.x + 24, this.turretTypeChoiceBG.y + 8, 'turret', this.doT, this);
-        this.tb2 = game.add.button(this.turretTypeChoiceBG.x + 74, this.turretTypeChoiceBG.y + 8, 'turret', this.doT, this);
+        this.tb1 = game.add.button(this.turretTypeChoiceBG.x + 24, this.turretTypeChoiceBG.y + 8, 'turret', this.turretSelected, 0);
+        this.tb2 = game.add.button(this.turretTypeChoiceBG.x + 74, this.turretTypeChoiceBG.y + 8, 'turret', this.turretSelected, 1);
         this.tb3 = game.add.sprite(this.turretTypeChoiceBG.x + 124, this.turretTypeChoiceBG.y + 8, 'btn_na');
 
-        this.tc1 = game.add.button(this.turretColourChoiceBG.x + 24, this.turretColourChoiceBG.y + 8, 'turret', this.doT, this);
-        this.tc1 = game.add.button(this.turretColourChoiceBG.x + 74, this.turretColourChoiceBG.y + 8, 'turret', this.doT, this);
-        this.tc3 = game.add.button(this.turretColourChoiceBG.x + 124, this.turretColourChoiceBG.y + 8, 'turret', this.doT, this);
+        this.tc1 = game.add.button(this.turretColourChoiceBG.x + 24, this.turretColourChoiceBG.y + 8, 'turret', this.turretColourSelected, this);
+        this.tc1 = game.add.button(this.turretColourChoiceBG.x + 74, this.turretColourChoiceBG.y + 8, 'turret', this.turretColourSelected, this);
+        this.tc3 = game.add.button(this.turretColourChoiceBG.x + 124, this.turretColourChoiceBG.y + 8, 'turret', this.turretColourSelected, this);
 
         //buttons and na blocks - body
-        this.tb1 = game.add.button(this.bodyTypeChoiceBG.x + 24, this.bodyTypeChoiceBG.y + 8, 'turret', this.doT, this);
-        this.tb2 = game.add.button(this.bodyTypeChoiceBG.x + 74, this.bodyTypeChoiceBG.y + 8, 'turret', this.doT, this);
+        this.tb1 = game.add.button(this.bodyTypeChoiceBG.x + 24, this.bodyTypeChoiceBG.y + 8, 'turret', this.bodySelected, this);
+        this.tb2 = game.add.button(this.bodyTypeChoiceBG.x + 74, this.bodyTypeChoiceBG.y + 8, 'turret', this.bodySelected, this);
         this.tb3 = game.add.sprite(this.bodyTypeChoiceBG.x + 124, this.bodyTypeChoiceBG.y + 8, 'btn_na');
 
-        this.tc1 = game.add.button(this.bodyColourChoiceBG.x + 24, this.bodyColourChoiceBG.y + 8, 'turret', this.doT, this);
-        this.tc1 = game.add.button(this.bodyColourChoiceBG.x + 74, this.bodyColourChoiceBG.y + 8, 'turret', this.doT, this);
-        this.tc3 = game.add.button(this.bodyColourChoiceBG.x + 124, this.bodyColourChoiceBG.y + 8, 'turret', this.doT, this);
+        this.tc1 = game.add.button(this.bodyColourChoiceBG.x + 24, this.bodyColourChoiceBG.y + 8, 'turret', this.bodyColourSelected, this);
+        this.tc1 = game.add.button(this.bodyColourChoiceBG.x + 74, this.bodyColourChoiceBG.y + 8, 'turret', this.bodyColourSelected, this);
+        this.tc3 = game.add.button(this.bodyColourChoiceBG.x + 124, this.bodyColourChoiceBG.y + 8, 'turret', this.bodyColourSelected, this);
 
         //buttons and na blocks - shot assets
-        this.tb1 = game.add.button(this.shotTypeChoiceBG.x + 24, this.shotTypeChoiceBG.y + 8, 'turret', this.doT, this);
-        this.tb2 = game.add.button(this.shotTypeChoiceBG.x + 74, this.shotTypeChoiceBG.y + 8, 'turret', this.doT, this);
-        this.tb3 = game.add.sprite(this.shotTypeChoiceBG.x + 124, this.shotTypeChoiceBG.y + 8, 'btn_na');
+        this.sb1 = game.add.button(this.shotTypeChoiceBG.x + 24, this.shotTypeChoiceBG.y + 8, 'turret', this.shotSelected, this);
+        this.sb2 = game.add.button(this.shotTypeChoiceBG.x + 74, this.shotTypeChoiceBG.y + 8, 'turret', this.shotSelected, this);
+        this.sb3 = game.add.button(this.shotTypeChoiceBG.x + 74, this.shotTypeChoiceBG.y + 8, 'turret', this.shotSelected, this);
+
+        //
+        this.saveButton = this.add.button(this.rightXPos, this.bottomBG.top - 10, 'btnUP', this.sendSelections, this);
+        this.saveLabel = this.add.text(18, 0, "Save", stylePicker(1));
+        this.saveButton.addChild(this.saveLabel);
 
     },
+
+    turretSelected: function(type){
+        switch(type){
+            case 0: this.selections.turretAsset = 0;
+                break;
+            case 1: this.selections.turretAsset = 1;
+                break;
+        }    
+    },
+
+    turretColourSelected: function (type) {
+        switch (type) {
+            case 1: this.selections.turretAssetColour = 1;
+                break;
+            case 2: this.selections.turretAssetColour = 2;
+                break;
+            case 3: this.selections.turretAssetColour = 3;
+                break;
+            default: this.selections.turretAssetColour = 0;
+                break;
+        }
+    },
+
+    bodySelected: function (type) {
+        switch (type) {
+            case 0: this.selections.bodyAsset = 0;
+                break;
+            case 1: this.selections.bodyAsset = 1;
+                break;
+        }
+    },
+
+    bodyColourSelected: function (type) {
+        switch (type) {
+            case 1: this.selections.bodyAssetColour = 1;
+                break;
+            case 2: this.selections.bodyAssetColour = 2;
+                break;
+            case 3: this.selections.bodyAssetColour = 3;
+                break;
+            default: this.selections.bodyAssetColour = 0;
+                break;
+        }
+    },
+
+    shotSelected: function (type) {
+        switch (type) {
+            case 0: this.selections.projectileAsset = 0;
+                break;
+            case 1: this.selections.projectileAsset = 1;
+                break;
+            case 2: this.selections.projectileAsset = 2;
+                break;
+        }
+    },
+
+    //updatePlayerData(){
+    //    this.selections.turretAsset = this.selectedTurret;
+    //    this.selections.turretAssetColour = this.selectedTurretColour;
+    //    this.selections.bodyAsset = this.selectedBody;
+    //    this.selections.bodyAssetColour = this.selectedBodyColour;
+    //    this.selections.projectileAsset = this.selectedShot;
+    //},
 
     doT: function () {},
 

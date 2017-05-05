@@ -7,7 +7,7 @@
     },
     {
         "btnAsset": "btn_Explosive",
-        "projectileAsset": "wpn_shot",
+        "projectileAsset": "wpn_pig",
         "damage": 100,
         "armourPenetration": 2
     },

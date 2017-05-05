@@ -52,6 +52,8 @@ var Game = {
         this.TURRET_HEIGHT = 5;
         this.TURN_TIME = Phaser.Timer.SECOND * 300;
         this.COLLISION_DELAY = 1000;
+        this.DAMAGEMIN = 30;
+        this.DAMAGEMAX = 40;
 
         // Master fonts. change all to stylepciker
         this.tiny_style = { font: "8px Arial", fill: "#ffffff" };
@@ -69,6 +71,8 @@ var Game = {
         // Variables.
         this.shotsFired = false;
         this.launch_sound = this.game.add.audio('aud_fire');//move to tank?
+        this.damage_sound = this.game.add.audio('aud_damage');
+        this.destroy_sound = this.game.add.audio('aud_destroy');
         this.current_turn = 1;
         
 
@@ -432,15 +436,32 @@ var Game = {
 
     },
 
-    damageTank: function(){
-        this.damageSmoke = this.game.add.sprite(turretPositionXY.x - 16, turretPositionXY.y - 30, 'shotSmoke');
+    damageTank: function (x, y) {
+        var calcDamage = this.getRandomArbitrary(this.DAMAGEMIN, this.DAMAGEMAX);
+
+        this.damageSmoke = this.game.add.sprite(y.turretPositionXY.x - 16, y.turretPositionXY.y - 30, 'shotSmoke');
         //this.updatePlayerStats(1);
         this.turretSmoke.animations.add('anim_damageSmoke', [8, 9, 10, 11, 12, 13, 14, 15]);
         this.turretSmoke.scale.setTo(2);
-        this.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
 
+        if (y.health - calcDamage <= 0) {
+            this.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
+            y.health - calcDamage;
+            this.updatePlayerStats();
+            this.destroy_sound.play();
+            y.alive = false;
+        }
+        else {
+            this.turretSmoke.animations.play('anim_damageSmoke', 20, false, true);
+            y.health - calcDamage;
+            this.damage_sound.play();
+            this.updatePlayerStats();
+        }
     },
 
+    getRandomArbitrary: function(min, max) {
+        return Math.random() * (max - min) + min;
+    },
     //formatTime: function(s) {
     //	// Convert seconds (s) to a nicely formatted and padded time string
     //	var minutes = "0" + Math.floor(s / 60);

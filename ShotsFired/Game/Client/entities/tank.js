@@ -103,3 +103,7 @@ Tank.prototype.launchProjectile = function(projectileData)
 	//this.turretSmoke.visible = false;
 };
 
+Tank.prototype.damage = function (amount, data) {
+    //I may try and DO damage against defense and minus away from the health
+    Phaser.Sprite.prototype.damage.call(this.amount);
+};
