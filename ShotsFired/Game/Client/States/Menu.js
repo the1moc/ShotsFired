@@ -21,7 +21,7 @@ var Menu = {
 
 		this.playButton = this.add.button(this.game.width / 2, this.menuTitle.bottom + 40, 'btnUP', this.play, this, 2, 1, 0);
 		
-		this.playLabel = this.add.text(-20, -13, "Play", stylePicker(1));
+		this.playLabel = this.add.text(-20, -13, "Play", stylePicker(5));
 		this.playButton.addChild(this.playLabel);
 		this.playButton.anchor.setTo(0.5,0.5);
 

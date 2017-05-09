@@ -86,17 +86,17 @@ var Lobby = {
         this.lobbyMusic.mute = true;//temporary till i can fix
 
         // Buttons
-        this.firingRangeButton = this.add.button(this.lobbyLeftXPos, this.lobbyTitle.height + 100, 'btnUP', this.host, this);
-        this.firingRangeLabel = this.add.text(22, 0, "Range", stylePicker(1));
+        this.firingRangeButton = this.add.button(this.lobbyLeftXPos, this.lobbyTitle.height + 100, 'btnUP', this.solo, this);
+        this.firingRangeLabel = this.add.text(22, 0, "Range", stylePicker(5));
         this.firingRangeButton.addChild(this.firingRangeLabel);
         this.hostButton = this.add.button(this.lobbyLeftXPos, this.firingRangeButton.bottom + 20, 'btnUP', this.host, this);
-        this.hostLabel = this.add.text(30, 0, "Host", stylePicker(1));
+        this.hostLabel = this.add.text(30, 0, "Host", stylePicker(5));
         this.hostButton.addChild(this.hostLabel);
         this.joinButton = this.add.button(this.lobbyLeftXPos, this.hostButton.bottom + 20, 'btnUP', this.join, this);
-        this.joinLabel = this.add.text(30, 0, "Join", stylePicker(1));
+        this.joinLabel = this.add.text(30, 0, "Join", stylePicker(5));
         this.joinButton.addChild(this.joinLabel);
         this.customButton = this.add.button(this.lobbyLeftXPos, this.bottomBG.top - 10, 'btnUP', this.customization, this);
-        this.customLabel = this.add.text(10, 5, "Customization", stylePicker(2));//change to options?
+        this.customLabel = this.add.text(10, 5, "Customization", stylePicker(3));//change to options?
         this.customButton.addChild(this.customLabel);
 
         //divider
@@ -119,6 +119,15 @@ var Lobby = {
     {
         this.gameHub.server.hostGame(this.playerId);
     },
+
+    //hideSolo: function(){
+    //    this.commingSoon.visible = false;
+    //},
+
+    //solo: function () {
+       
+    //    this.comingSoon = game.add.text(this.lobbyCentreXPos, this.lobbyYPos, "Coming Soon!", stylePicker(7));
+    //},
 
     // Join a pre-existing game
     join: function()
@@ -246,6 +255,9 @@ var Lobby = {
     doT: function(){
 
     },
+
+    
+
     // Show the current lobby information you are in.
     // ugly function, 
     displayLobbyInformation: function(gameInstance, closed)
@@ -292,11 +304,13 @@ var Lobby = {
 
         //this.add.button(this.lobbyRightXPos, this.game.height - 100, 'btn_ready', this.ready, _this);
         this.readyButton = this.add.button(this.settingsVariableX, this.bottomBG.bottom - 50, 'btnUP', this.ready, _this);
-        this.readyLabel = this.add.text(22, 0, "Ready", stylePicker(1));
+        this.readyLabel = this.add.text(22, 0, "Ready", stylePicker(5));
         this.readyButton.addChild(this.readyLabel);
 
         this.lobbyDisplayed = true;
     },
+
+
 
     displayLobbySettingsInformation: function()
     {
@@ -333,28 +347,28 @@ var Lobby = {
         this.gTL = game.add.button(this.settingsVariableX, this.gameTypeText.top - 5, 'btnUP_l', this.doT);
         this.gTChoice = game.add.sprite(this.gTL.right, this.gameTypeText.top - 5, 'btnUP_m');
         this.gTR = game.add.button(this.gTChoice.right, this.gameTypeText.top - 5, 'btnUP_r', this.doT);
-        this.gTLabel = game.add.text(0, 0, this.gameType, stylePicker(1));
+        this.gTLabel = game.add.text(0, 0, this.gameType, stylePicker(4));
         this.gTChoice.addChild(this.gTLabel);
 
         this.playerCountText = game.add.text(this.lobbyRightXPos, this.gameTypeText.bottom + spacer, "Players", { font: "12px Arial", fill: '#000000' });
         this.pCL = game.add.button(this.settingsVariableX, this.playerCountText.top - 5, 'btnUP_l', this.doT);
         this.pCChoice = game.add.sprite(this.pCL.right, this.playerCountText.top - 5, 'btnUP_m');
         this.pCR = game.add.button(this.pCChoice.right, this.playerCountText.top - 5, 'btnUP_r', this.doT);
-        this.pCLabel = game.add.text(0, 0, this.playerCount, stylePicker(1));
+        this.pCLabel = game.add.text(0, 0, this.playerCount, stylePicker(4));
         this.pCChoice.addChild(this.pCLabel);
 
         this.healthPointsText = game.add.text(this.lobbyRightXPos, this.playerCountText.bottom + spacer, "Health", { font: "12px Arial", fill: '#000000' });
         this.hPL = game.add.button(this.settingsVariableX, this.healthPointsText.top - 5, 'btnUP_l', this.doT);
         this.hPChoice = game.add.sprite(this.hPL.right, this.healthPointsText.top - 5, 'btnUP_m');
         this.hPR = game.add.button(this.hPChoice.right, this.healthPointsText.top - 5, 'btnUP_r', this.doT);
-        this.hPLabel = game.add.text(0, 0, this.healthPoints, stylePicker(1));
+        this.hPLabel = game.add.text(0, 0, this.healthPoints, stylePicker(4));
         this.hPChoice.addChild(this.hPLabel);
 
         this.windText = game.add.text(this.lobbyRightXPos, this.healthPointsText.bottom + spacer, "Wind", { font: "12px Arial", fill: '#000000' });
         this.wL = game.add.button(this.settingsVariableX, this.windText.top - 5, 'btnUP_l', this.doT);
         this.wChoice = game.add.sprite(this.wL.right, this.windText.top - 5, 'btnUP_m');
         this.wR = game.add.button(this.wChoice.right, this.windText.top - 5, 'btnUP_r', this.doT);
-        this.wLabel = game.add.text(0, 0, this.wind, stylePicker(1));
+        this.wLabel = game.add.text(0, 0, this.wind, stylePicker(4));
         this.wChoice.addChild(this.wLabel);
         
 
@@ -362,7 +376,7 @@ var Lobby = {
         this.tTL = game.add.button(this.settingsVariableX, this.turnTimeText.top - 5, 'btnUP_l', this.doT);
         this.tTChoice = game.add.sprite(this.tTL.right, this.turnTimeText.top - 5, 'btnUP_m');
         this.tTR = game.add.button(this.tTChoice.right, this.turnTimeText.top - 5, 'btnUP_r', this.doT);
-        this.tTLabel = game.add.text(0, 0, this.turnLength, stylePicker(1));
+        this.tTLabel = game.add.text(0, 0, this.turnLength, stylePicker(4));
         this.tTChoice.addChild(this.tTLabel);
 
         
@@ -370,7 +384,7 @@ var Lobby = {
         this.sTL = game.add.button(this.settingsVariableX, this.shotTracerText.top - 5, 'btnUP_l', this.doT);
         this.sTChoice = game.add.sprite(this.sTL.right, this.shotTracerText.top - 5, 'btnUP_m');
         this.sTR = game.add.button(this.sTChoice.right, this.shotTracerText.top - 5, 'btnUP_r', this.doT);
-        this.sTLabel = game.add.text(0, 0, this.shotTracer, stylePicker(1));
+        this.sTLabel = game.add.text(0, 0, this.shotTracer, stylePicker(4));
         this.sTChoice.addChild(this.sTLabel);
 
         //radio
@@ -378,7 +392,7 @@ var Lobby = {
         this.iL = game.add.button(this.settingsVariableX, this.itemsText.top - 5, 'btnUP_l', this.doT);
         this.iChoice = game.add.sprite(this.iL.right, this.itemsText.top - 5, 'btnUP_m');
         this.iR = game.add.button(this.iChoice.right, this.itemsText.top - 5, 'btnUP_r', this.doT);
-        this.iLabel = game.add.text(0, 0, this.items, stylePicker(1));
+        this.iLabel = game.add.text(0, 0, this.items, stylePicker(4));
         this.iChoice.addChild(this.iLabel);
 
         //JSON file setup, obv wouldn't look like this but some would have buttons and some would not.

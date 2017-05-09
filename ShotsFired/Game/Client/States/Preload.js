@@ -119,9 +119,21 @@ var Preload = {
 function stylePicker(i) {
     var style;
     switch (i) {
-        case 1: style = { font: "20px Arial", fill: "#000000", align: "center" };
-            break;
-        case 2: style = { font: "12px Arial", fill: "#000000", align: "center" };
+        case 1: style = { font: "8px Arial", fill: "#000000", align: "center" };
+            break; //buttons
+        case 2: style = { font: "10px Arial", fill: "#000000", align: "center" };
+            break; //regular text
+        case 3: style = { font: "12px Arial", fill: "#000000", align: "center" };
+            break; //tiny text
+        case 4: style = { font: "16px Arial", fill: "#000000", align: "center" };
+            break; //large text
+        case 5: style = { font: "20px Arial", fill: "#000000", align: "center" };
+            break; //small text
+        case 6: style = { font: "30px Arial", fill: "#000000", align: "center" };
+            break; //body text
+        case 7: style = { font: "50px Arial", fill: "#000000", align: "center" };
+            break; //body text
+        default: style = {font:"12px Arial", fill: "#000000", align: "center" };
             break;
     }
 
