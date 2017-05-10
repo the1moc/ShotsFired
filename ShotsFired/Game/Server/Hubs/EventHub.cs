@@ -23,7 +23,7 @@ namespace ShotsFired.Games.Server.Hubs
             }
             catch (Exception e)
             {
-                Clients.All.notEnoughClients();
+                Clients.All.notEnoughClients(e);
             }
         }
 
@@ -40,7 +40,7 @@ namespace ShotsFired.Games.Server.Hubs
             }
             catch (Exception e)
             {
-                Clients.All.notEnoughClients();
+                Clients.All.notEnoughClients(e);
             }
         }
 
@@ -57,7 +57,7 @@ namespace ShotsFired.Games.Server.Hubs
             }
             catch (Exception e)
             {
-                Clients.All.notEnoughClients();
+                Clients.All.notEnoughClients(e);
             }
         }
 
@@ -74,7 +74,7 @@ namespace ShotsFired.Games.Server.Hubs
             }
             catch (Exception e)
             {
-                Clients.All.notEnoughClients();
+                Clients.All.notEnoughClients(e);
             }
         }
 
@@ -91,7 +91,7 @@ namespace ShotsFired.Games.Server.Hubs
             }
             catch (Exception e)
             {
-                Clients.All.notEnoughClients();
+                Clients.All.notEnoughClients(e);
             }
         }
 
@@ -108,7 +108,7 @@ namespace ShotsFired.Games.Server.Hubs
             }
             catch (Exception e)
             {
-                Clients.All.notEnoughClients();
+                Clients.All.notEnoughClients(e);
             }
         }
 
@@ -122,7 +122,7 @@ namespace ShotsFired.Games.Server.Hubs
             }
             catch (Exception e)
             {
-
+                Clients.All.notEnoughClients(e);
             }
         }
     }

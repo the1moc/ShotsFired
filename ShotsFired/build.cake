@@ -3,7 +3,7 @@ var target = Argument<string>("target", "Default");
 var configuration = Argument<string>("configuration", "Release");
 
 // Solution variables.
-var solutions = GetFiles("./**/*.sln");
+var solutions = GetFiles("../**/*.sln");
 var solutionPaths = solutions.Select(solution => solution.GetDirectory());
 
 // Setup.
@@ -28,8 +28,10 @@ Task("Clean")
 	foreach(var path in solutionPaths)
 	{
 		Information("Cleaning {0}", path);
-		CleanDirectories(path + "/**/bin/" + configuration);
-		CleanDirectories(path + "/**/obj/" + configuration);
+        Information(path + "/ShotsFired/bin/");
+
+		CleanDirectories("/ShotsFired/bin/");
+		CleanDirectories("/ShotsFired/obj/");
 	}
 });
 
@@ -48,20 +50,15 @@ Task("Restore")
 
 Task("Build")
 	.Description("Builds all the different parts of the project.")
-	.IsDependentOn("Clean")
-	.IsDependentOn("Restore")
+//	.IsDependentOn("Clean")
+	//.IsDependentOn("Restore")
 	.Does(() =>
 {
 	// Build all solutions.
 	foreach(var solution in solutions)
 	{
 		Information("Building {0}", solution);
-		MSBuild(solution, settings =>
-			settings.SetPlatformTarget(PlatformTarget.MSIL)
-				.WithProperty("TreatWarningsAsErrors","true")
-				.WithProperty("DeployOnBuild", "true")
-				.WithProperty("CreatePackageOnPublish", "true")
-				.SetConfiguration(configuration));
+        DotNetBuild(solution);
 	}
 }).OnError(exception => 
 {

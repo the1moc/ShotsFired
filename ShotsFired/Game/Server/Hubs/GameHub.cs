@@ -57,7 +57,7 @@ namespace ShotsFired.Games.Server.Hubs
             }
             catch (ArgumentNullException e)
             {
-                Clients.Caller.noFreeSlots();
+                Clients.Caller.noFreeSlots(e);
                 return;
             }
 
@@ -263,7 +263,7 @@ namespace ShotsFired.Games.Server.Hubs
             }
             catch (ArgumentException nullException)
             {
-                throw new HubException("User not found on server.");
+                throw new HubException("User not found on server.", nullException);
             }
         }
 

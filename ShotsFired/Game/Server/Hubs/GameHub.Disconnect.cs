@@ -45,7 +45,7 @@ namespace ShotsFired.Games.Server.Hubs
 				catch (Exception e)
 				{
 					// FIX THIS.
-					Console.WriteLine("Nobody else is connected to the server");
+					Console.WriteLine("Nobody else is connected to the server", e);
 				}
 			}
 
