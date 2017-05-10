@@ -50,13 +50,20 @@ Task("Restore")
 
 Task("Build")
 	.Description("Builds all the different parts of the project.")
-//	.IsDependentOn("Clean")
-	//.IsDependentOn("Restore")
+    .IsDependentOn("Clean")
+	.IsDependentOn("Restore")
 	.Does(() =>
 {
 	// Build all solutions.
 	foreach(var solution in solutions)
 	{
+		Information("Cleaning {0}", path);
+        Information(path + "/ShotsFired/bin/");
+
+		CleanDirectories("/ShotsFired/bin/");
+		CleanDirectories("/ShotsFired/obj/");
+		Information("Restoring {0}...", solution);
+		NuGetRestore(solution);
 		Information("Building {0}", solution);
         DotNetBuild(solution);
 	}

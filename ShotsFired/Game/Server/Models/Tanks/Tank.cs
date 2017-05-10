@@ -18,7 +18,7 @@ namespace ShotsFired.Game.Server.Models.Tanks
         {
             X      = xPosition;
             Y      = 300;
-            Armour = armour;
+            Armour = 0;
             Health = health;
             Power  = 250;
             Fuel   = 200;
