@@ -10,7 +10,7 @@ namespace ShotsFired.Game.Server.Generators
         {
             int xPosition = NumberGenerator.Next(50, 700);
 
-            int armour = 690;
+            int armour = 0;
             int health = 100;
 
             //TODO: If passing selected lobby details, pass them here.
