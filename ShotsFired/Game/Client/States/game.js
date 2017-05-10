@@ -220,7 +220,13 @@ var Game = {
         this.turnTimer = this.game.time.create();
         this.turnTimerEvent = this.turnTimer.add(this.TURN_TIME, this.endTurn, this);
         this.turnTimer.start();
-        this.turnTimerText = this.add.text(this.game.width / 2, 10, this.TURN_TIME/1000, this.small_style);
+        this.turnTimerText = this.add.text(this.game.width / 2, 10, this.TURN_TIME / 1000, this.small_style);
+
+        this.ctrl1 = this.add.text(this.turnTimerText.right + 240, 10, "Rotate Turret: Q & E", this.small_style);
+        this.ctrl2 = this.add.text(this.turnTimerText.right + 240, this.ctrl1.bottom + 5, "Adjust Power: W & S", this.small_style);
+        this.ctrl3 = this.add.text(this.turnTimerText.right + 240, this.ctrl2.bottom + 5, "Move: A & D", this.small_style);
+        this.ctrl4 = this.add.text(this.turnTimerText.right + 240, this.ctrl3.bottom + 5, "Fire: SPACEBAR", this.small_style);
+
     },
 
     generateFiringStylesList: function () {
@@ -261,50 +267,6 @@ var Game = {
         }, this);
     },
 
-    //this might be a server side thing
-    //gravity - set to a random number between ? 0-50 both plus and minus plus update some text to display on screen so players can adjust
-    //newTurn: function(){
-    //    //timer
-    //    //wind
-    //    //reset fuel
-    //    //this.playerTank.fuel = 
-    //},
-
-    //resetTurn: function(){
-    //    //reset turn timer
-    //    //reset fuel
-    //    //reset shot firing capability
-    //    //increment turns by 1
-    //},
-
-    //need to edit this as shadow isn't needed for everything. also need to put this in the preload function or a bit later. just as long as this is declared earlier than this class
-    //textGenerator: function (x, y, input, type) {
-    //	switch (type) {
-    //		case 'small':
-    //			this.font_style = {
-    //				font: "8px Arial",
-    //				fill: "#ffffff"
-    //			};
-    //			break;
-    //		case 'body':
-    //			this.font_style = {
-    //				font: "12px Arial",
-    //				fill: "#ffffff"
-    //			};
-    //			break;
-    //		case 'title':
-    //			this.font_style = {
-    //				font: "18px Arial",
-    //				fill: "#ffffff"
-    //			};
-    //			break;
-    //	}
-    //	var text = this.add.text(x, y, input, this.font_style);
-    //	text.setShadow(1, 1, 'rgba(0, 0, 0, 0.8)', 1);
-    //	return text;
-        
-    //},
-    
     updatePlayerStats: function(value, dmg){
         this.healthBarText.setText(this.playerTank.health);
         this.armourBarText.setText(this.playerTank.armour);
@@ -324,48 +286,9 @@ var Game = {
                 this.armourBar_val.width = currAWidth - (currAWidth / this.playerTank.armour);
                 break;
         }
-
-        //deduct fuel
-        //var deduction = this.fBMD_base - this.fuelDeduction;
-        //var currWidth = this.fuelBar_val.width;
-        //this.fuelBar_val.width = currWidth - currWidth / this.playerTank.fuel;
-        
-        //var currHWidth = this.healthBar_val.width;
-        //this.healthBar_val.width = currHWidth - currHWidth / this.playerTank.health;
-        //this.fBMD.ctx.beginPath();
-        //this.fBMD.ctx.rect(0, 0, this.fBMD_base - deduction, 30);
-        //this.fBMD.ctx.fillStyle = '#FFDB00';
-        //this.fBMD.ctx.fill();
-        //this.fBMD.update(0, 0, this.fBMD_base - deduction, 10);
-        //this.fBMD.ctx.fillStyle = '#FFDB00';
-        //this.fBMD.ctx.fill();
     },
 
     update: function () {
-        /*
-        I think this is wrong.
-        It may need to be if fire has been pressed and shotsFired is false and style has been selected, but that shouldn't fire the shot.
-        It should go to a schedule shot or something
-
-        And have another if statement in update checking to see if all players are ready, or if the counter reaches 0, then fires all shots at the same time
-
-        In regards to the handling of styles, that could be done in the projectile class. Pass in the asset and the style?
-
-        also change shotsFired to playerReady and add another shotsFired
-        */
-
-        //if(this.fireButton.isDown && this.shotsFired == false && this.currentWeaponSelected){//need a timer for each turn -- 30 seconds should do
-
-        //	// Fire a bullet from the tank.
-        //	//this.playerTank.launchProjectile("bullet");
-        //	this.playerTank.launchProjectile(this.currentWeaponSelected.projectileAsset);
-        //	this.shotsFired = true;
-        //	this.eventHub.server.launchProjectile(this.playerTank.playerId);
-        //	console.log('Shots Fired');
-        //	//TODO: Text controller.
-        //	//this.readyText.text = 'Ready?: ' + this.shotsFired;
-
-        //}
     	if (this.fireButton.isDown && this.currentStyleSelected && !this.shotsFired) {
     	    this.gameHub.server.setFireReady(this.playerTank.playerId);
     	    this.fireText = this.add.text(this.game.width / 2 - 50, 150, "LOCKED IN", this.large_style);
