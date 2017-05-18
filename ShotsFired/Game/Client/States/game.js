@@ -260,9 +260,14 @@ var Game = {
                 var difference;
                 this.fuelBar_val.width = currWidth - (currWidth / this.playerTank.fuel);
                 break;
+
             case 2: var currHWidth = this.healthBar_val.width;
                 reduction = dmgModifier * dmg;
                 this.healthBar_val.width = currHWidth - reduction;
+                if (this.healthBar_val.width < 0)
+                {
+                    this.healthBar_val.width = 0;
+                }
                 break;
             case 3: var currAWidth = this.armourBar_val.width;
                 this.armourBar_val.width = currAWidth - (currAWidth / this.playerTank.armour);
@@ -362,11 +367,14 @@ var Game = {
             if (tank == this.playerTank)
             {
                 this.updatePlayerStats(2, calcDamage);
-                this.add.text(this.game.width / 2 - 50, 150, "YOU ARE DEAD!", _this.large_style);
+                this.add.text(this.game.width / 2 - 50, 50, "YOU ARE DEAD!", _this.large_style);
                 this.playerTank.alive = false;
             }
             this.destroy_sound.play();
-            tank.alive = false;
+            tank.tankTurret.destroy();
+            tank.tankGUI.destroy();
+
+            tank.destroy();
         }
         else {
             tank.health -= calcDamage;
@@ -501,7 +509,7 @@ var Game = {
                 setTimeout(function()
                 {
                     _this.nextTurnText.destroy();
-                }, 3000);
+                }, 2000);
             }, 4000);
 
         }
