@@ -411,7 +411,6 @@
     <Content Include="Game\Client\Main.js" />
     <Content Include="Game\Client\States\boot.js" />
     <Content Include="Game\Client\States\customization.js" />
-    <Content Include="Game\Client\States\CustomizationFailedImprovements.txt" />
     <Content Include="Game\Client\States\game.js" />
     <Content Include="Game\Client\States\lobby.js" />
     <Content Include="Game\Client\States\menu.js" />
@@ -467,6 +466,7 @@
     <Content Include="tools\Cake\Cake.nupkg" />
     <Content Include="tools\packages.config" />
     <Content Include="tools\packages.config.md5sum" />
+    <None Include="Properties\PublishProfiles\Fleqx.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

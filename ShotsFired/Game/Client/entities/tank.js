@@ -90,6 +90,8 @@ Tank.prototype.update = function()
 {
 	this.tankTurret.x = this.body.x + (this.body.width / 2);
 	this.tankTurret.y = this.body.y + 5;
+    // Another quick fix.
+	this.tankGUI.moveGUI(this.x, this.y);
 }
 
 Tank.prototype.damage = function (amount, data) {
@@ -122,9 +124,6 @@ Tank.prototype.adjustPower = function(adjustment)
 Tank.prototype.movement = function(value)
 {
 	this.x += value;
-
-	// Another quick fix.
-	this.tankGUI.moveGUI(this.x, this.y);
 };
 
 //resets fuel for new turn
