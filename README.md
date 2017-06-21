@@ -1,9 +1,7 @@
 # ShotsFired
-Game inspired by Tanks
+Game inspired by Tanks (Group Project)
 
-http://www.ultidev.com/Products/UWS-Cassini-Pro/Default.aspx
-
-We are using this to host the server, rather than having the ball ache of setting up IIS etc for the demonstration. It will let us run the server easily from PC to PC with all the same features as IIS etc (y)
+We are using IIS Express to host the server, rather than having the ball ache of setting up full IIS etc for the demonstration. It will let us run the server easily from PC to PC.
 
 # Running software
 - Clone it
@@ -11,8 +9,7 @@ We are using this to host the server, rather than having the ball ache of settin
 - Run in chrome, (should redirect)
 - Client contains all client .js files, and the main html page is within view
 
-
-# Malcolm Tasks
+# Malcolm Fixes for Client
 - [x] Fix angle not rounding
 - [x] Fix turret rotation
 - [x] Remember to commit each task as a seperate set of changes
@@ -23,15 +20,12 @@ We are using this to host the server, rather than having the ball ache of settin
 - [x] Integrate lobby between the menu and game with concurrent connections
 - [x] Add menu + lobby functionality
 - [x] Add tank sprite on new connection
-- [ ] Send the projectile to the server and feed back to all other clients.
-- [ ] Enable more lobby selection (keyboard event listener?)
-- [ ] Make the server side more sexy
-- [ ] Revert Rotations
-- [ ] Look into world generation
+- [x] Send the projectile to the server and feed back to all other clients.
+- [x] Enable more lobby selection (keyboard event listener?)
+- [x] Make the server side more sexy
+- [x] Revert Rotations
+- [x] Look into world generation
 
 
 fun tings to add to the game
 - [x] Spawn tanks in the sky (parachute)
-- [ ] Set maps
-- [ ] Map selection button
-- [ ] 
